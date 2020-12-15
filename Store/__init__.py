@@ -18,10 +18,11 @@ def create_app(test_config=None):
     # from flaskr import db
     # db.init_app(app)
 
-    from Store import main, manager
+    # from Store import main, manager
+    from Store import main
 
     app.register_blueprint(main.bp)
-    app.register_blueprint(manager.bp)
+    # app.register_blueprint(manager.bp)
 
     # app.add_url_rule("/", endpoint="index")
 

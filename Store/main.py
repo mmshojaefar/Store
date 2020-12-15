@@ -7,18 +7,18 @@ bp = Blueprint("main", __name__)
 def index():
     return render_template("index.html")
 
-@bp.route("/basket")
+@bp.route("/basket/")
 def basket():
     return render_template("basket.html")
 
-@bp.route("/category")
-def stuff():
+@bp.route("/category/")
+def category():
     return render_template("category.html")
 
-@bp.route("/stuff/<str:name>")
+@bp.route("/stuff/<name>/")
 def stuff(name):
     return render_template("stuff.html") # <<<<<<<<<<<<<<<<<<<<
 
-@bp.route("/record")
-def stuff(name):
+@bp.route("/record/")
+def record(name):
     return render_template("record.html")
