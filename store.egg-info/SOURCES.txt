@@ -1,0 +1,12 @@
+README.md
+setup.cfg
+setup.py
+Store/__init__.py
+Store/db.py
+Store/main.py
+Store/manager.py
+store.egg-info/PKG-INFO
+store.egg-info/SOURCES.txt
+store.egg-info/dependency_links.txt
+store.egg-info/requires.txt
+store.egg-info/top_level.txt
