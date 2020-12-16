@@ -3,15 +3,18 @@ from werkzeug.utils import redirect
 
 bp = Blueprint("manager", __name__, url_prefix="/manager")
 
+
 @bp.route("/")
 def stuff():
     if 'username' in session:
-        return render_template('manager/stuff.html')
+        stuff = ['کالای 1', 'کالای 2', 'کالای 3', 'کالای 4', 'کالای 5']
+        return render_template("manager/stuff.html", stuff = stuff)
     else:
         return redirect(url_for('login'))
     
 def valid_login(username, password):
     return username == 'maktab' and password == 'maktab'
+
 
 @bp.route("/order/")
 def order():
