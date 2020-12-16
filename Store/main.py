@@ -3,22 +3,27 @@ from werkzeug.utils import redirect
 
 bp = Blueprint("main", __name__)
 
+
 @bp.route("/")
 def index():
     return render_template("index.html")
+
 
 @bp.route("/basket/")
 def basket():
     return render_template("basket.html")
 
-@bp.route("/category/")
-def category():
+
+@bp.route("/category/<name>")
+def category(name):
     return render_template("category.html")
+
 
 @bp.route("/stuff/<name>/")
 def stuff(name):
-    return render_template("stuff.html") # <<<<<<<<<<<<<<<<<<<<
+    return render_template("stuff.html")  # <<<<<<<<<<<<<<<<<<<<
+
 
 @bp.route("/record/")
-def record(name):
+def record():
     return render_template("record.html")
