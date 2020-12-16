@@ -28,13 +28,10 @@ def storehouse():
 
 @bp.route('/login/', methods=['GET', 'POST'])
 def login():
-    print("voooorod login")
     if 'username' in session:
-        print("iiiiiiiiiiiiiiiiiiiifffffffffffffff")
         return render_template('manager/stuff.html')
     else:
         if request.method == 'POST':
-            print("be post vared shud")
             if valid_login(request.form['username'],request.form['password']):
                 session['username'] = request.form['username']
                 return redirect(url_for("manager.stuff"))
@@ -42,6 +39,5 @@ def login():
                 error = 'Invalid username/password'
                 return render_template('manager/login.html', error=error)
         elif request.method=="GET":
-            print("else before return")
             error=""
             return render_template('manager/login.html', error=error)
