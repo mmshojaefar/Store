@@ -32,7 +32,7 @@ def storehouse():
 @bp.route('/login/', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
-        return render_template('manager/stuff.html')
+        return redirect(url_for('manager.stuff'))
     else:
         if request.method == 'POST':
             if valid_login(request.form['username'],request.form['password']):
