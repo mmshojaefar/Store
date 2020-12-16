@@ -4,21 +4,22 @@ from werkzeug.utils import redirect
 bp = Blueprint("manager", __name__, url_prefix="/manager")
 
 @bp.route("/")
-def basket():
-    return render_template("stuff.html")
+def stuff():
+    return render_template("manager/stuff.html")
 
 @bp.route("/order/")
-def index():
-    return render_template("order.html")
+def order():
+    return render_template("manager/order.html")
 
-@bp.route("/exsiting/")
-def stuff():
-    return render_template("exsiting.html")
+@bp.route("/existing/")
+def exsiting():
+    return render_template("manager/existing.html")
 
 @bp.route("/storehouse/")
 def storehouse():
-    return render_template("storehouse.html")
+    stores = ['انبار شماره 1' , 'انبار شماره 2' ,'انبار شماره 3']
+    return render_template("manager/storehouse.html", stores = stores)
 
 @bp.route("/login/")
 def login():
-    return render_template("login.html")
+    return render_template("manager/login.html")
