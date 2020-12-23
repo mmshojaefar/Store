@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -15,14 +16,8 @@ def create_app(test_config=None):
     def hello():
         return "Hello, World!"
 
-    # from flaskr import db
-    # db.init_app(app)
-
-    from Store import main, manager
-
+    from Store import main, admin
     app.register_blueprint(main.bp)
-    app.register_blueprint(manager.bp)
-
-    # app.add_url_rule("/", endpoint="index")
+    app.register_blueprint(admin.bp)
 
     return app

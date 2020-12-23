@@ -7,8 +7,21 @@
 </head>
 <body>
     <h1>پنل مدیریت فروشگاه</h1>
-    <button type="button" onclick="location.href='/manager/login/';" >مدیریت</button>
+    <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
     <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
     <hr>
+    {% for cat in pr.keys() %}
+    <h1>{{ cat }}</h1>
+        <table>
+        {% for st in pr.get(cat) %}
+            <tr>
+                <td>نام محصول: {{ st.get('name') }}</td>
+                <td>قیمت کالا: {{ st.get('price') }}</td>
+                <td><img src="{{ st.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60"></td>
+            </tr>
+        {% endfor %}
+        </table>
+        <hr>
+    {% endfor %}
 </body>
 </html>
