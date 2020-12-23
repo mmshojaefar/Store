@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انبار</title>
+</head>
+<body>
+    <h1>پنل مدیریت فروشگاه</h1>
+    <button type="button" onclick="location.href='/admin/';" >کالا</button>
+    <button type="button" onclick="location.href='/admin/storehouse/';" > انبار ها</button>
+    <button type="button" onclick="location.href='/admin/existing/';" >موجودی و قیمت ها</button>
+    <button type="button" onclick="location.href='/admin/order/';" >سفارش ها</button>
+    <button type="button">بازگشت به سایت</button>
+    <h3>مدیریت کالاها</h3>
+    <button type="button">import</button>
+    <button type="button">افزودن کالا</button>
+    <table border="1">
+        <tr>
+            <th></th>
+            <th></th>
+            <th>نام کالا</th>
+        </tr>
+        {% for st in stuff %}
+        <tr>
+            <td>حذف</td>
+            <td>ویرایش</td>
+            <td>{{ st }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

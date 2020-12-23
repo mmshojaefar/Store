@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>پنل مدیریت فروشگاه</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../static/login.css" >
+</head>
+<body>
+    <div id="absoluteCenteredDiv">
+
+            <div class="box">
+                <h1>ورود به پنل مدیریت فروشگاه </h1>
+                <form action="{{url_for('admin.login')}}" method="POST">
+                <input class="username" name="username" type="text" placeholder="نام کاربری" id="username" required>
+                <input class="username" name="password" type="password" placeholder="کلمه عبور" id="password" required>
+                <input class=button type="submit" value="ورود">
+                </form>
+            </div>
+
+        <a class="fpwd" href="/">بازگشت به سایت </a>
+    </div>  
+    {% if error %}
+        <span>Error: {{ error }}</span>
+    {% endif %}      
+</body>
+</html>
