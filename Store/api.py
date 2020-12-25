@@ -29,7 +29,12 @@ def existing_edit():
         name = request.form['name']
         price = request.form['price']
         count = request.form['count']
-    print(storehouse, name, price, count)
+    print(11111111111111111111111111)
+    print(storehouse)
+    print(name)
+    print(price)
+    print(count)
+    print(11111111111111111111111111)
     return {}
 
 
