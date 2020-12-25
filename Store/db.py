@@ -4,9 +4,10 @@ client = MongoClient('localhost', 27017)
 
 db = client.store
 
-
 categories = db.product.find({}, {"category": 1, "_id": 0})
+#
 res = [i['category'] for i in categories]
+# print(res)
 pr = {}
 response = []
 for g in range(len(res)):
