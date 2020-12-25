@@ -26,69 +26,95 @@ $.get(url_list, function(response, status){
     })
 
     $('tbody tr td:last-child button:first-child').click(function(){
-        new bootstrap.Modal(document.getElementById('editModal'), {
+        var editModal = new bootstrap.Modal(document.getElementById('editModal'), {
             keyboard: false
         });
+        // editModal.show();
         $div = $("#editModal .modal-body");
-        $data = $(this).closest('tr').find('td');
-        var $name = $($data[1]).text(); 
-        var $storehouse = $($data[0]).text(); 
+        $div.empty();
+        $row = $(this).closest('tr').find('td');
+        var $storehouse = $($row[0]).text(); 
+        var $name = $($row[1]).text();  
         var data = "" 
-        data = "<label for='storehouse'>انبار : </label>"
-        data += "<input type='text' id='storehouse' name='storehouse'><br><br>"
-        data += "<label for='name'>کالا : </label>"
-        data += "<input type='text' id='name' name='name'><br><br>"
-        data += "<label for='price'>قیمت : </label>"
+        data += "<label>انبار :</label> "
+        data += "<label id='storehouse'></label><br><br>"
+        data += "<label>کالا :</label> "
+        data += "<label id='name'></label><br><br>"
+        data += "<label for='price'>قیمت :</label> "
         data += "<input type='text' id='price' name='price'><br><br>"
-        data += "<label for='count'>تعداد : </label>"
+        data += "<label for='count'>تعداد :</label> "
         data += "<input type='text' id='count' name='count'><br><br>"
-        $div.empty()
         $div.append(data);
-
-        $($($div).find('input')[0]).prop("value", $storehouse)
-        $($($div).find('input')[0]).prop("readonly", "readonly")
-        $($($div).find('input')[1]).prop("value", $name)
-        $($($div).find('input')[1]).prop("readonly", "readonly")
+        $($($div).find('#storehouse')).text($storehouse);
+        $($($div).find('#name')).text($name)
         
-        $('#editModal .saveButton').click(function(event){
-            event.preventDefault()
-            $price = $($($div).find('input')[2]).prop("value");
-            $count = $($($div).find('input')[3]).prop("value");
+        $('#editModal .editSaveButton').click(function(){
+            $price = $($($div).find('#price')).prop("value");
+            $count = $($($div).find('#count')).prop("value");
             $.post(url_edit, {
                 storehouse : $storehouse,
                 name : $name,
                 price : $price,
                 count : $count
             },function(response, status){
-                if(status=='success')
-                    console.log(status);
+                if(status=='success'){
+                    $($row[2]).text($price)
+                    $($row[3]).text($count)
+                }
                 console.log(response);
             });
             // $('#editModal').removeClass('show');
+            // editModal.hide()
             $('#editModal').hide();
-            $(".modal-backdrop").remove();
+            $(".modal-backdrop").hide();
         })
     })
     
-    // $('tbody tr td:last-child button:last-child').click(function(){
-    //     console.log(this);
-    //     $data = $(this).closest('tr').find('td');
-    //     var name = $($data[1]).text(); 
-    //     var storehouse = $($data[0]).text(); 
-    //     console.log(name, storehouse);
-    //     $.ajax({
-    //         url : url_delete,
-    //         data : {
-    //             'name' : name,
-    //             'storehouse' : storehouse,
-    //         },
-    //         type : "GET",
-    //         success : function(){
-    //             console.log(5555);
-    //         },
-    //         error : function(){
-    //             console.log('eeee');
-    //         }
-    //     });
-    // })
+    $('tbody tr td:last-child button:last-child').click(function(event){
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'), {
+            keyboard: false
+        });
+        deleteModal.show();
+
+        $row = $(this).closest('tr').find('td');
+        var $storehouse = $($row[0]).text(); 
+        var $name = $($row[1]).text();
+        var $price = $($row[2]).text(); 
+        var $count = $($row[3]).text();
+        $div = $("#deleteModal .modal-body");
+        $div.empty()
+        var data = "";
+        data += "<label> آیا از حذف</label> ";
+        data += "<label>" + $count + "</label> ";
+        data += "<label'> عدد </label> ";
+        data += "<label>" + $name + "</label> ";
+        data += "<label> به قیمت </label> ";
+        data += "<label>" + $price + "</label> ";
+        data += "<label> تومان از </label> ";
+        data += "<label>" + $storehouse + "</label> ";
+        data += "<label> اطمینان دارید؟</label> ";
+        $div.append(data);
+
+        
+        $('#deleteModal .deleteSaveButton').click(function(){
+            console.log('12345')
+            $.ajax({
+                url : url_delete,
+                data : {
+                    'name' : $name,
+                    'storehouse' : $storehouse,
+                },
+                type : "GET",
+                success : function(){
+                    $row.hide();
+                },
+                error : function(){
+                    console.log('eeee');
+                }
+            });
+            deleteModal.hide()
+        })
+        
+    })
+    
 })

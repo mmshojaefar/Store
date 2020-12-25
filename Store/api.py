@@ -42,5 +42,8 @@ def existing_edit():
 def existing_delete():
     name = request.args.get('name')
     storehouse = request.args.get('storehouse')
-    print(name, storehouse)
+    print(2222222222222222222222222)
+    print(storehouse)
+    print(name)
+    print(2222222222222222222222222)
     return {}
