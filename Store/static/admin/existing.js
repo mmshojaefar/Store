@@ -4,6 +4,7 @@ var url_delete = 'http://127.0.0.1:5000/api/existing/delete/';
 
 
 $.get(url_list, function(response, status){
+    
     var $tbody = $("tbody")
     JSON.parse(response).forEach(function(product){
         var storehouse = product.storehouse;
@@ -21,11 +22,8 @@ $.get(url_list, function(response, status){
         row += "</td>";
         row += "</tr>";
         $tbody.append(row);
-    })  
-})
+    })
 
-
-$(function(){
     $('tbody tr td:last-child button:first-child').click(function(){
         console.log(this);
         $data = $(this).closest('tr').find('td');
@@ -42,7 +40,7 @@ $(function(){
             console.log(response);
         })
     })
-
+    
     $('tbody tr td:last-child button:last-child').click(function(){
         console.log(this);
         $data = $(this).closest('tr').find('td');
