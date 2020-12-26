@@ -14,8 +14,12 @@
     <button type="button" onclick="location.href='/admin/existing/';" >موجودی و قیمت ها</button>
     <button type="button" onclick="location.href='/admin/order/';" >سفارش ها</button>
     <button type="button">بازگشت به سایت</button>
+    <hr>
+    <h3>مدیریت موجودی و قیمت ها</h3>
+    <button type="button" class="addExisting">افزودن موجودی</button>
     
     <!-- Table -->
+    <br><br>
     <table border=1 class="table table-striped">
         <thead style='display:none'>
             <tr>
@@ -63,6 +67,24 @@
         </div>
     </div>
 
+    <!-- Add Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="addModalLabel">افزودن موجودی</h5>
+            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+            <button type="button" class="addSaveButton btn btn-primary">افزودن</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    
     <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
     <script src="../../static/lib/js/bootstrap.min.js"></script>
     <script src="../../static/admin/existing.js"></script>

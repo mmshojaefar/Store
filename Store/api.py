@@ -47,3 +47,9 @@ def existing_delete():
     print(name)
     print(2222222222222222222222222)
     return {}
+
+@bp.route("/existing/add/", methods=['POST'])
+def existing_add():
+    if request.method == 'POST':
+        pass
+    return {}

@@ -1,6 +1,7 @@
 var url_list = 'http://127.0.0.1:5000/api/existing/list';
 var url_edit = 'http://127.0.0.1:5000/api/existing/edit/';
 var url_delete = 'http://127.0.0.1:5000/api/existing/delete/';
+var url_add = 'http://127.0.0.1:5000/api/existing/add/';
 
 
 $.get(url_list, function(response, status){
@@ -12,7 +13,8 @@ $.get(url_list, function(response, status){
         var price = product.price;
         var count = product.count;
         $('table thead').show()
-        var row = "<tr>";
+        var row = ""
+        row += "<tr>";
         row += "<td>" + storehouse + "</td>";
         row += "<td>" + name + "</td>";
         row += "<td>" + price + "</td>";
@@ -70,7 +72,8 @@ $.get(url_list, function(response, status){
         })
     })
     
-    $('tbody tr td:last-child button:last-child').click(function(event){
+    $('tbody tr td:last-child button:last-child').click(function(){
+        console.log('eeee')
         var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'), {
             keyboard: false
         });
@@ -113,6 +116,67 @@ $.get(url_list, function(response, status){
                 }
             });
             deleteModal.hide()
+        })
+        
+    })
+
+    $('.addExisting').click(function(){
+        var addModal = new bootstrap.Modal(document.getElementById('addModal'), {
+            keyboard: false
+        });
+        addModal.show()
+        $div = $("#addModal .modal-body");
+        $div.empty();
+        var data = "" 
+        data += "<label for='addStorehouse'>انبار :</label> "
+        data += "<input type='text' id='addStorehouse' name='addStorehouse'><br><br>"
+        data += "<label for='addName'>کالا :</label> "
+        data += "<input type='text' id='addName' name='addName'><br><br>"
+        data += "<label for='addPrice'>قیمت :</label> "
+        data += "<input type='text' id='addPrice' name='addPrice'><br><br>"
+        data += "<label for='addCount'>تعداد :</label> "
+        data += "<input type='text' id='addCount' name='addCount'><br><br>"
+        data += "<label for='addCategory'>دسته بندی :</label> "
+        data += "<input type='text' id='addCategory' name='addCategory'><br><br>"
+        data += "<label for='addImage'>تصویر :</label> "
+        data += "<input type='text' id='addImage' name='addImage'><br><br>"
+        $div.append(data);
+        // storehouse, category get select tag
+        
+        $('#addModal .addSaveButton').click(function(){
+            var $storehouse = $($($div).find('#addStorehouse')).prop("value");
+            var $name = $($($div).find('#addName')).prop("value");
+            var $price = $($($div).find('#addPrice')).prop("value");
+            var $count = $($($div).find('#addCount')).prop("value");
+            var $category = $($($div).find('#addCategory')).prop("value");
+            var $image = $($($div).find('#addImage')).prop("value");
+
+            console.log($storehouse, $name, $price, $count)
+            $.post(url_add, {
+                storehouse: $storehouse,
+                name: $name,
+                price: $price,
+                count: $count,
+                category: $category,
+                image: $image
+            }, function(response, status){
+                if(status == 'success'){
+                    var row = ""
+                    row += "<tr>";
+                    row += "<td>" + $storehouse + "</td>";
+                    row += "<td>" + $name + "</td>";
+                    row += "<td>" + $price + "</td>";
+                    row += "<td>" + $count + "</td>";
+                    row += "<td>" ;
+                    row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+                    row += "<button class='delete'> حذف</button>";
+                    row += "</td>";
+                    row += "</tr>";
+                    $('tbody').append(row);
+                    console.log('yes')
+                }
+            })
+            addModal.hide()
         })
         
     })
