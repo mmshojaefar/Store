@@ -29,23 +29,28 @@ def existing_edit():
         name = request.form['name']
         price = request.form['price']
         count = request.form['count']
-    print(11111111111111111111111111)
-    print(storehouse)
-    print(name)
-    print(price)
-    print(count)
-    print(11111111111111111111111111)
-    return {}
+        if 'username' in session:
+            db.product.update({
+                'storehouse' : storehouse,
+                'name' : name
+            }, 
+            {'$set' : {'count': count,
+                    'price': price
+            }})
+        return 'SUCCESS'
+    return 'FAILED'
 
 
 @bp.route("/existing/delete/", methods=['GET'])
 def existing_delete():
     name = request.args.get('name')
     storehouse = request.args.get('storehouse')
-    print(2222222222222222222222222)
-    print(storehouse)
-    print(name)
-    print(2222222222222222222222222)
+    if 'username' in session:
+        db.product.update({
+            'storehouse' : storehouse,
+            'name' : name
+        }, 
+        {'$set' : {'count': 0 } })
     return {}
 
 @bp.route("/existing/add/", methods=['POST'])

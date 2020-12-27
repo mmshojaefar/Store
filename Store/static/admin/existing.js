@@ -36,8 +36,8 @@ function editRow(){
         $div = $("#editModal .modal-body");
         $div.empty();
         $row = $(this).closest('tr').find('td');
-        var $storehouse = $($row[0]).text(); 
-        var $name = $($row[1]).text();  
+        var $storehouse = $($row[0]).text();
+        var $name = $($row[1]).text();
         var data = "" 
         data += "<label>انبار :</label> "
         data += "<label id='storehouse'></label><br><br>"
@@ -60,7 +60,7 @@ function editRow(){
                 price : $price,
                 count : $count
             },function(response, status){
-                if(status=='success'){
+                if(status=='success' && response=='SUCCESS'){
                     $($row[2]).text($price)
                     $($row[3]).text($count)
                 }
