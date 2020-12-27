@@ -16,7 +16,7 @@
     <button type="button">بازگشت به سایت</button>
     <hr>
     <h3>مدیریت موجودی و قیمت ها</h3>
-    <button type="button" class="addExisting">افزودن موجودی</button>
+    <button type="button" class="addExisting" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
     
     <!-- Table -->
     <br><br>
@@ -34,7 +34,7 @@
     </table>
 
     <!-- Edit Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div style='display:none' class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -51,7 +51,7 @@
     </div>
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div style='display:none' class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,7 +68,7 @@
     </div>
 
     <!-- Add Modal -->
-    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div style='display:none' class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
