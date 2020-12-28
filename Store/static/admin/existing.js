@@ -64,6 +64,7 @@ function editRow(){
         $('#editModal .editSaveButton').click(function(){
             $price = $($($div).find('#price')).prop("value");
             $count = $($($div).find('#count')).prop("value");
+            console.log($price)
             $.post(url_edit, {
                 storehouse : $storehouse,
                 name : $name,

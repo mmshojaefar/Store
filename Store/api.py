@@ -63,7 +63,6 @@ def existing_add():
         category = request.form['category']
         # image = request.form['image']
         print(name, price, count, storehouse, category)
-        
     return {}
 
 @bp.route("/storehouse/list/")
@@ -72,3 +71,41 @@ def storehouse_list():
     json_string = dumps(all_products)
     return json_string
 
+@bp.route("/storehouse/edit/", methods=['POST'])
+def storehosue_edit():
+    # if request.method == 'POST':
+    #     storehouse = request.form['storehouse']
+    #     name = request.form['name']
+    #     price = request.form['price']
+    #     count = request.form['count']
+    #     if 'username' in session:
+    #         db.product.update({
+    #             'storehouse' : storehouse,
+    #             'name' : name
+    #         }, 
+    #         {'$set' : {'count': count,
+    #                 'price': price
+    #         }})
+    #     return 'SUCCESS'
+    # return 'FAILED'
+    return 'SUCCESS'
+
+@bp.route("/storehouse/delete/", methods=['GET'])
+def storehosue_delete():
+    # name = request.args.get('name')
+    # storehouse = request.args.get('storehouse')
+    # if 'username' in session:
+    #     db.product.update({
+    #         'storehouse' : storehouse,
+    #         'name' : name
+    #     }, 
+    #     {'$set' : {'count': 0 } })
+    return {}
+
+@bp.route("/storehouse/add/", methods=['POST'])
+def storehouse_add():
+    if request.method == 'POST':
+        name = request.form['name']
+        # image = request.form['image']
+        print(name)
+    return {}
