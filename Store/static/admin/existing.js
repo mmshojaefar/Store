@@ -15,24 +15,26 @@ $.get(storehouse_list_url, function(response, status){
 $.get(url_list, function(response, status){
     
     var $tbody = $("tbody")
+    $('table').show()
     JSON.parse(response).forEach(function(product){
         var storehouse = product.storehouse;
         var name = product.name;
         var price = product.price;
         var count = product.count;
-        $('table thead').show()
-        var row = ""
-        row += "<tr>";
-        row += "<td>" + storehouse + "</td>";
-        row += "<td>" + name + "</td>";
-        row += "<td>" + price + "</td>";
-        row += "<td>" + count + "</td>";
-        row += "<td>" ;
-        row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
-        row += "<button class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
-        row += "</td>";
-        row += "</tr>";
-        $tbody.append(row);
+        if(!(count < 0)){
+            var row = ""
+            row += "<tr>";
+            row += "<td>" + storehouse + "</td>";
+            row += "<td>" + name + "</td>";
+            row += "<td>" + price + "</td>";
+            row += "<td>" + count + "</td>";
+            row += "<td>" ;
+            row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+            row += "<button class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+            row += "</td>";
+            row += "</tr>";
+            $tbody.append(row);
+        }
     })
     editRow();
     deleteRow();
@@ -52,9 +54,9 @@ function editRow(){
         data += "<label>کالا :</label> "
         data += "<label id='name'></label><br><br>"
         data += "<label for='price'>قیمت :</label> "
-        data += "<input type='text' id='price' name='price'><br><br>"
+        data += "<input type='number' id='price' name='price'><br><br>"
         data += "<label for='count'>تعداد :</label> "
-        data += "<input type='text' id='count' name='count'><br><br>"
+        data += "<input type='number' id='count' name='count'><br><br>"
         $div.append(data);
         $($($div).find('#storehouse')).text($storehouse);
         $($($div).find('#name')).text($name)
@@ -133,13 +135,13 @@ function addRow(){
     data += "<label for='addName'>کالا :</label> "
     data += "<input type='text' id='addName' name='addName'><br><br>"
     data += "<label for='addPrice'>قیمت :</label> "
-    data += "<input type='text' id='addPrice' name='addPrice'><br><br>"
+    data += "<input type='number' id='addPrice' name='addPrice'><br><br>"
     data += "<label for='addCount'>تعداد :</label> "
-    data += "<input type='text' id='addCount' name='addCount'><br><br>"
+    data += "<input type='number' id='addCount' name='addCount'><br><br>"
     data += "<label for='addCategory'>دسته بندی :</label> "
     data += "<input type='text' id='addCategory' name='addCategory'><br><br>"
     data += "<label for='addImage'>تصویر :</label> "
-    data += "<input type='text' id='addImage' name='addImage'><br><br>"
+    data += "<input type='file' accept='image/*' id='addImage' name='addImage'><br><br>"
     $div.append(data);
 
     global_all_storehouse.forEach(function(st){
@@ -149,6 +151,11 @@ function addRow(){
     })
     // storehouse, category get select tag
 
+    var fd = new FormData();
+        var files = $('#addImage')[0].files;
+    if(files.length > 0 )
+        fd.append('file',files[0]);
+
     $('#addModal .addSaveButton').click(function(){
         $div = $("#addModal .modal-body");
         var $storehouse = $($($div).find('#addStorehouse')).prop("value");
@@ -156,7 +163,7 @@ function addRow(){
         var $price = $($($div).find('#addPrice')).prop("value");
         var $count = $($($div).find('#addCount')).prop("value");
         var $category = $($($div).find('#addCategory')).prop("value");
-        var $image = $($($div).find('#addImage')).prop("value");
+        // var $image = $($($div).find('#addImage')).prop("value");
 
         $.post(url_add, {
             storehouse: $storehouse,
@@ -164,7 +171,7 @@ function addRow(){
             price: $price,
             count: $count,
             category: $category,
-            image: $image
+            // image: fd
         }, function(response, status){
             if(status == 'success'){
                 var row = "";
@@ -181,6 +188,8 @@ function addRow(){
                 $('tbody').append(row);
                 editRow();
                 deleteRow();
+                $('#addModal .modal-body input').val('');
+
             }
         })
         

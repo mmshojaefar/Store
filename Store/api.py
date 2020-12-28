@@ -55,7 +55,14 @@ def existing_delete():
 
 @bp.route("/existing/add/", methods=['POST'])
 def existing_add():
-    # if request.method == 'POST':
+    if request.method == 'POST':
+        storehouse = request.form['storehouse']
+        name = request.form['name']
+        price = request.form['price']
+        count = request.form['count']
+        category = request.form['category']
+        # image = request.form['image']
+        print(name, price, count, storehouse, category)
         
     return {}
 
