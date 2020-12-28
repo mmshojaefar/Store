@@ -2,7 +2,15 @@ var url_list = 'http://127.0.0.1:5000/api/existing/list';
 var url_edit = 'http://127.0.0.1:5000/api/existing/edit/';
 var url_delete = 'http://127.0.0.1:5000/api/existing/delete/';
 var url_add = 'http://127.0.0.1:5000/api/existing/add/';
+var storehouse_list_url = 'http://127.0.0.1:5000/api/storehouse/list/';
 
+$.get(storehouse_list_url, function(response, status){
+    global_all_storehouse = []
+    JSON.parse(response).forEach(function(st){
+        global_all_storehouse.push(st.name)
+
+    })
+})
 
 $.get(url_list, function(response, status){
     
@@ -117,8 +125,11 @@ function addRow(){
     $div = $("#addModal .modal-body");
     $div.empty();
     var data = "" 
+
     data += "<label for='addStorehouse'>انبار :</label> "
-    data += "<input type='text' id='addStorehouse' name='addStorehouse'><br><br>"
+    // data += "<input type='text' id='addStorehouse' name='addStorehouse'><br><br>"
+    data += "<select name=all_storehouse id='addStorehouse'>"
+    data += "</select><br><br>"
     data += "<label for='addName'>کالا :</label> "
     data += "<input type='text' id='addName' name='addName'><br><br>"
     data += "<label for='addPrice'>قیمت :</label> "
@@ -130,6 +141,12 @@ function addRow(){
     data += "<label for='addImage'>تصویر :</label> "
     data += "<input type='text' id='addImage' name='addImage'><br><br>"
     $div.append(data);
+
+    global_all_storehouse.forEach(function(st){
+        var option = new Option(st, st);
+        $($($div).find('#addStorehouse')).append(option)
+
+    })
     // storehouse, category get select tag
 
     $('#addModal .addSaveButton').click(function(){

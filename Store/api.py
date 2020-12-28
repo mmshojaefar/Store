@@ -58,3 +58,10 @@ def existing_add():
     # if request.method == 'POST':
         
     return {}
+
+@bp.route("/storehouse/list/")
+def storehouse_list():
+    all_products = db.storehouse.find({}, {'name':1, '_id':0})
+    json_string = dumps(all_products)
+    return json_string
+
