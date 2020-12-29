@@ -60,24 +60,26 @@ function editRow(){
         $div.append(data);
         $($($div).find('#storehouse')).text($storehouse);
         $($($div).find('#name')).text($name)
-        
-        $('#editModal .editSaveButton').click(function(){
-            $price = $($($div).find('#price')).prop("value");
-            $count = $($($div).find('#count')).prop("value");
-            console.log($price)
-            $.post(url_edit, {
-                storehouse : $storehouse,
-                name : $name,
-                price : $price,
-                count : $count
-            },function(response, status){
-                if(status=='success' && response=='SUCCESS'){
-                    $($row[2]).text($price)
-                    $($row[3]).text($count)
-                }
-            });
-            $('#editModal').modal('hide');
-        })
+    })
+
+    $('#editModal .editSaveButton').click(function(){
+        $storehouse = $($($div).find('#storehouse')).text();
+        $name = $($($div).find('#name')).text();
+        $price = $($($div).find('#price')).prop("value");
+        $count = $($($div).find('#count')).prop("value");
+        console.log($price)
+        $.post(url_edit, {
+            'storehouse' : $storehouse,
+            'name' : $name,
+            'price' : $price,
+            'count' : $count
+        },function(response, status){
+            if(status=='success' && response=='SUCCESS'){
+                $($row[2]).text($price)
+                $($row[3]).text($count)
+            }
+        });
+        $('#editModal').modal('hide');
     })
 }
 
@@ -101,8 +103,9 @@ function deleteRow(){
         data += "<label>" + $storehouse + "</label> ";
         data += "<label> اطمینان دارید؟</label> ";
         $div.append(data);
-        
+
         $('#deleteModal .deleteSaveButton').click(function(){
+            console.log($storehouse, $name)
             $.ajax({
                 url : url_delete,
                 data : {
@@ -119,9 +122,8 @@ function deleteRow(){
             });
             $('#deleteModal').modal('hide');
         })
-        
-    })
 
+    })
 }
 
 function addRow(){

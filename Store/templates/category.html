@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مکتب کالا</title>
+</head>
+<body>
+    <h1>فروشگاه مکتب کالا</h1>
+    <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
+    <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
+    <hr>
+    <h1>کالا های گروه {{ name }}</h1>
+    <table>
+    {% for product in category %}
+        <tr>
+            <td>
+                <a href="/product/{{ product.get('name') }}" style="text-decoration: none; color: black">
+                    نام محصول: {{ product.get('name') }}
+                </a>
+            </td>
+            <td>
+                <a href="/product/{{ product.get('name') }}" style="text-decoration: none; color: black">
+                    قیمت کالا: {{ product.get('price') }}
+                </a>
+            </td>
+            <td>
+                <a href="/product/{{ product.get('name') }}" style="text-decoration: none; color: black">
+                    <img src="{{ product.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+    <hr>
+</body>
+</html>

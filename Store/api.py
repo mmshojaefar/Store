@@ -29,6 +29,7 @@ def existing_edit():
         name = request.form['name']
         price = request.form['price']
         count = request.form['count']
+        print(storehouse,name,price,count)
         if 'username' in session:
             db.product.update({
                 'storehouse' : storehouse,
@@ -45,6 +46,7 @@ def existing_edit():
 def existing_delete():
     name = request.args.get('name')
     storehouse = request.args.get('storehouse')
+    print(name, storehouse)
     if 'username' in session:
         db.product.update({
             'storehouse' : storehouse,

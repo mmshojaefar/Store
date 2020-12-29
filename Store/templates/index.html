@@ -6,18 +6,30 @@
     <title>مکتب کالا</title>
 </head>
 <body>
-    <h1>پنل مدیریت فروشگاه</h1>
+    <h1>فروشگاه مکتب کالا</h1>
     <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
     <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
     <hr>
     {% for cat in pr.keys() %}
-    <h1>{{ cat }}</h1>
+    <h1><a href='category/{{ cat }}' style="text-decoration: none; color: black">کالا های گروه {{ cat }}</a></h1>
         <table>
         {% for st in pr.get(cat) %}
             <tr>
-                <td>نام محصول: {{ st.get('name') }}</td>
-                <td>قیمت کالا: {{ st.get('price') }}</td>
-                <td><img src="{{ st.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60"></td>
+                <td>
+                    <a href="/product/{{ st.get('name') }}" style="text-decoration: none; color: black">
+                        نام محصول: {{ st.get('name') }}
+                    </a>
+                </td>
+                <td>
+                    <a href="/product/{{ st.get('name') }}" style="text-decoration: none; color: black">
+                        قیمت کالا: {{ st.get('price') }}
+                    </a>
+                </td>
+                <td>
+                    <a href="/product/{{ st.get('name') }}" style="text-decoration: none; color: black">
+                        <img src="{{ st.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
+                    </a>
+                </td>
             </tr>
         {% endfor %}
         </table>

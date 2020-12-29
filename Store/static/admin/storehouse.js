@@ -25,25 +25,27 @@ $.get(url_list, function(response, status){
 
 function editRow(){
     $('tbody tr td:last-child button:first-child').click(function(){
+        console.log(this)
         $div = $("#editModal .modal-body");
         $div.empty();
         $row = $(this).closest('tr').find('td');
         var data = "" 
         data += "<label>نام انبار :</label> "
         data += "<input id='name'><br><br>"
-        $div.append(data);
-        
-        $('#editModal .editSaveButton').click(function(){
-            $name = $($($div).find('#name')).prop('value')
-            $.post(url_edit, {
-                name : $name,
-            },function(response, status){
-                if(status=='success' && response=='SUCCESS'){
-                    $($row[0]).text($name)
-                }
-            });
-            $('#editModal').modal('hide');
-        })
+        $div.append(data);  
+    })
+
+    $('#editModal .editSaveButton').click(function(){
+        $name = $($($div).find('#name')).prop('value')
+        console.log($name)
+        $.post(url_edit, {
+            name : $name,
+        },function(response, status){
+            if(status=='success' && response=='SUCCESS'){
+                $($row[0]).text($name)
+            }
+        });
+        $('#editModal').modal('hide');
     })
 }
 
@@ -60,6 +62,7 @@ function deleteRow(){
         $div.append(data);
         
         $('#deleteModal .deleteSaveButton').click(function(){
+            console.log($name)
             $.ajax({
                 url : url_delete,
                 data : {
@@ -75,24 +78,25 @@ function deleteRow(){
             });
             $('#deleteModal').modal('hide');
         })
-        
     })
 
+
 }
+
 
 function addRow(){
     $div = $("#addModal .modal-body");
     $div.empty();
     var data = "" 
-
+    
     data += "<label for='name'>نام انبار :</label> "
     data += "<input type='text' id='name' name='name'><br><br>"
     $div.append(data);
-
+    
+    console.log(this)
     $('#addModal .addSaveButton').click(function(){
         $div = $("#addModal .modal-body");
         var $name = $($($div).find('#name')).prop("value");
-
         $.post(url_add, {
             name: $name,
         }, function(response, status){
@@ -111,7 +115,6 @@ function addRow(){
                 $('#addModal .modal-body input').val('');
             }
         })
-        
         $('#addModal').modal('hide');
-    })
+    })    
 }
