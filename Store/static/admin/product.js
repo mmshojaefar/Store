@@ -37,7 +37,8 @@ $.get(url_list, function(response, status){
     })
     editRow();
     deleteRow();
-    addRow()
+    addRow();
+    addImport()
 })
 
 function editRow(){
@@ -170,6 +171,56 @@ function addRow(){
 
             }
         })
+        
+        $('#addModal').modal('hide');
+    })
+}
+
+function addImport(){
+    $div = $("#importModal .modal-body");
+    $div.empty();
+    var data = "" 
+
+    data += "<label for='addName'>انتخاب فایل :</label><br><br>"
+    data += "<input type='file' accept='.txt' id='addFile' name='addFile'>"
+    $div.append(data);
+
+    var fd = new FormData();
+        var files = $('#addFile')[0].files;
+    if(files.length > 0 )
+        fd.append('file',files[0]);
+
+    $('#addModal .addSaveButton').click(function(){
+        // $div = $("#addModal .modal-body");
+        // var $name = $($($div).find('#addName')).prop("value");
+        // var $category = $($($div).find('#addCategory')).prop("value");
+        // var $subcategory = $($($div).find('#addSubcategory')).prop("value");
+        // var $image = $($($div).find('#addImage')).prop("value");
+
+        // $.post(url_add, {
+        //     name: $name,
+        //     category: $category,
+        //     subcategory: $subcategory,
+        //     image: $image,
+        // }, function(response, status){
+        //     if(status == 'success'){
+        //         var row = ""
+        //         row += "<tr>";
+        //         row += "<td>" + $image + "</td>";
+        //         row += "<td>" + $name + "</td>";
+        //         row += "<td>" + $category + ' >> ' + $subcategory + "</td>";
+        //         row += "<td>" ;
+        //         row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+        //         row += "<button class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+        //         row += "</td>";
+        //         row += "</tr>";
+        //         $('tbody').append(row);
+        //         editRow();
+        //         deleteRow();
+        //         $('#addModal .modal-body input').val('');
+
+        //     }
+        // })
         
         $('#addModal').modal('hide');
     })

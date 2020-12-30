@@ -15,22 +15,22 @@ def product_list():
 
 @bp.route("/product/edit/", methods=['POST'])
 def product_edit():
-    # if request.method == 'POST':
-#         storehouse = request.form['storehouse']
-#         name = request.form['name']
-#         price = request.form['price']
-#         count = request.form['count']
-#         if 'username' in session:
-#             db.product.update({
-#                 'storehouse' : storehouse,
-#                 'name' : name
-#             }, 
-#             {'$set' : {'count': count,
-#                     'price': price
-#             }})
-    #     return 'SUCCESS'
-    # return 'FAILED'
-    return 'SUCCESS'
+    if request.method == 'POST':
+        image = request.form['image']
+        name = request.form['name']
+        category = request.form['category']
+        subcategory = request.form['subcategory']
+        if 'username' in session:
+            db.product.update({
+                'image' : image,
+                'name' : name
+            }, 
+            {'$set' : {'category': category,
+                    'subcategory': subcategory
+            }})
+        return 'SUCCESS'
+    return 'FAILED'
+    # return 'SUCCESS'
 
 
 @bp.route("/product/delete/", methods=['GET'])
@@ -39,30 +39,34 @@ def product_delete():
         image = request.form['image']
         name = request.form['name']
         category = request.form['category']
+        subcategory = request.form['subcategory']
         if 'username' in session:
             db.product.remove({
                 'image' : image,
                 'name' : name,
-                'category': category
+                'category': category,
+                'subcategory': subcategory,
             })
         return 'SUCCESS'
     return 'FAILED'
 
 @bp.route("/product/add/", methods=['POST'])
 def product_add():
-    # if request.method == 'POST':
-    #     image = request.form['image']
-    #     name = request.form['name']
-    #     category = request.form['category']
-    #     if 'username' in session:
-    #         db.product.insert({
-    #             'image' : image,
-    #             'name' : name,
-    #             'category': category
-    #         })
-    #     return 'SUCCESS'
-    # return 'FAILED'
-    return 'SUCCESS'
+    if request.method == 'POST':
+        image = request.form['image']
+        name = request.form['name']
+        category = request.form['category']
+        subcategory = request.form['subcategory']
+        if 'username' in session:
+            db.product.insert({
+                'image' : image,
+                'name' : name,
+                'category': category,
+                'subcategory': subcategory,
+            })
+        return 'SUCCESS'
+    return 'FAILED'
+    # return 'SUCCESS'
 
 
 
