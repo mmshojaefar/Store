@@ -5,10 +5,10 @@ bp = Blueprint("admin", __name__, url_prefix="/admin")
 
 
 @bp.route("/")
-def stuff():
+def product():
     if 'username' in session:
-        stuff = ['کالای 1', 'کالای 2', 'کالای 3', 'کالای 4', 'کالای 5']
-        return render_template("admin/stuff.html", stuff=stuff)
+        product = ['کالای 1', 'کالای 2', 'کالای 3', 'کالای 4', 'کالای 5']
+        return render_template("admin/product.html", product=product)
     else:
         return redirect(url_for('login'))
 
@@ -36,12 +36,12 @@ def storehouse():
 @bp.route('/login/', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
-        return redirect(url_for('admin.stuff'))
+        return redirect(url_for('admin.product'))
     else:
         if request.method == 'POST':
             if valid_login(request.form['username'], request.form['password']):
                 session['username'] = request.form['username']
-                return redirect(url_for("admin.stuff"))
+                return redirect(url_for("admin.product"))
             else:
                 error = 'Invalid username/password'
                 return render_template('admin/login.html', error=error)

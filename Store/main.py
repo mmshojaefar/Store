@@ -21,9 +21,9 @@ def category(name):
     return render_template("category.html")
 
 
-@bp.route("/stuff/<name>/")
-def stuff(name):
-    return render_template("stuff.html")  # <<<<<<<<<<<<<<<<<<<<
+@bp.route("/product/<name>/")
+def product(name):
+    return render_template("product.html")  # <<<<<<<<<<<<<<<<<<<<
 
 
 @bp.route("/basket/approve/")
