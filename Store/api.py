@@ -18,8 +18,8 @@ def product_edit():
     if request.method == 'POST':
         # image = request.form['image']
         name = request.form['name']
-        category = request.form['category']
-        subcategory = request.form['subcategory']
+        category = request.form['category'].split('،')
+        subcategory = request.form['subcategory'].split('،')
         if 'username' in session:
             db.product.update({
                 # 'image' : image,
