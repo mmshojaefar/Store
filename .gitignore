@@ -1,3 +1,5 @@
 .vscode
 .git
 Store/__pycache__
+store.egg-info
+venv
