@@ -1,1 +1,60 @@
-order
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/lib/css/bootstrap.min.css">
+    <title>سفارش ها</title>
+</head>
+<body>
+
+    <!-- Header -->
+    <h1>پنل مدیریت فروشگاه</h1>
+    <button type="button" onclick="location.href='/admin/';" >کالا</button>
+    <button type="button" onclick="location.href='/admin/storehouse/';" > انبار ها</button>
+    <button type="button" onclick="location.href='/admin/existing/';" >موجودی و قیمت ها</button>
+    <button type="button" onclick="location.href='/admin/order/';" >سفارش ها</button>
+    <button type="button">بازگشت به سایت</button>
+    <hr>
+    <h3>سفارش ها</h3>
+
+
+        <!-- Table -->
+        <br><br>
+        <table border=1 class="table table-striped" style='display:none'>
+            <thead>
+                <tr>
+                    <th>نام کاربر</th>
+                    <th>مجموع مبلغ</th>
+                    <th>زمان ثبت سفارش</th>
+                    <th>بررسی</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    <!-- Check Modal -->
+    <div style='display:none' class="modal fade" id="checkmodal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">نمایش سفارش</h5>
+            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+            </div>
+        </div>
+        </div>
+    </div>    
+
+
+    <!-- Order selector -->
+    <select style='display:none' name="all_order" id='addStorehouse'></select><br><br>
+
+    <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
+    <script src="../../static/lib/js/bootstrap.min.js"></script>
+    <script src="../../static/admin/order.js"></script>
+</body>
+</html>

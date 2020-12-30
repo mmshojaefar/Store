@@ -9,7 +9,7 @@ bp = Blueprint("api", __name__, url_prefix="/api")
 @bp.route("/product/list/")
 def product_list():
     all_products = db.product.find({}, 
-                    {'image':1, 'name':1, 'category':1, '_id':0})
+                    {'image':1, 'name':1, 'category':1, '_id':1})
     json_string = dumps(all_products)
     return json_string
 
@@ -111,3 +111,11 @@ def storehouse_add():
         # image = request.form['image']
         print(name)
     return {}
+
+
+@bp.route("/order/list/",methods=['GET'])
+def order_list():
+    all_order = db.order.find({})
+    json_string = dumps(all_order)
+    return json_string
+
