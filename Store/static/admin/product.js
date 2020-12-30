@@ -127,10 +127,18 @@ function addRow(){
 
     data += "<label for='addName'>نام کالا :</label> "
     data += "<input type='text' id='addName' name='addName'><br><br>"
+    data += "<label for='addDescription'>شرح کالا :</label> "
+    data += "<input type='text' id='addDescription' name='addDescription'><br><br>"
     data += "<label for='addCategory'>دسته بندی :</label> "
     data += "<input type='text' id='addCategory' name='addCategory'><br><br>"
     data += "<label for='addSubcategory'>زیرگروه :</label> "
     data += "<input type='text' id='addSubcategory' name='addSubcategory'><br><br>"
+    data += "<label for='addPrice'>قیمت :</label> "
+    data += "<input type='text' id='addPrice' name='addPrice'><br><br>"
+    data += "<label for='addCount'>تعداد :</label> "
+    data += "<input type='text' id='addCount' name='addCount'><br><br>"
+    data += "<label for='addStorehouse'>انبار :</label> "
+    data += "<input type='text' id='addStorehouse' name='addStorehouse'><br><br>"
     data += "<label for='addImage'>تصویر :</label> "
     data += "<input type='file' accept='image/*' id='addImage' name='addImage'><br><br>"
     $div.append(data);
@@ -143,15 +151,23 @@ function addRow(){
     $('#addModal .addSaveButton').click(function(){
         $div = $("#addModal .modal-body");
         var $name = $($($div).find('#addName')).prop("value");
+        var $price = $($($div).find('#addPrice')).prop("value");
+        var $count = $($($div).find('#addCount')).prop("value");
+        var $image = $($($div).find('#addImage')).prop("value");
+        var $description = $($($div).find('#addDescription')).prop("value");
+        var $storehouse = $($($div).find('#addStorehouse')).prop("value");
         var $category = $($($div).find('#addCategory')).prop("value");
         var $subcategory = $($($div).find('#addSubcategory')).prop("value");
-        var $image = $($($div).find('#addImage')).prop("value");
 
         $.post(url_add, {
             name: $name,
+            price: $price,
+            count: $count,
+            image: $image,
+            description: $description,
+            storehouse: $storehouse,
             category: $category,
             subcategory: $subcategory,
-            image: $image,
         }, function(response, status){
             if(status == 'success'){
                 var row = ""

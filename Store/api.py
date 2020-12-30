@@ -16,13 +16,13 @@ def product_list():
 @bp.route("/product/edit/", methods=['POST'])
 def product_edit():
     if request.method == 'POST':
-        image = request.form['image']
+        # image = request.form['image']
         name = request.form['name']
         category = request.form['category']
         subcategory = request.form['subcategory']
         if 'username' in session:
             db.product.update({
-                'image' : image,
+                # 'image' : image,
                 'name' : name
             }, 
             {'$set' : {'category': category,
@@ -36,16 +36,14 @@ def product_edit():
 @bp.route("/product/delete/", methods=['GET'])
 def product_delete():
     if request.method == 'POST':
-        image = request.form['image']
+        # image = request.form['image']
         name = request.form['name']
         category = request.form['category']
-        subcategory = request.form['subcategory']
         if 'username' in session:
             db.product.remove({
-                'image' : image,
+                # 'image' : image,
                 'name' : name,
                 'category': category,
-                'subcategory': subcategory,
             })
         return 'SUCCESS'
     return 'FAILED'
@@ -53,20 +51,27 @@ def product_delete():
 @bp.route("/product/add/", methods=['POST'])
 def product_add():
     if request.method == 'POST':
-        image = request.form['image']
         name = request.form['name']
-        category = request.form['category']
-        subcategory = request.form['subcategory']
+        price = request.form['price']
+        count = request.form['count']
+        image = request.form['image']
+        description = request.form['description']
+        storehouse = request.form['storehouse']
+        category = request.form['category'].split('،')
+        subcategory = request.form['subcategory'].split('،')
         if 'username' in session:
             db.product.insert({
-                'image' : image,
                 'name' : name,
+                'price': price,
+                'count': count,
+                'image' : image,
+                'description': description,
+                'storehouse': storehouse,
                 'category': category,
                 'subcategory': subcategory,
             })
         return 'SUCCESS'
     return 'FAILED'
-    # return 'SUCCESS'
 
 
 
