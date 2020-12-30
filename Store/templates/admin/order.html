@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/lib/css/bootstrap.min.css">
-    <title>سفارش ها</title>
-</head>
-<body>
+{% extends "admin/base.html" %}
 
-    <!-- Header -->
-    <h1>پنل مدیریت فروشگاه</h1>
-    <button type="button" onclick="location.href='/admin/';" >کالا</button>
-    <button type="button" onclick="location.href='/admin/storehouse/';" > انبار ها</button>
-    <button type="button" onclick="location.href='/admin/existing/';" >موجودی و قیمت ها</button>
-    <button type="button" onclick="location.href='/admin/order/';" >سفارش ها</button>
-    <button type="button">بازگشت به سایت</button>
-    <hr>
+{% block title %}سفارش ها{% endblock %}
+
+{% block content %}
     <h3>سفارش ها</h3>
-
 
         <!-- Table -->
         <br><br>
@@ -56,5 +42,5 @@
     <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
     <script src="../../static/lib/js/bootstrap.min.js"></script>
     <script src="../../static/admin/order.js"></script>
-</body>
-</html>
+
+{% endblock %}
