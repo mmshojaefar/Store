@@ -7,8 +7,7 @@ bp = Blueprint("admin", __name__, url_prefix="/admin")
 @bp.route("/")
 def product():
     if 'username' in session:
-        product = ['کالای 1', 'کالای 2', 'کالای 3', 'کالای 4', 'کالای 5']
-        return render_template("admin/product.html", product=product)
+        return render_template("admin/product.html")
     else:
         return redirect(url_for('login'))
 
