@@ -1,21 +1,7 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/lib/css/bootstrap.min.css">
-    <title>انبار</title>
-</head>
-<body>
-    
-    <!-- Header -->
-    <h1>پنل مدیریت فروشگاه</h1>
-    <button type="button" onclick="location.href='/admin/';" >کالا</button>
-    <button type="button" onclick="location.href='/admin/storehouse/';" > انبار ها</button>
-    <button type="button" onclick="location.href='/admin/existing/';" >موجودی و قیمت ها</button>
-    <button type="button" onclick="location.href='/admin/order/';" >سفارش ها</button>
-    <button type="button">بازگشت به سایت</button>
-    <hr>
+{% extends "admin/base.html" %}
+
+{% block title %}مدیریت کالا{% endblock %}
+{% block content %}
     <h3>مدیریت کالاها</h3>
     <button type="button" class="addImport" data-bs-toggle='modal' data-bs-target='#importModal'>import</button>
     <button type="button" class="addProduct" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن کالا</button>
@@ -105,6 +91,4 @@
     <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
     <script src="../../static/lib/js/bootstrap.min.js"></script>
     <script src="../../static/admin/product.js"></script>
-
-</body>
-</html>
+    {% endblock %}
