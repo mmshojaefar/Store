@@ -41,7 +41,7 @@ def login():
         if request.method == 'POST':
             if valid_login(request.form['username'], request.form['password']):
                 session['username'] = request.form['username']
-                return redirect(url_for("admin.stuff"))
+                return redirect(url_for("admin.product"))
             else:
                 error = 'Invalid username/password'
                 return render_template('admin/login.html', error=error)
