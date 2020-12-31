@@ -25,7 +25,7 @@ $.get(url_list, function(response, status){
 
 function editRow(){
     $('tbody tr td:last-child button:first-child').click(function(){
-        console.log(this)
+        // console.log(this)
         $div = $("#editModal .modal-body");
         $div.empty();
         $row = $(this).closest('tr').find('td');
@@ -37,7 +37,7 @@ function editRow(){
 
     $('#editModal .editSaveButton').click(function(){
         $name = $($($div).find('#name')).prop('value')
-        console.log($name)
+        // console.log($name)
         $.post(url_edit, {
             name : $name,
         },function(response, status){
@@ -62,7 +62,7 @@ function deleteRow(){
         $div.append(data);
         
         $('#deleteModal .deleteSaveButton').click(function(){
-            console.log($name)
+            // console.log($name)
             $.ajax({
                 url : url_delete,
                 data : {
@@ -93,7 +93,7 @@ function addRow(){
     data += "<input type='text' id='name' name='name'><br><br>"
     $div.append(data);
     
-    console.log(this)
+    // console.log(this)
     $('#addModal .addSaveButton').click(function(){
         $div = $("#addModal .modal-body");
         var $name = $($($div).find('#name')).prop("value");

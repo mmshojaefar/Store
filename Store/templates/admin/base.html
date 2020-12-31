@@ -7,15 +7,41 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <h1>پنل مدیریت فروشگاه</h1>
-    <button type="button" onclick="location.href='/admin/';" >کالا</button>
-    <button type="button" onclick="location.href='/admin/storehouse/';" > انبار ها</button>
-    <button type="button" onclick="location.href='/admin/existing/';" >موجودی و قیمت ها</button>
-    <button type="button" onclick="location.href='/admin/order/';" >سفارش ها</button>
-    <button type="button" onclick="location.href='/admin/logout/';" >خروج</button>
-    <button type="button" onclick="location.href='/';">بازگشت به سایت</button>
-    <hr>
-    {% block content %}{% endblock %}
-    
+    <div class="container mt-3">
+        <div class="d-flex justify-content-between">
+            <h1 class="display-6" style="margin-top:-5px!important;">پنل مدیریت فروشگاه</h1>
+            <div class="d-flex align-items-center" style="margin-top:-8px!important;">
+                <a class="btn btn-primary" href="/">بازگشت به سایت</a>
+                <a class="btn btn-primary" tabindex="-1" href="/admin/logout/">خروج</a>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+            <a class="nav-link" href="/admin/">کالا</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/admin/storehouse/">انبار</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/admin/existing/">موجودی و قیمت</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/order/">سفارش ها </a>
+            </li>
+        </ul>
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+        $('.nav-link').click(function(){
+            $(this).addClass('active')
+        })
+        $('.active').removeClass('active')
+        for(var i=0; i<$('.nav-link').length; i++){
+            if( $($('.nav-link')[i]).attr('href') == window.location.pathname){
+                console.log(window.location.pathname)
+                $($('.nav-link')[i]).addClass('active')
+            }
+        }
+    </script>   
 </body>
 </html>
