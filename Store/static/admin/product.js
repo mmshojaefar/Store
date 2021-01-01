@@ -1,7 +1,7 @@
-var url_list = 'http://127.0.0.1:5000/api/product/list';
-var url_edit = 'http://127.0.0.1:5000/api/product/edit/';
-var url_delete = 'http://127.0.0.1:5000/api/product/delete/';
-var url_add = 'http://127.0.0.1:5000/api/product/add/';
+var url_list = '/api/product/list';
+var url_edit = '/api/product/edit/';
+var url_delete = '/api/product/delete/';
+var url_add = '/api/product/add/';
 // var storehouse_list_url = 'http://127.0.0.1:5000/api/storehouse/list/';
 
 // $.get(storehouse_list_url, function(response, status){

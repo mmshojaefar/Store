@@ -1,8 +1,8 @@
-var url_list = 'http://127.0.0.1:5000/api/existing/list';
-var url_edit = 'http://127.0.0.1:5000/api/existing/edit/';
-var url_delete = 'http://127.0.0.1:5000/api/existing/delete/';
-var url_add = 'http://127.0.0.1:5000/api/existing/add/';
-var storehouse_list_url = 'http://127.0.0.1:5000/api/storehouse/list/';
+var url_list = '/api/existing/list';
+var url_edit = '/api/existing/edit/';
+var url_delete = '/api/existing/delete/';
+var url_add = '/api/existing/add/';
+var storehouse_list_url = '/api/storehouse/list/';
 
 $.get(storehouse_list_url, function(response, status){
     global_all_storehouse = []

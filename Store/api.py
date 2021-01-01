@@ -32,7 +32,6 @@ def product_edit():
     return 'FAILED'
     # return 'SUCCESS'
 
-
 @bp.route("/product/delete/", methods=['GET'])
 def product_delete():
     if request.method == 'POST':
@@ -74,14 +73,12 @@ def product_add():
     return 'FAILED'
 
 
-
 @bp.route("/existing/list/")
 def existing_list():
     all_products = db.product.find({}, 
                     {'storehouse':1 ,'name':1 ,'count':1, 'price':1, '_id':0})
     json_string = dumps(all_products)
     return json_string
-
 
 @bp.route("/existing/edit/", methods=['POST'])
 def existing_edit():
@@ -101,7 +98,6 @@ def existing_edit():
             }})
         return 'SUCCESS'
     return 'FAILED'
-
 
 @bp.route("/existing/delete/", methods=['GET'])
 def existing_delete():
@@ -127,6 +123,7 @@ def existing_add():
         # image = request.form['image']
         print(name, price, count, storehouse, category)
     return {}
+
 
 @bp.route("/storehouse/list/")
 def storehouse_list():
@@ -180,3 +177,17 @@ def order_list():
     json_string = dumps(all_order)
     return json_string
 
+@bp.route("/mainProduct/list",methods=['POST'])
+def mainProduct_list():
+    name = request.form['name']
+    price = request.form['price']
+    count = request.form['count']
+    print(name, price, count)
+    if 'orders' not in session:
+        session['orders'] = []
+    
+    session['orders'].append({'name' : name,
+                              'price' : int(price),
+                              'count' : int(count)})
+    print(session)
+    return {}

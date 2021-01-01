@@ -10,21 +10,22 @@
     <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
     <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
     <hr>
-    <h3>{{ products[0]['name'] }}</h3>
+    <h3 id='name'>{{ products[0]['name'] }}</h3>
     <img src="{{ products[0]['image'] }}" alt="بعدا عکس میذاریم" width="50" height="60">
     <p>{{ products[0]['category'] }} >> {{ products[0]['subcategory'] }}</p>
-    <p>{{ products[0]['price'] }}</p>
-    <input type="number">
-    <button>افزودن به سبد خرید</button>
+    <p id='price'>{{ products[0]['price'] }}</p>
+    <input type="number" id="count">
+    <button id="addToBasket" >افزودن به سبد خرید</button>
     <p>{{ products[0][discription] }}</p>
     <hr>
     {% for i in range(1, products|length) %}
         <img src="{{ products[0]['image'] }}" alt="بعدا عکس میذاریم" width="50" height="60">
         <p>{{ products[0]['category'] }} >> {{ products[0]['subcategory'] }}</p>
         <p>{{ products[0]['price'] }}</p>
-        <input type="number">
-        <button>افزودن به سبد خرید</button>
         <p>{{ products[0][discription] }}</p>
     {% endfor %}
+    <script src="../static/lib/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/lib/js/bootstrap.min.js"></script>
+    <script src="../static/product.js"></script>
 </body>
 </html>

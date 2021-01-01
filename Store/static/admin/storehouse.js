@@ -1,7 +1,7 @@
-var url_list = 'http://127.0.0.1:5000/api/storehouse/list';
-var url_edit = 'http://127.0.0.1:5000/api/storehouse/edit/';
-var url_delete = 'http://127.0.0.1:5000/api/storehouse/delete/';
-var url_add = 'http://127.0.0.1:5000/api/storehouse/add/';
+var url_list = '/api/storehouse/list';
+var url_edit = '/api/storehouse/edit/';
+var url_delete = '/api/storehouse/delete/';
+var url_add = '/api/storehouse/add/';
 
 $.get(url_list, function(response, status){
     var $tbody = $("tbody")

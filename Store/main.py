@@ -8,12 +8,17 @@ bp = Blueprint("main", __name__)
 @bp.route("/")
 def index():
     pri = get_categories()
+    # print(pri)
     return render_template("index.html", pr=pri)
 
 
 @bp.route("/basket/")
 def basket():
-    return render_template("basket.html")
+    orders = list(session['orders'])
+    print(orders)
+    sumAll = sum(list(map(lambda order: order['price']*order['count'], orders)))
+    print(sumAll)
+    return render_template("basket.html", orders=orders, sumAll=sumAll)
 
 
 @bp.route("/category/<ct>")
@@ -29,10 +34,13 @@ def category(ct):
                             name = ct)
 
 
-@bp.route("/product/<name>/")
-def product(name):
+@bp.route("/product/", methods=['GET'])
+def product():
+    name = request.args.get('name')
+    price = request.args.get('price')
     product = db.product.find(
-                        {'name':name},
+                        {'name':name,
+                         'price':price},
                         {'name':1,
                          'storehouse':1,
                          'price':1, 

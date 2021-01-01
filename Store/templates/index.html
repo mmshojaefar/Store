@@ -16,17 +16,17 @@
         {% for st in pr.get(cat) %}
             <tr>
                 <td>
-                    <a href="/product/{{ st.get('name') }}" style="text-decoration: none; color: black">
+                    <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
                         نام محصول: {{ st.get('name') }}
                     </a>
                 </td>
                 <td>
-                    <a href="/product/{{ st.get('name') }}" style="text-decoration: none; color: black">
+                    <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
                         قیمت کالا: {{ st.get('price') }}
                     </a>
                 </td>
                 <td>
-                    <a href="/product/{{ st.get('name') }}" style="text-decoration: none; color: black">
+                    <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
                         <img src="{{ st.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
                     </a>
                 </td>

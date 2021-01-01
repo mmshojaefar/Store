@@ -15,17 +15,17 @@
     {% for product in category %}
         <tr>
             <td>
-                <a href="/product/{{ product.get('name') }}" style="text-decoration: none; color: black">
+                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
                     نام محصول: {{ product.get('name') }}
                 </a>
             </td>
             <td>
-                <a href="/product/{{ product.get('name') }}" style="text-decoration: none; color: black">
+                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
                     قیمت کالا: {{ product.get('price') }}
                 </a>
             </td>
             <td>
-                <a href="/product/{{ product.get('name') }}" style="text-decoration: none; color: black">
+                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
                     <img src="{{ product.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
                 </a>
             </td>

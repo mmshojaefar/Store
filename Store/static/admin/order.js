@@ -1,4 +1,4 @@
-var url_list = 'http://127.0.0.1:5000/api/order/list';
+var url_list = '/api/order/list';
 
 
 $.get(url_list, function(response, status){
