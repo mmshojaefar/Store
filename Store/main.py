@@ -14,10 +14,14 @@ def index():
 
 @bp.route("/basket/")
 def basket():
-    orders = list(session['orders'])
+    try:
+        orders = list(session['orders'])
+    except:
+        orders = []
     print(orders)
     sumAll = sum(list(map(lambda order: order['price']*order['count'], orders)))
     print(sumAll)
+ 
     return render_template("basket.html", orders=orders, sumAll=sumAll)
 
 
