@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مکتب کالا</title>
-</head>
-<body>
-    <h1>فروشگاه مکتب کالا</h1>
-    <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
-    <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
-    <hr>
-    <h1>کالا های گروه {{ name }}</h1>
+{% extends "/base.html" %}
+
+{% block title %}
+مکتب کالا - دسته بندی
+{% endblock %}
+
+{% block content %}
+<h1>کالا های گروه {{ name }}</h1>
     <table>
     {% for product in category %}
         <tr>
@@ -33,5 +28,5 @@
     {% endfor %}
     </table>
     <hr>
-</body>
-</html>
+{% endblock %}
+

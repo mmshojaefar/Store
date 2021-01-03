@@ -1,53 +1,42 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/lib/css/bootstrap.min.css">
-    <title>تایید خرید</title>
-</head>
-<body>
-    <div class="container">
-        <h1>فروشگاه مکتب کالا</h1>
-        <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
-        <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
-        <hr>
+{% extends "/base.html" %}
 
-    <form class="needs-validation" novalidate>
-        <div class="mb-2 d-flex flex-row justify-content-between">
-            <div class="r1 col-5">
-                <label for="InputName" class="form-label">نام: </label>
-                <input type="text" class="form-control" id="InputName">
-            </div>
-            <div class="r2 col-5">
-                <label for="InputFamily" class="form-label">نام خانوادگی: </label>
-                <input type="text" class="form-control" id="InputFamily">
-            </div>
+{% block title %}
+مکتب کالا - دسته بندی
+{% endblock %}
+
+{% block content %}
+<form class="needs-validation" novalidate>
+    <div class="mb-2 d-flex flex-row justify-content-between">
+        <div class="r1 col-5">
+            <label for="InputName" class="form-label">نام: </label>
+            <input type="text" class="form-control" id="InputName">
         </div>
-        <div class="mb-3 d-flex flex-row justify-content-between">
-            <div class="r1 col-5">
-                <label for="InputData" class="form-label">تاریخ تحویل: </label>
-                <input type="date" class="form-control" id="InputData">
-            </div>
-            <div class="r2 col-5 position-relative">
-                <label for="InputPhone" class="form-label">تلفن همراه: </label>
-                <input type="tel" pattern="[09]{2}[0-9]{9}" class="form-control" id="InputPhone" required>
-                <div class="invalid-tooltip">
-                    لطفا یک شماره معتبر وارد کنید
-                </div>
-            </div>
+        <div class="r2 col-5">
+            <label for="InputFamily" class="form-label">نام خانوادگی: </label>
+            <input type="text" class="form-control" id="InputFamily">
         </div>
-        <div class="mb-2">
-            <div class="col-5">
-                <label for="InputAddres" class="form-label">ادرس: </label>
-                <textarea class="form-control" id="InputAddres"></textarea>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">ثبت</button>
-      </form>
     </div>
-    <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
-    <script src="../../static/lib/js/bootstrap.min.js"></script>
-    <!-- <script src="../../static/approve.js"></script> -->
-</body>
-</html>
+    <div class="mb-3 d-flex flex-row justify-content-between">
+        <div class="r1 col-5">
+            <label for="InputData" class="form-label">تاریخ تحویل: </label>
+            <input type="date" class="form-control" id="InputData">
+        </div>
+        <div class="r2 col-5 position-relative">
+            <label for="InputPhone" class="form-label">تلفن همراه: </label>
+            <input type="tel" pattern="[09]{2}[0-9]{9}" class="form-control" id="InputPhone" required>
+            <div class="invalid-tooltip">
+                لطفا یک شماره معتبر وارد کنید
+            </div>
+        </div>
+    </div>
+    <div class="mb-2">
+        <div class="col-5">
+            <label for="InputAddres" class="form-label">ادرس: </label>
+            <textarea class="form-control" id="InputAddres"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">ثبت</button>
+  </form>
+</div>
+<!-- <script src="../../static/approve.js"></script> -->
+{% endblock %}

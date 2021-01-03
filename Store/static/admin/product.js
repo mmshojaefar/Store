@@ -25,7 +25,9 @@ $.get(url_list, function(response, status){
         var subcategory = product.subcategory;
         var row = ""
         row += "<tr>";
-        row += "<td>" + image + "</td>";
+        // check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+        row += "<td>" + "<img></img>" + "</td>";
+        $('img').attr("src", image.scr)
         row += "<td>" + name + "</td>";
         row += "<td>" + category + ' >> ' + subcategory + "</td>";
         row += "<td>" ;
@@ -128,7 +130,7 @@ function addRow(){
     data += "<label for='addName'>نام کالا :</label> "
     data += "<input type='text' id='addName' name='addName'><br><br>"
     data += "<label for='addDescription'>شرح کالا :</label> "
-    data += "<input type='text' id='addDescription' name='addDescription'><br><br>"
+    data += "<textarea id='addDescription' name='addDescription' rows='3' cols='40'></textarea><br><br>"
     data += "<label for='addCategory'>دسته بندی :</label> "
     data += "<input type='text' id='addCategory' name='addCategory'><br><br>"
     data += "<label for='addSubcategory'>زیرگروه :</label> "

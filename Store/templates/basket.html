@@ -1,47 +1,38 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/lib/css/bootstrap.min.css">
-    <title>سبد خرید</title>
-</head>
-<body>
-    <div class="container">
-        <h1>فروشگاه مکتب کالا</h1>
-        <button type="button" onclick="location.href='/admin/login/';" >مدیریت</button>
-        <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
-        <hr>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>کالا</th>
-                    <th>قیمت</th>
-                    <th>تعداد</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                    <tr>
-                        <td>{{ order['name'] }}</td>
-                        <td>{{ order['price'] }}</td>
-                        <td>{{ order['count'] }}</td>
-                        <td>
-                            <button type="button" class="btn btn-primary">حذف</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        <div class="d-flex justify-content-between">
-            <label>جمع : {{ sumAll }}</label>
-            <button type="button" id="basketApprove" class="btn btn-primary">نهایی کردن سبد خرید</button>
-        </div>
-    </div>
-        
-    <script src="../static/lib/js/jquery-3.4.1.min.js"></script>
-    <script src="../static/lib/js/bootstrap.min.js"></script>
-    <script src="../static/basket.js"></script>
-</body>
-</html>
+{% extends "/base.html" %}
+
+{% block title %}
+مکتب کالا - دسته بندی
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>کالا</th>
+            <th>قیمت</th>
+            <th>تعداد</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order['name'] }}</td>
+                <td>{{ order['price'] }}</td>
+                <td>{{ order['count'] }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary">حذف</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<div class="d-flex justify-content-between">
+    <label>جمع : {{ sumAll }}</label>
+    <button type="button" id="basketApprove" class="btn btn-primary">نهایی کردن سبد خرید</button>
+</div>
+</div>
+
+
+<script src="../static/basket.js"></script>
+{% endblock %}
