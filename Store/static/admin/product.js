@@ -138,7 +138,7 @@ function addRow(){
     data += "<label for='addPrice'>قیمت :</label> "
     data += "<input type='text' id='addPrice' name='addPrice'><br><br>"
     data += "<label for='addCount'>تعداد :</label> "
-    data += "<input type='text' id='addCount' name='addCount'><br><br>"
+    data += "<input type='number' id='addCount' name='addCount' min='0'><br><br>"
     data += "<label for='addStorehouse'>انبار :</label> "
     data += "<select name=all_storehouse id='addStorehouse'></select><br><br>"
     data += "<label for='addImage'>تصویر :</label> "
