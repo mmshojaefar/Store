@@ -2,15 +2,15 @@ var url_list = '/api/product/list';
 var url_edit = '/api/product/edit/';
 var url_delete = '/api/product/delete/';
 var url_add = '/api/product/add/';
-// var storehouse_list_url = 'http://127.0.0.1:5000/api/storehouse/list/';
+var storehouse_list_url = '/api/storehouse/list/';
 
-// $.get(storehouse_list_url, function(response, status){
-//     global_all_storehouse = []
-//     JSON.parse(response).forEach(function(st){
-//         global_all_storehouse.push(st.name)
+$.get(storehouse_list_url, function(response, status){
+    global_all_storehouse = []
+    JSON.parse(response).forEach(function(st){
+        global_all_storehouse.push(st.name)
 
-//     })
-// })
+    })
+})
 
 $.get(url_list, function(response, status){
     
@@ -138,10 +138,15 @@ function addRow(){
     data += "<label for='addCount'>تعداد :</label> "
     data += "<input type='text' id='addCount' name='addCount'><br><br>"
     data += "<label for='addStorehouse'>انبار :</label> "
-    data += "<input type='text' id='addStorehouse' name='addStorehouse'><br><br>"
+    data += "<select name=all_storehouse id='addStorehouse'></select><br><br>"
     data += "<label for='addImage'>تصویر :</label> "
     data += "<input type='file' accept='image/*' id='addImage' name='addImage'><br><br>"
     $div.append(data);
+
+    global_all_storehouse.forEach(function(st){
+        var option = new Option(st, st);
+        $($($div).find('#addStorehouse')).append(option)
+    })
 
     var fd = new FormData();
         var files = $('#addImage')[0].files;
