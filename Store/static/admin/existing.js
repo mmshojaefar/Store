@@ -52,8 +52,11 @@ function editRow(){
         var $price = $($row[2]).text();
         var $count = $($row[3]).text();
         $('#editFormPrice').removeClass('form-control is-invalid')
+        $('#editFormPrice').html("")
         $('#editFormCount').removeClass('form-control is-invalid')
+        $('#editFormCount').html("")
         $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').html("")
 
         $($($div).find('#editFormStorehouse')).text($storehouse);
         $($($div).find('#editFormName')).text($name)
@@ -101,11 +104,15 @@ function editRow(){
 
 function deleteRow(){
     $('tbody tr td:last-child button:last-child').click(function(){
-        $row = $(this).closest('tr').find('td');
-        var $storehouse = $($row[0]).text(); 
-        var $name = $($row[1]).text();
-        var $price = $($row[2]).text(); 
-        var $count = $($row[3]).text();
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').html("")
+        
+        $row = $(this).closest('tr');
+        $row_data = $(this).closest('tr').find('td');
+        var $storehouse = $($row_data[0]).text(); 
+        var $name = $($row_data[1]).text();
+        var $price = $($row_data[2]).text(); 
+        var $count = $($row_data[3]).text();
         $div = $("#deleteModal .modal-body");
         $div.empty()
         var data = "";
@@ -121,7 +128,7 @@ function deleteRow(){
         $div.append(data);
 
         $('#deleteModal .deleteSaveButton').click(function(){
-            console.log($storehouse, $name)
+            // console.log($storehouse, $name)
             $.ajax({
                 url : url_delete,
                 data : {
@@ -133,7 +140,8 @@ function deleteRow(){
                 type : "GET",
                 success : function(response){
                     if(response['response'] == 'SUCCESS'){
-                        $row.hide();
+                        console.log(response)
+                        $row.remove();
                         $('#deleteModal').modal('hide');
                     }
                     else{

@@ -125,7 +125,18 @@ def existing_delete():
     storehouse = request.args.get('storehouse')
     price = request.args.get('price')
     count = request.args.get('count')
-    print(name, storehouse)
+    try:
+        price = int(price)
+    except:
+        return {'response':'FAILED', 'msg':'قیمت باید عددی صحیح و نامنفی باشد'}
+    try:
+        count = int(count)
+    except:
+        return {'response':'FAILED', 'msg':'تعداد باید عددی صحیح و نامنفی باشد'}
+    if price < 0:
+            return {'response':'FAILED', 'msg':'قیمت باید عددی صحیح و نامنفی باشد'}
+    elif count < 0:
+            return {'response':'FAILED', 'msg':'تعداد باید عددی صحیح و نامنفی باشد'}
     if 'username' in session:
         try:
             remove_result = db.product.update({
@@ -139,9 +150,9 @@ def existing_delete():
             if remove_result['updatedExisting'] == False:
                 return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
             else:
-                    return {'response':'SUCCESS','msg':'SUCCESS'}
+                return {'response':'SUCCESS','msg':'SUCCESS'}
         except:
-                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
     else:
         return {'response':'FAILED', 'msg':'FAILED'}
 
