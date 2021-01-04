@@ -117,20 +117,33 @@ def existing_edit():
             except:
                 return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
     else:
-        return 'FAILED'
+        return {'response':'FAILED', 'msg':'FAILED'}
 
 @bp.route("/existing/delete/", methods=['GET'])
 def existing_delete():
     name = request.args.get('name')
     storehouse = request.args.get('storehouse')
+    price = request.args.get('price')
+    count = request.args.get('count')
     print(name, storehouse)
     if 'username' in session:
-        db.product.update({
-            'storehouse' : storehouse,
-            'name' : name
-        }, 
-        {'$set' : {'count': 0 } })
-    return {}
+        try:
+            remove_result = db.product.update({
+                'storehouse' : storehouse,
+                'name' : name,
+                'price' : price,
+                'count' : count
+            }, 
+            {'$set' : {'count': 0 } })
+            print(remove_result)
+            if remove_result['updatedExisting'] == False:
+                return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
+            else:
+                    return {'response':'SUCCESS','msg':'SUCCESS'}
+        except:
+                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+    else:
+        return {'response':'FAILED', 'msg':'FAILED'}
 
 @bp.route("/existing/add/", methods=['POST'])
 def existing_add():
