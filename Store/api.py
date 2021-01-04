@@ -87,17 +87,37 @@ def existing_edit():
         name = request.form['name']
         price = request.form['price']
         count = request.form['count']
-        print(storehouse,name,price,count)
-        if 'username' in session:
-            db.product.update({
-                'storehouse' : storehouse,
-                'name' : name
-            }, 
-            {'$set' : {'count': count,
-                    'price': price
-            }})
-        return 'SUCCESS'
-    return 'FAILED'
+        try:
+            price = int(price)
+        except:
+            return {'response':'#editFormPrice', 'msg':'قیمت باید عددی صحیح باشد'}
+        try:
+            count = int(count)
+        except:
+            return {'response':'#editFormCount', 'msg':'تعداد باید عددی صحیح باشد'}
+        if price < 0:
+            return {'response':'#editFormPrice', 'msg':'قیمت نباید عددی منفی باشد'}
+        elif count < 0:
+            return {'response':'#editFormCount', 'msg':'تعداد نباید عددی منفی باشد'}
+        if 'username' not in session:
+            return {'response':'FAILED', 'msg':'FAILED'}
+        else:
+            try:
+                update_result = db.product.update({
+                    'storehouse' : storehouse,
+                    'name' : name
+                }, 
+                {'$set' : {'count': count,
+                           'price': price
+                }})
+                if update_result['updatedExisting'] == False:
+                    return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
+                else:
+                    return {'response':'SUCCESS','msg':'SUCCESS'}
+            except:
+                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+    else:
+        return 'FAILED'
 
 @bp.route("/existing/delete/", methods=['GET'])
 def existing_delete():
@@ -121,6 +141,7 @@ def existing_add():
         count = request.form['count']
         category = request.form['category']
         # image = request.form['image']
+        # print(type(image))
         print(name, price, count, storehouse, category)
     return {}
 
@@ -133,21 +154,6 @@ def storehouse_list():
 
 @bp.route("/storehouse/edit/", methods=['POST'])
 def storehosue_edit():
-    # if request.method == 'POST':
-    #     storehouse = request.form['storehouse']
-    #     name = request.form['name']
-    #     price = request.form['price']
-    #     count = request.form['count']
-    #     if 'username' in session:
-    #         db.product.update({
-    #             'storehouse' : storehouse,
-    #             'name' : name
-    #         }, 
-    #         {'$set' : {'count': count,
-    #                 'price': price
-    #         }})
-    #     return 'SUCCESS'
-    # return 'FAILED'
     return 'SUCCESS'
 
 @bp.route("/storehouse/delete/", methods=['GET'])

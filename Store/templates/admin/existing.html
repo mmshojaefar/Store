@@ -28,8 +28,35 @@
             <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
             <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body">
+                <form>
+                    <label>انبار :</label> 
+                    <label id='editFormStorehouse'></label><br><br>
+                    <label>کالا :</label> 
+                    <label id='editFormName'></label><br><br>
+                    <!-- <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label class="form-label" for='editFormPrice'>قیمت :</label> 
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-control" type='number' min=1 id='editFormPrice' name='price'>
+                        </div>
+                        <div class="invalid-feedback"></div>
+                    </div> -->                  
+                    <div>
+                        <label class="form-label" for='editFormPrice'>قیمت :</label> 
+                        <input class="form-control" type='number' min=1 id='editFormPrice' name='price'>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label for='editFormCount'>تعداد :</label> 
+                        <input class="form-control" type='number' min=1 id='editFormCount' name='count'>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </form>
+            </div>
             <div class="modal-footer">
+            <div id="editFinalError"></div>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
             <button type="button" class="editSaveButton btn btn-primary">ذخیره</button>
             </div>
