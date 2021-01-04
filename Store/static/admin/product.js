@@ -26,8 +26,9 @@ $.get(url_list, function(response, status){
         var row = ""
         row += "<tr>";
         // check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        row += "<td>" + "<img></img>" + "</td>";
-        $('img').attr("src", image.scr)
+        // row += "<td>" + "<img></img>" + "</td>";
+        // $('img').attr("src", image.scr)
+        row += "<td>" + image + "</td>";
         row += "<td>" + name + "</td>";
         row += "<td>" + category + ' >> ' + subcategory + "</td>";
         row += "<td>" ;
@@ -50,22 +51,32 @@ function editRow(){
         $row = $(this).closest('tr').find('td');
         var $image = $($row[0]).text();
         var $name = $($row[1]).text();
+        var $category = $($row[2]).text().split(' >> ')[0];
+        var $subcategory = $($row[2]).text().split(' >> ')[1];
         var data = "" 
-        data += "<label>image :</label> "
-        data += "<label id='image'></label><br><br>"
+
         data += "<label>کالا :</label> "
         data += "<label id='name'></label><br><br>"
         data += "<label for='category'>دسته بندی :</label> "
         data += "<input id='category' name='category'><br><br>"
         data += "<label for='subcategory'>زیرگروه :</label> "
         data += "<input id='subcategory' name='subcategory'><br><br>"
+        data += "<label>image :</label> "
+        data += "<input type='file' accept='image/*' id='image' name='image'><br><br>"
         $div.append(data);
-        $($($div).find('#image')).text($image);
+        // $($($div).find('#image')).text($image);
         $($($div).find('#name')).text($name)
-        
+        $($($div).find('#category')).val($category)
+        $($($div).find('#subcategory')).val($subcategory)
+        var fi = new FormData();
+            var files = $('#image')[0].files;
+        if(files.length > 0 )
+            fi.append('file',files[0]);
+
         $('#editModal .editSaveButton').click(function(){
             $category = $($($div).find('#category')).prop("value");
             $subcategory = $($($div).find('#subcategory')).prop("value");
+            $image = $($('div').find('#image')).prop("value");
             console.log($category)
             $.post(url_edit, {
                 image : $image,
@@ -75,6 +86,7 @@ function editRow(){
             },function(response, status){
                 if(status=='success' && response=='SUCCESS'){
                     $($row[2]).text($category + ' >> ' + $subcategory)
+                    $($row[0]).text($image)
                 }
             });
             $('#editModal').modal('hide');
@@ -87,7 +99,9 @@ function deleteRow(){
         $row = $(this).closest('tr').find('td');
         var $image = $($row[0]).text();
         var $name = $($row[1]).text();
-        var $category = $($row[2]).text().split(" >> ")[0]; 
+        var $category = $($row[2]).text().split(" >> ")[0];
+        console.log($category)
+        console.log($name) 
         $div = $("#deleteModal .modal-body");
         $div.empty()
         var data = "";
@@ -104,8 +118,7 @@ function deleteRow(){
             $.ajax({
                 url : url_delete,
                 data : {
-                    'name' : $name,
-                    'category' : $category,
+                    'name' : $name
                 },
                 type : "GET",
                 success : function(){

@@ -16,17 +16,17 @@ def product_list():
 @bp.route("/product/edit/", methods=['POST'])
 def product_edit():
     if request.method == 'POST':
-        # image = request.form['image']
         name = request.form['name']
         category = request.form['category'].split('،')
         subcategory = request.form['subcategory'].split('،')
+        # image = request.form['image']
         if 'username' in session:
             db.product.update({
-                # 'image' : image,
                 'name' : name
             }, 
             {'$set' : {'category': category,
-                    'subcategory': subcategory
+                    'subcategory': subcategory,
+                    'image': image,
             }})
         return 'SUCCESS'
     return 'FAILED'
@@ -34,16 +34,19 @@ def product_edit():
 
 @bp.route("/product/delete/", methods=['GET'])
 def product_delete():
-    if request.method == 'POST':
+    print('varede def shode')
+    if request.method == 'GET':
+        print('varede if shode')
         # image = request.form['image']
-        name = request.form['name']
-        category = request.form['category']
+        name = request.args.get('name')
+        # category = request.form['category']
         if 'username' in session:
             db.product.remove({
                 # 'image' : image,
                 'name' : name,
-                'category': category,
+                # 'category': category,
             })
+
         return 'SUCCESS'
     return 'FAILED'
 
