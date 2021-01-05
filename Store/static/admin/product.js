@@ -15,7 +15,6 @@ $.get(storehouse_list_url, function(response, status){
 $.get(url_list, function(response, status){
     
     var $tbody = $("tbody")
-    $('table').show()
     JSON.parse(response).forEach(function(product){
         // var image = product.image;
         var image = new Image();
@@ -38,6 +37,8 @@ $.get(url_list, function(response, status){
         row += "</tr>";
         $tbody.append(row);
     })
+    $('table').show()
+    $('.lds-default').hide()
     editRow();
     deleteRow();
     addRow();
@@ -96,7 +97,8 @@ function editRow(){
 
 function deleteRow(){
     $('tbody tr td:last-child button:last-child').click(function(){
-        $row = $(this).closest('tr').find('td');
+        $selectrow = $(this).closest('tr')
+        $row = $selectrow.find('td');
         var $image = $($row[0]).text();
         var $name = $($row[1]).text();
         var $category = $($row[2]).text().split(" >> ")[0];
@@ -109,8 +111,6 @@ function deleteRow(){
         data += "<label>" + $name + "</label> ";
         data += "<label'> در دسته بندی </label> ";
         data += "<label>" + $category + "</label> ";
-        data += "<label> با تصویر </label> ";
-        data += "<label>" + $image + "</label> ";
         data += "<label> اطمینان دارید؟</label> ";
         $div.append(data);
         
@@ -122,7 +122,7 @@ function deleteRow(){
                 },
                 type : "GET",
                 success : function(){
-                    $row.hide();
+                    $selectrow.remove();
                 },
                 error : function(){
                     console.log('eeee');

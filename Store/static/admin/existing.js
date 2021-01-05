@@ -36,6 +36,8 @@ $.get(url_list, function(response, status){
             $tbody.append(row);
         }
     })
+    $('table').show()
+    $('.lds-default').hide()
     editRow();
     deleteRow();
     addRow()

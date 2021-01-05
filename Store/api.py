@@ -19,7 +19,7 @@ def product_edit():
         name = request.form['name']
         category = request.form['category'].split('،')
         subcategory = request.form['subcategory'].split('،')
-        # image = request.form['image']
+        image = request.form['image']
         if 'username' in session:
             db.product.update({
                 'name' : name
