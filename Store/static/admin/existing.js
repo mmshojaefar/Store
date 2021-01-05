@@ -111,9 +111,11 @@ function deleteRow(){
     var $price 
     var $count
     $('tbody tr td:last-child button:last-child').click(function(){
-        // $('#deleteFinalError').removeClass('form-control is-invalid')
-        // $('#deleteFinalError').html("")
         
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').removeClass('form-control is-valid')
+        $('#deleteFinalError').html("")
+
         $row = $(this).closest('tr');
         $row_data = $(this).closest('tr').find('td');
         $storehouse = $($row_data[0]).text(); 
@@ -136,6 +138,11 @@ function deleteRow(){
     })
 
     $('#deleteModal .deleteSaveButton').click(function(){
+
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').removeClass('form-control is-valid')
+        $('#deleteFinalError').html("")
+        
         console.log(555555566)
         $.ajax({
             url : url_delete,

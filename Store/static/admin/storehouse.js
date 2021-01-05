@@ -88,34 +88,64 @@ function editRow(){
 }
 
 function deleteRow(){
+    var $div
+    var $row
     $('tbody tr td:last-child button:last-child').click(function(){
+
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').removeClass('form-control is-valid')
+        $('#deleteFinalError').html("")
+
         $row = $(this).closest('tr').find('td');
-        var $name = $($row[0]).text();
         $div = $("#deleteModal .modal-body");
+        var $name = $($row[0]).text();
         $div.empty()
         var data = "";
         data += "<label>آیا از حذف </label> ";
         data += "<label>" + $name + "</label> ";
         data += "<label> و تمام کالا های آن اطمینان دارید؟</label> ";
         $div.append(data);
+    })
         
-        $('#deleteModal .deleteSaveButton').click(function(){
-            // console.log($name)
-            $.ajax({
-                url : url_delete,
-                data : {
-                    'name' : $name
-                },
-                type : "GET",
-                success : function(){
-                    $row.hide();
-                },
-                error : function(){
-                    console.log('eeee');
+    $('#deleteModal .deleteSaveButton').click(function(){
+
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').removeClass('form-control is-valid')
+        $('#deleteFinalError').html("")
+
+        var $name = $($row[0]).text();
+        $.ajax({
+            url : url_delete,
+            data : {
+                'name' : $name
+            },
+            type : "GET",
+            success : function(response){
+                console.log(response)
+                if(response['response'] == 'SUCCESS'){                    
+                    $('#deleteFinalError').html(response['msg'])
+                    $('#deleteFinalError').addClass('form-control is-valid')
+                    $('#deleteModal .deleteSaveButton').prop('disabled', 'disabled')
+                    var counter = 3;
+                    var myInterval = setInterval(()=>{
+                        counter--;
+                        if (counter<=0){
+                            clearInterval(myInterval)
+                            $('#deleteModal').modal('hide');
+                            $row.remove();
+                        }
+                    },1000)
                 }
-            });
-            $('#deleteModal').modal('hide');
-        })
+                else{
+                    $('#deleteFinalError').html(response['msg'])
+                    $('#deleteFinalError').addClass('form-control is-invalid')
+                }
+            },
+            error : function(){
+                $('#deleteFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('#deleteFinalError').addClass('form-control is-invalid')
+            }
+        });
     })
 
 

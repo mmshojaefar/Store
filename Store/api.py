@@ -255,6 +255,9 @@ def storehosue_edit():
     print(previous_name, name)
     if name == '':
         return {'response':'#editFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
+
+    if name == previous_name:
+        return {'response':'FAILED', 'msg':'نام جدیدی برای انبار انتخاب کنید' }
     if 'username' not in session:
             return {'response':'FAILED', 'msg':'FAILED'}
     else:
@@ -283,15 +286,29 @@ def storehosue_edit():
 
 @bp.route("/storehouse/delete/", methods=['GET'])
 def storehosue_delete():
-    # name = request.args.get('name')
-    # storehouse = request.args.get('storehouse')
-    # if 'username' in session:
-    #     db.product.update({
-    #         'storehouse' : storehouse,
-    #         'name' : name
-    #     }, 
-    #     {'$set' : {'count': 0 } })
-    return {}
+    name = request.args.get('name')
+    if 'username' not in session:
+        return {'response':'FAILED', 'msg':'FAILED'}
+    else:
+        try:
+            remove_storehouse = db.storehouse.delete_one({
+                'name' : name
+            })
+            try:
+                remove_product = db.product.update_many({
+                    'storehouse' : name
+                },
+                { '$set' : { 'count' : 0 }
+                })
+            except:
+                return {'response':'FAILED', 'msg':'حذف موجودی کالا های انبار انجام نشد. لطفا کمی بعد مجددا تلاش کنید'}
+
+            if remove_storehouse.deleted_count == 0:
+                return {'response':'FAILED', 'msg':'انباری با این نام یافت نشد'}
+            else:
+                return {'response':'SUCCESS','msg':f'موجودی {remove_product.modified_count} تا از کالا های انبار {name} به صفر تغییر پیدا کرد'}
+        except:
+            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/storehouse/add/", methods=['POST'])
 def storehouse_add():
