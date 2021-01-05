@@ -111,7 +111,7 @@ function deleteRow(){
     var $price 
     var $count
     $('tbody tr td:last-child button:last-child').click(function(){
-        
+
         $('#deleteFinalError').removeClass('form-control is-invalid')
         $('#deleteFinalError').removeClass('form-control is-valid')
         $('#deleteFinalError').html("")
@@ -171,8 +171,6 @@ function deleteRow(){
             }
         });
     })
-
-    
 }
 
 function addRow(){
@@ -203,72 +201,71 @@ function addRow(){
         $($($div).find('#addFormStorehouse')).append(option)
         
     })
-        $('#addModal .addSaveButton').click(function(){
-            $('#addFormName').removeClass('is-invalid')
-            $('#addFormPrice').removeClass('is-invalid')
-            $('#addFormCount').removeClass('is-invalid')
-            $('#addFormCategory').removeClass('is-invalid')
-            $('#addFormSubCategory').removeClass('is-invalid')
-            $('#editFinalError').removeClass('form-control is-invalid')
-            // var fd = new FormData();
-            // var files = $('#addImage').files;
-            // if(files.length > 0 )
-            //     fd.append('file',files[0]);
-            
-            $div = $("#addModal .modal-body");
-
-            var $storehouse = $($($div).find('#addFormStorehouse')).prop("value");
-            var $name = $($($div).find('#addFormName')).prop("value");
-            var $price = $($($div).find('#addFormPrice')).prop("value");
-            var $count = $($($div).find('#addFormCount')).prop("value");
-            var $category = $($($div).find('#addFormCategory')).prop("value");
-            var $subcategory = $($($div).find('#addFormSubCategory')).prop("value");
-            // var $image = $($($div).find('#addFormImage')).prop("files");
-            // console.log($image)
-            $.post(url_add, {
-                storehouse: $storehouse,
-                name: $name,
-                price: $price,
-                count: $count,
-                category: $category,
-                subcategory: $subcategory,
-                // image: $image
-            }, function(response, status){
-                console.log(response)
-                if(status == 'success' && response['response'] == 'SUCCESS'){
-                    var row = "";
-                    row += "<tr>";
-                    row += "<td>" + $storehouse + "</td>";
-                    row += "<td>" + $name + "</td>";
-                    row += "<td>" + $price + "</td>";
-                    row += "<td>" + $count + "</td>";
-                    row += "<td>" ;
-                    row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
-                    row += "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
-                    row += "</td>";
-                    row += "</tr>";
-                    $('tbody').append(row);
-                    editRow();
-                    deleteRow();
-                    $('#addModal .modal-body input').val('');
-                    $('#addModal').modal('hide');
-                }
-                else if(status == 'success' && response['response'] != 'SUCCESS'){
-                    if(response['response'] != 'FAILED'){
-                        $(response['response']).addClass('form-control is-invalid')
-                        $(response['response']).next().html(response['msg'])
-                    }
-                    else{
-                        $('#addFinalError').html(response['msg'])
-                        $('#addFinalError').addClass('form-control is-invalid')
-                    }
+    $('#addModal .addSaveButton').click(function(){
+        $('#addFormName').removeClass('is-invalid')
+        $('#addFormPrice').removeClass('is-invalid')
+        $('#addFormCount').removeClass('is-invalid')
+        $('#addFormCategory').removeClass('is-invalid')
+        $('#addFormSubCategory').removeClass('is-invalid')
+        $('#editFinalError').removeClass('form-control is-invalid')
+        // var fd = new FormData();
+        // var files = $('#addImage').files;
+        // if(files.length > 0 )
+        //     fd.append('file',files[0]);
+        
+        $div = $("#addModal .modal-body");
+        var $storehouse = $($($div).find('#addFormStorehouse')).prop("value");
+        var $name = $($($div).find('#addFormName')).prop("value");
+        var $price = $($($div).find('#addFormPrice')).prop("value");
+        var $count = $($($div).find('#addFormCount')).prop("value");
+        var $category = $($($div).find('#addFormCategory')).prop("value");
+        var $subcategory = $($($div).find('#addFormSubCategory')).prop("value");
+        // var $image = $($($div).find('#addFormImage')).prop("files");
+        // console.log($image)
+        $.post(url_add, {
+            storehouse: $storehouse,
+            name: $name,
+            price: $price,
+            count: $count,
+            category: $category,
+            subcategory: $subcategory,
+            // image: $image
+        }, function(response, status){
+            console.log(response)
+            if(status == 'success' && response['response'] == 'SUCCESS'){
+                var row = "";
+                row += "<tr>";
+                row += "<td>" + $storehouse + "</td>";
+                row += "<td>" + $name + "</td>";
+                row += "<td>" + $price + "</td>";
+                row += "<td>" + $count + "</td>";
+                row += "<td>" ;
+                row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+                row += "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+                row += "</td>";
+                row += "</tr>";
+                $('tbody').append(row);
+                editRow();
+                deleteRow();
+                $('#addModal .modal-body input').val('');
+                $('#addModal').modal('hide');
+            }
+            else if(status == 'success' && response['response'] != 'SUCCESS'){
+                if(response['response'] != 'FAILED'){
+                    $(response['response']).addClass('form-control is-invalid')
+                    $(response['response']).next().html(response['msg'])
                 }
                 else{
-                    $('#addFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                    $('#addFinalError').html(response['msg'])
                     $('#addFinalError').addClass('form-control is-invalid')
                 }
-            })            
-        })
+            }
+            else{
+                $('#addFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('#addFinalError').addClass('form-control is-invalid')
+            }
+        })            
+    })
 }
 
 

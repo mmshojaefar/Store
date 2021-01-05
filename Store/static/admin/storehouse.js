@@ -147,27 +147,25 @@ function deleteRow(){
             }
         });
     })
-
-
 }
 
 function addRow(){
-    $div = $("#addModal .modal-body");
-    $div.empty();
-    var data = "" 
-    
-    data += "<label for='name'>نام انبار :</label> "
-    data += "<input type='text' id='name' name='name'><br><br>"
-    $div.append(data);
-    
-    // console.log(this)
+    var $div = $("#addModal .modal-body");
+
+    $('#addFormName').removeClass('is-invalid')
+    $('#addFormName').html("")
+
     $('#addModal .addSaveButton').click(function(){
+        $('#addFormName').removeClass('is-invalid')
+        $('#editFinalError').removeClass('form-control is-invalid')
+            
         $div = $("#addModal .modal-body");
-        var $name = $($($div).find('#name')).prop("value");
+        var $name = $($($div).find('#addFormName')).prop("value");
+
         $.post(url_add, {
-            name: $name,
+            'name' : $name,
         }, function(response, status){
-            if(status == 'success'){
+            if(status == 'success'  && response['response'] == 'SUCCESS'){
                 var row = "";
                 row += "<tr>";
                 row += "<td>" + $name + "</td>";
@@ -180,9 +178,23 @@ function addRow(){
                 editRow();
                 deleteRow();
                 $('#addModal .modal-body input').val('');
+                $('#addModal').modal('hide');
+            }
+            else if(status == 'success'  && response['response'] != 'SUCCESS'){
+                if(response['response'] != 'FAILED'){
+                    $(response['response']).addClass('form-control is-invalid')
+                    $(response['response']).next().html(response['msg'])
+                }
+                else{
+                    $('#addFinalError').html(response['msg'])
+                    $('#addFinalError').addClass('form-control is-invalid')
+                }
+            }
+            else{
+                $('#addFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('#addFinalError').addClass('form-control is-invalid')
             }
         })
-        $('#addModal').modal('hide');
     })    
 }
 

@@ -239,7 +239,6 @@ def existing_add():
                 return {'response':'SUCCESS','msg':'SUCCESS'}
             except:
                 return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
-    return {}
 
 
 @bp.route("/storehouse/list/")
@@ -314,10 +313,20 @@ def storehosue_delete():
 def storehouse_add():
     if request.method == 'POST':
         name = request.form['name']
-        # image = request.form['image']
-        print(name)
-    return {}
 
+        if name == '':
+            return {'response':'#addFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
+        
+        if 'username' not in session:
+            return {'response':'FAILED', 'msg':'FAILED'}
+        else:
+            try:
+                db.storehouse.insert_one({
+                    'name' : name,
+                })
+                return {'response':'SUCCESS','msg':'SUCCESS'}
+            except:
+                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/order/list/",methods=['GET'])
 def order_list():
