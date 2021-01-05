@@ -29,7 +29,7 @@ $.get(url_list, function(response, status){
             row += "<td>" + count + "</td>";
             row += "<td>" ;
             row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
-            row += "<button class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+            row += "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
             row += "</td>";
             row += "</tr>";
             $tbody.append(row);
@@ -37,9 +37,9 @@ $.get(url_list, function(response, status){
     })
     $('table').show()
     $('.lds-default').hide()
+    addRow()
     editRow();
     deleteRow();
-    addRow()
 })
 
 function editRow(){
@@ -103,16 +103,20 @@ function editRow(){
 }
 
 function deleteRow(){
+    var $storehouse 
+    var $name
+    var $price 
+    var $count
     $('tbody tr td:last-child button:last-child').click(function(){
-        $('#deleteFinalError').removeClass('form-control is-invalid')
-        $('#deleteFinalError').html("")
+        // $('#deleteFinalError').removeClass('form-control is-invalid')
+        // $('#deleteFinalError').html("")
         
         $row = $(this).closest('tr');
         $row_data = $(this).closest('tr').find('td');
-        var $storehouse = $($row_data[0]).text(); 
-        var $name = $($row_data[1]).text();
-        var $price = $($row_data[2]).text(); 
-        var $count = $($row_data[3]).text();
+        $storehouse = $($row_data[0]).text(); 
+        $name = $($row_data[1]).text();
+        $price = $($row_data[2]).text(); 
+        $count = $($row_data[3]).text();
         $div = $("#deleteModal .modal-body");
         $div.empty()
         var data = "";
@@ -126,37 +130,39 @@ function deleteRow(){
         data += "<label>" + $storehouse + "</label> ";
         data += "<label> اطمینان دارید؟</label> ";
         $div.append(data);
+    })
 
-        $('#deleteModal .deleteSaveButton').click(function(){
-            // console.log($storehouse, $name)
-            $.ajax({
-                url : url_delete,
-                data : {
-                    'name' : $name,
-                    'storehouse' : $storehouse,
-                    'price' : $price,
-                    'count' : $count
-                },
-                type : "GET",
-                success : function(response){
-                    if(response['response'] == 'SUCCESS'){
-                        console.log(response)
-                        $row.remove();
-                        $('#deleteModal').modal('hide');
-                    }
-                    else{
-                        $('#deleteFinalError').html(response['msg'])
-                        $('#deleteFinalError').addClass('form-control is-invalid')
-                    }
-                },
-                error : function(){
-                    $('#deleteFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+    $('#deleteModal .deleteSaveButton').click(function(){
+        console.log(555555566)
+        $.ajax({
+            url : url_delete,
+            data : {
+                'name' : $name,
+                'storehouse' : $storehouse,
+                'price' : $price,
+                'count' : $count
+            },
+            type : "GET",
+            success : function(response){
+                if(response['response'] == 'SUCCESS'){
+                    console.log(response)
+                    $row.remove();
+                    $('#deleteModal').modal('hide');
+                }
+                else{
+                    console.log(response)
+                    $('#deleteFinalError').html(response['msg'])
                     $('#deleteFinalError').addClass('form-control is-invalid')
                 }
-            });
-        })
-
+            },
+            error : function(){
+                $('#deleteFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('#deleteFinalError').addClass('form-control is-invalid')
+            }
+        });
     })
+
+    
 }
 
 function addRow(){
