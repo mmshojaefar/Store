@@ -1,14 +1,12 @@
 {% extends "admin/base.html" %}
 
-{% block header %}
-    <link rel="stylesheet" href="../../static/admin/existing.css">
-{% endblock %}
+{% block header %}{% endblock %}
 {% block title %}موجودی و قیمت ها{% endblock %}
 {% block content %}
     <h3>مدیریت موجودی و قیمت ها</h3>
     <button type="button" class="addExisting" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
 
-<!-- Table -->
+    <!-- Loading -->
     <div class="d-flex justify-content-center">
         <div class="lds-default">
             <div></div>
@@ -26,6 +24,7 @@
         </div>
     </div>
     <br>
+    <!-- Table -->
     <table border=1 class="table table-striped" style='display:none'>
         <thead>
             <tr>

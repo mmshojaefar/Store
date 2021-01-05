@@ -5,7 +5,6 @@ var url_add = '/api/storehouse/add/';
 
 $.get(url_list, function(response, status){
     var $tbody = $("tbody")
-    $('table').show()
     JSON.parse(response).forEach(function(st){
         var name = st.name;
         var row = ""
@@ -18,6 +17,8 @@ $.get(url_list, function(response, status){
         row += "</tr>";
         $tbody.append(row);
     })
+    $('.lds-default').hide()
+    $('table').show()
     editRow();
     deleteRow();
     addRow()
@@ -197,6 +198,7 @@ function addRow(){
         })
     })    
 }
+
 
 $('th').click(function(){
     var table = $(this).parents('table').eq(0)
