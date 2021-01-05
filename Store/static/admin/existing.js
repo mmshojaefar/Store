@@ -43,9 +43,10 @@ $.get(url_list, function(response, status){
 })
 
 function editRow(){
+    // var $div
+    // var $row
     $('tbody tr td:last-child button:first-child').click(function(){
         $div = $("#editModal .modal-body");
-        // $div.empty();
         $row = $(this).closest('tr').find('td');
         var $storehouse = $($row[0]).text();
         var $name = $($row[1]).text();
@@ -67,6 +68,8 @@ function editRow(){
     $('#editModal .editSaveButton').click(function(){
         $('#editFormPrice').removeClass('is-invalid')
         $('#editFormCount').removeClass('is-invalid')
+        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').html("")
        
         $storehouse = $($($div).find('#editFormStorehouse')).text();
         $name = $($($div).find('#editFormName')).text();

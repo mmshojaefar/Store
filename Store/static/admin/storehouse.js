@@ -24,28 +24,66 @@ $.get(url_list, function(response, status){
 })
 
 function editRow(){
+    var $div
+    var $row
     $('tbody tr td:last-child button:first-child').click(function(){
-        // console.log(this)
         $div = $("#editModal .modal-body");
-        $div.empty();
         $row = $(this).closest('tr').find('td');
-        var data = "" 
-        data += "<label>نام انبار :</label> "
-        data += "<input id='name'><br><br>"
-        $div.append(data);  
+        var $previous_name = $($row[0]).text();
+        $('#editFormName').val("")
+        $('#editFormPreName').text($previous_name)
+
+        $('#editFormName').removeClass('is-invalid')
+        $('#editFormName').html("")
+        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').removeClass('form-control is-valid')
+        $('#editFinalError').html("")
     })
 
     $('#editModal .editSaveButton').click(function(){
-        $name = $($($div).find('#name')).prop('value')
-        // console.log($name)
+
+        $('#editFormName').removeClass('is-invalid')
+        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').removeClass('form-control is-valid')
+        $('#editFinalError').html("")
+
+        var $name = $($($div).find('#editFormName')).prop('value')
+        var $previous_name = $($row[0]).text();
+        console.log($name, $previous_name)
         $.post(url_edit, {
-            name : $name,
+            'name' : $name,
+            'previous_name' : $previous_name
         },function(response, status){
-            if(status=='success' && response=='SUCCESS'){
+            console.log(response, status)
+            if(status=='success' && response['response']=='SUCCESS'){
                 $($row[0]).text($name)
+                $('#editFinalError').html(response['msg'])
+                $('#editFinalError').addClass('form-control is-valid')
+                $('#editModal .editSaveButton').prop('disabled', 'disabled')
+                var counter = 3;
+                var myInterval = setInterval(()=>{
+                    counter--;
+                    if (counter<=0){
+                        clearInterval(myInterval)
+                        $('#editModal').modal('hide');    
+                    }
+                },1000)
+            }
+            else if(status=='success' && response['response']!='SUCCESS'){
+                if(response['response'] != 'FAILED'){
+                    $(response['response']).addClass('form-control is-invalid')
+                    $(response['response']).next().html(response['msg'])
+                }
+                else{
+                    $('#editFinalError').html(response['msg'])
+                    $('#editFinalError').addClass('form-control is-invalid')
+                }
+            }
+            else{
+                $('#editFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('#editFinalError').addClass('form-control is-invalid')
             }
         });
-        $('#editModal').modal('hide');
     })
 }
 
@@ -82,7 +120,6 @@ function deleteRow(){
 
 
 }
-
 
 function addRow(){
     $div = $("#addModal .modal-body");

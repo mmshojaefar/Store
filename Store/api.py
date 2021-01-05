@@ -250,7 +250,36 @@ def storehouse_list():
 
 @bp.route("/storehouse/edit/", methods=['POST'])
 def storehosue_edit():
-    return 'SUCCESS'
+    name = request.form['name']
+    previous_name = request.form['previous_name']
+    print(previous_name, name)
+    if name == '':
+        return {'response':'#editFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
+    if 'username' not in session:
+            return {'response':'FAILED', 'msg':'FAILED'}
+    else:
+        try:
+            update_storehouses = db.storehouse.update({
+                'name' : previous_name
+            }, 
+            {'$set' : { 'name': name }
+            })
+
+            try:
+                update_products = db.product.update_many({
+                    'storehouse' : previous_name
+                },
+                {'$set' : { 'storehouse' : name }
+                })
+            except:
+                return {'response':'FAILED', 'msg':'تغییر نام انبار انجام نشد. لطفا کمی بعد مجددا تلاش کنید'}
+            
+            if update_storehouses['updatedExisting'] == False:
+                return {'response':'FAILED', 'msg':'انباری با این نام یافت نشد'}
+            else:
+                return {'response':'SUCCESS','msg':f'نام {previous_name} با {update_products.modified_count} عدد کالا به {name} تغییر پیدا کرد'}
+        except:
+            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/storehouse/delete/", methods=['GET'])
 def storehosue_delete():
