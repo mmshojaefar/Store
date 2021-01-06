@@ -31,11 +31,62 @@ def category(ct):
                         {'name':1,
                          '_id':0, 
                         'price':1, 
-                        'img':1});
+                        'img':1})
+    
+    categories = db.product.find({}, {"category": 1,"subcategory":1, "_id": 0})
+    list_categories = [i['category'] for i in categories]
+    cat_dup = []
+    for index_cat in range(len(list_categories)):
+        cat_dup.extend(list_categories[index_cat])
+    category_list = list(set(cat_dup))
+    # print(category_list)
+    
+    cat_subcat = {}
+    for i in category_list:
+        cat_subcat_list = list(db.product.find({"category": i}, {"subcategory": 1, "_id": 0}))
+        # print(cat_subcat_list)
+        subcat=[]
+        for j in cat_subcat_list:
+            subcat.extend(j["subcategory"])
+        cat_subcat.update({i: subcat})
+    # print(cat_subcat)
     return render_template("category.html", 
                             category = list(categore_product),
-                            name = ct)
+                            name = ct,
+                            cat_subcat=cat_subcat)
 
+
+
+@bp.route("/subcategory/<sct>")
+def subcategory(sct):
+    categore_product = db.product.find(
+                        {'subcategory':sct},
+                        {'name':1,
+                         '_id':0, 
+                        'price':1, 
+                        'img':1});
+    categories = db.product.find({}, {"category": 1,"subcategory":1, "_id": 0})
+    list_categories = [i['category'] for i in categories]
+    cat_dup = []
+    for index_cat in range(len(list_categories)):
+        cat_dup.extend(list_categories[index_cat])
+    category_list = list(set(cat_dup))
+    # print(category_list)
+    
+    cat_subcat = {}
+    for i in category_list:
+        cat_subcat_list = list(db.product.find({"category": i}, {"subcategory": 1, "_id": 0}))
+        # print(cat_subcat_list)
+        subcat=[]
+        for j in cat_subcat_list:
+            subcat.extend(j["subcategory"])
+        cat_subcat.update({i: subcat})
+    # print(cat_subcat)
+    return render_template("category.html", 
+                            category = list(categore_product),
+                            name = sct,
+                            cat_subcat=cat_subcat)
+    
 
 @bp.route("/product/", methods=['GET'])
 def product():
@@ -52,7 +103,6 @@ def product():
                          'subcategory':1,
                          'discription':1,
                          '_id':0,});
-
     return render_template("product.html", products=list(product) )
 
 

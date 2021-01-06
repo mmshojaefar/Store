@@ -453,3 +453,11 @@ def mainProduct_delete():
     session['orders'] = all_order
     return {'response' : 'FAILED'}
 
+
+@bp.route("/detail/")
+def detail():
+    all_products = db.product.find({}, 
+                    {'name':1, 'price':1, 'storehouse':1,'count':1})
+    json_string = dumps(all_products)
+    print(json_string)
+    return json_string
