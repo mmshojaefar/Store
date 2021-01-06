@@ -136,63 +136,78 @@ function deleteRow(){
 }
 
 function addRow(){
-    $div = $("#addModal .modal-body");
-    $div.empty();
-    var data = "" 
+    var $div = $("#addModal .modal-body");
+    $('#addProductBtn').click(function(){
+        $($($div).find('#addFormName')).val("");
+        $($($div).find('#addFormDescription')).val("");
+        $($($div).find('#addFormCategory')).val("");
+        $($($div).find('#addFormSubcategory')).val("");
+        $($($div).find('#addFormPrice')).val("");
+        $($($div).find('#addFormCount')).val("");
+        $($($div).find('#addFormStorehouse')).prop("selectedIndex",0);
 
-    data += "<label for='addName'>نام کالا :</label> "
-    data += "<input type='text' id='addName' name='addName'><br><br>"
-    data += "<label for='addDescription'>شرح کالا :</label> "
-    data += "<textarea id='addDescription' name='addDescription' rows='3' cols='40'></textarea><br><br>"
-    data += "<label for='addCategory'>دسته بندی :</label> "
-    data += "<input type='text' id='addCategory' name='addCategory'><br><br>"
-    data += "<label for='addSubcategory'>زیرگروه :</label> "
-    data += "<input type='text' id='addSubcategory' name='addSubcategory'><br><br>"
-    data += "<label for='addPrice'>قیمت :</label> "
-    data += "<input type='text' id='addPrice' name='addPrice'><br><br>"
-    data += "<label for='addCount'>تعداد :</label> "
-    data += "<input type='number' id='addCount' name='addCount' min='0'><br><br>"
-    data += "<label for='addStorehouse'>انبار :</label> "
-    data += "<select name=all_storehouse id='addStorehouse'></select><br><br>"
-    data += "<label for='addImage'>تصویر :</label> "
-    data += "<input type='file' accept='image/*' id='addImage' name='addImage'><br><br>"
-    $div.append(data);
 
+        $('#addFormName').removeClass('is-invalid')
+        $('#addFormName').html('')
+        $('#addFormDescription').removeClass('is-invalid')
+        $('#addFormDescription').html('')
+        $('#addFormCategory').removeClass('is-invalid')
+        $('#addFormCategory').html('')
+        $('#addFormSubcategory').removeClass('is-invalid')
+        $('#addFormSubcategory').html('')
+        $('#addFormPrice').removeClass('is-invalid')
+        $('#addFormPrice').html('')
+        $('#addFormCount').removeClass('is-invalid')
+        $('#addFormCount').html('')
+        $('#addFinalError').removeClass('form-control is-invalid')
+        $('#addFinalError').html('')
+    })
+    // $("#addFormStorehouse option:first").prop("selected", "selected")
     global_all_storehouse.forEach(function(st){
         var option = new Option(st, st);
-        $($($div).find('#addStorehouse')).append(option)
+        $($($div).find('#addFormStorehouse')).append(option)
     })
 
-    var fd = new FormData();
-        var files = $('#addImage')[0].files;
-    if(files.length > 0 )
-        fd.append('file',files[0]);
+    // var fd = new FormData();
+    //     var files = $('#addFormImage')[0].files;
+    // if(files.length > 0 )
+    //     fd.append('file',files[0]);
 
     $('#addModal .addSaveButton').click(function(){
-        $div = $("#addModal .modal-body");
-        var $name = $($($div).find('#addName')).prop("value");
-        var $price = $($($div).find('#addPrice')).prop("value");
-        var $count = $($($div).find('#addCount')).prop("value");
-        var $image = $($($div).find('#addImage')).prop("value");
-        var $description = $($($div).find('#addDescription')).prop("value");
-        var $storehouse = $($($div).find('#addStorehouse')).prop("value");
-        var $category = $($($div).find('#addCategory')).prop("value");
-        var $subcategory = $($($div).find('#addSubcategory')).prop("value");
+        $('#addFormName').removeClass('is-invalid')
+        $('#addFormDescription').removeClass('is-invalid')
+        $('#addFormCategory').removeClass('is-invalid')
+        $('#addFormSubcategory').removeClass('is-invalid')
+        $('#addFormPrice').removeClass('is-invalid')
+        $('#addFormCount').removeClass('is-invalid')
+        $('#addFinalError').removeClass('form-control is-invalid')
 
+        $div = $("#addModal .modal-body");
+        var $name = $($($div).find('#addFormName')).prop("value");
+        var $price = $($($div).find('#addFormPrice')).prop("value");
+        var $count = $($($div).find('#addFormCount')).prop("value");
+        // var $image = $($($div).find('#addFormImage')).prop("value");
+        var $description = $($($div).find('#addFormDescription')).prop("value");
+        var $storehouse = $($($div).find('#addFormStorehouse')).prop("value");
+        var $category = $($($div).find('#addFormCategory')).prop("value");
+        var $subcategory = $($($div).find('#addFormSubcategory')).prop("value");
+        console.log($name, $price, $count, $description, $storehouse, $category, $subcategory)
         $.post(url_add, {
-            name: $name,
-            price: $price,
-            count: $count,
-            image: $image,
-            description: $description,
-            storehouse: $storehouse,
-            category: $category,
-            subcategory: $subcategory,
+            'name': $name,
+            'price': $price,
+            'count': $count,
+            // 'image': $image,
+            'description': $description,
+            'storehouse': $storehouse,
+            'category': $category,
+            'subcategory': $subcategory,
         }, function(response, status){
-            if(status == 'success'){
+            console.log(response)
+            if(status == 'success' && response['response'] == 'SUCCESS'){
                 var row = ""
                 row += "<tr>";
-                row += "<td>" + $image + "</td>";
+                // $image
+                row += "<td>" + "</td>";
                 row += "<td>" + $name + "</td>";
                 row += "<td>" + $category + ' >> ' + $subcategory + "</td>";
                 row += "<td>" ;
@@ -204,11 +219,26 @@ function addRow(){
                 editRow();
                 deleteRow();
                 $('#addModal .modal-body input').val('');
-
+                $('#addModal').modal('hide');
+            }
+            else if(status=='success' && response['response'] != 'SUCCESS'){
+                if(response['response'] != 'FAILED'){
+                    console.log('iffffffffffffffffffffffffff 2')
+                    $(response['response']).addClass('form-control is-invalid')
+                    $(response['response']).next().html(response['msg'])
+                }
+                else{
+                    console.log('iffffffffffffffffffffffffff 3')
+                    $('#addFinalError').html(response['msg'])
+                    $('#addFinalError').addClass('form-control is-invalid')
+                }
+            }
+            else{
+                $('#addFinalError').html(response['لطفا مجددا تلاش کنید'])
+                $('#addFinalError').addClass('form-control is-invalid')
             }
         })
         
-        $('#addModal').modal('hide');
     })
 }
 
@@ -258,6 +288,21 @@ function addImport(){
         //     }
         // })
         
-        $('#addModal').modal('hide');
+        // $('#addModal').modal('hide');
     })
 }
+
+$('th').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }

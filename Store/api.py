@@ -34,9 +34,7 @@ def product_edit():
 
 @bp.route("/product/delete/", methods=['GET'])
 def product_delete():
-    print('varede def shode')
     if request.method == 'GET':
-        print('varede if shode')
         # image = request.form['image']
         name = request.args.get('name')
         # category = request.form['category']
@@ -56,24 +54,84 @@ def product_add():
         name = request.form['name']
         price = request.form['price']
         count = request.form['count']
-        image = request.form['image']
+        # image = request.form['image']
         description = request.form['description']
         storehouse = request.form['storehouse']
-        category = request.form['category'].split('،')
-        subcategory = request.form['subcategory'].split('،')
-        if 'username' in session:
-            db.product.insert({
-                'name' : name,
-                'price': price,
-                'count': count,
-                'image' : image,
-                'description': description,
-                'storehouse': storehouse,
-                'category': category,
-                'subcategory': subcategory,
-            })
-        return 'SUCCESS'
-    return 'FAILED'
+        category = request.form['category']
+        subcategory = request.form['subcategory']
+
+        if name == '':
+            return {'response': '#addFormName', 'msg': 'فیلد نام کالا نباید خالی باشد'}
+        
+        if category == '':
+            return {'response': '#addFormCategory', 'msg': 'فیلد دسته بندی نباید خالی باشد'}
+        
+        if subcategory == '':
+            return {'response': '#addFormSubcategory', 'msg': 'فیلد زیرگروه نباید خالی باشد'}
+
+        if price == '':
+            return {'response': '#addFormPrice', 'msg': 'فیلد قیمت کالا نباید خالی باشد'}
+        try:
+            price = int(price)
+        except:
+            return {'response': '#addFormPrice', 'msg': 'قیمت باید عددی صحیح باشد'}
+        if price < 0:
+            return {'response': '#addFormPrice', 'msg': 'قیمت نباید عددی منفی باشد'}    
+
+        if count == '':
+            return {'response': '#addFormCount', 'msg': 'فیلد تعداد کالا نباید خالی باشد'}
+        try:
+            count = int(count)
+        except:
+            return {'response': '#addFormCount', 'msg': 'تعداد باید عددی صحیح باشد'}
+        if count < 0:
+            return {'response': '#addFormCount', 'msg': 'تعداد نباید عددی منفی باشد'}
+
+        if description == '':
+            return {'response': '#addFormDescription', 'msg': 'فیلد نام کالا نباید خالی باشد'}
+        
+        if 'username' not in session:
+            return {'response': 'FAILED', 'msg': 'FAILED'}
+        else:
+            try:
+                cat = []
+                subcat = []
+                for c in category.split('،'):
+                    cat.append(c.strip())
+                for s in subcategory.split('،'):
+                    subcat.append(s.strip())
+                
+                db.product.insert({
+                    'name': name,
+                    'price': price,
+                    'count': count,
+                    # 'image': image,
+                    'descripton': description,
+                    'storehouse': storehouse,
+                    'category': cat,
+                    'subcategory': subcat
+                })
+                return {'response': 'SUCCESS', 'msg': 'SUCCESS'}
+            except:
+                return {'response': 'FAILED', 'msg': 'لطفا کمی بعد مجددا تلاش کنید'}
+        
+
+                
+
+
+    #     if 'username' in session:
+    #         db.product.insert({
+    #             'name' : name,
+    #             'price': price,
+    #             'count': count,
+    #             'image' : image,
+    #             'description': description,
+    #             'storehouse': storehouse,
+    #             'category': category,
+    #             'subcategory': subcategory,
+    #         })
+    #     return 'SUCCESS'
+    # return 'FAILED'
 
 
 @bp.route("/existing/list/")

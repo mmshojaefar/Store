@@ -4,7 +4,7 @@
 {% block content %}
     <h3>مدیریت کالاها</h3>
     <button type="button" class="addImport" data-bs-toggle='modal' data-bs-target='#importModal'>import</button>
-    <button type="button" class="addProduct" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن کالا</button>
+    <button type="button" class="addProduct" data-bs-toggle='modal' data-bs-target='#addModal' id='addProductBtn'>افزودن کالا</button>
 
     <!-- Table -->
     <div class="d-flex justify-content-center">
@@ -78,8 +78,48 @@
             <h5 class="modal-title" id="addModalLabel">افزودن کالا</h5>
             <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"></div>
+
+            <div class="modal-body">
+                <form>
+                    <div>
+                        <label for="addFormName" class='form-label'>کالا :</label>
+                        <input type="text" name="addFormName" id="addFormName" class="form-control">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label for="addFormCategory" class='form-label'>دسته بندی :</label>
+                        <input type="text" name="addFormCategory" id="addFormCategory" class="form-control">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label for="addFormSubcategory" class='form-label'>زیرگروه :</label>
+                        <input type="text" name="addFormSubcategory" id="addFormSubcategory" class="form-control">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label for="addFormPrice" class='form-label'>قیمت :</label>
+                        <input type="number" name="addFormPrice" id="addFormPrice" min=0 class="form-control">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label for="addFormCount" class='form-label'>تعداد :</label>
+                        <input type="number" name="addFormCount" id="addFormCount" min=0 class="form-control">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <label for='addFormStorehouse' class='form-label'>انبار :</label>
+                    <select name='addFormStorehouse' id='addFormStorehouse' class="form-select"></select>
+                    <div>
+                        <label for="addFormDescription" class='form-label'>شرح کالا :</label>
+                        <textarea name="addFormDescription" id="addFormDescription" rows='3' class="form-control"></textarea>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <label for="addFormImage" class='form-label'>تصویر :</label>
+                    <input type="file" accept="image/*" name="addFormImage" id="addFormImage" class="form-control">
+                </form>
+            </div>
+
             <div class="modal-footer">
+            <div id="addFinalError"></div>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
             <button type="button" class="addSaveButton btn btn-primary">افزودن</button>
             </div>
