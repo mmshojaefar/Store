@@ -4,10 +4,37 @@
 مکتب کالا - دسته بندی
 {% endblock %}
 
+
 {% block content %}
-<h1>کالا های گروه {{ name }}</h1>
+
+<main class="main">
+    <aside class="sidebar">
+      <nav class="nav">
+        <ul>
+          <li ><a style="text-decoration: none; color:black;" href="/">مکتب کالا</a></li>
+
+          {% for category in cat_subcat %}
+            <li ><a class="lii sbar" href="/category/{{ category }}">{{ category }}</a>
+                <ul>
+                    {% for subcat in cat_subcat.get(category) %}
+                        <li ><a class="lii sbar" href="/subcategory/{{ subcat }}">{{ subcat }}</a></li>
+                    {% endfor %} 
+                </ul>               
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </aside>
+  
+    <section class="category">
+      <div class="container">
+        <h1>کالا های گروه {{ name }}</h1>
     <table>
+
+    <!-- {% block table %} -->
+
     {% for product in category %}
+
         <tr>
             <td>
                 <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
@@ -26,7 +53,28 @@
             </td>
         </tr>
     {% endfor %}
+
+    <!-- {% endblock %} -->
     </table>
-    <hr>
+            <hr> 
+      </div>
+    </section>
+  </main>
+    
 {% endblock %}
 
+{% block script %}
+<script>
+    $('.sbar').click(function(){
+        $(this).addClass('active')
+    })
+    $('.active').removeClass('active')
+    for(var i=0; i<$('.sbar').length; i++){
+        // console.log($($('.sbar')[i]).attr('href'),decodeURI(window.location.pathname))
+        if( $($('.sbar')[i]).attr('href') == decodeURI(window.location.pathname)){
+            console.log(decodeURI(window.location.pathname))
+            $($('.sbar')[i]).addClass('active')
+    }
+    }
+</script>   
+{% endblock %}
