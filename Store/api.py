@@ -16,10 +16,8 @@ def product_list():
 @bp.route("/product/edit/", methods=['POST'])
 def product_edit():
     if request.method == 'POST':
-        print(request.form['name'])
         name = request.form['name']
         category = request.form['category']
-        print(request.form['category'])
         subcategory = request.form['subcategory']
         # image = request.form['image']
         if name == '':
