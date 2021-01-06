@@ -82,49 +82,46 @@ def existing_list():
 
 @bp.route("/existing/edit/", methods=['POST'])
 def existing_edit():
-    if request.method == 'POST':
-        storehouse = request.form['storehouse']
-        name = request.form['name']
-        price = request.form['price']
-        count = request.form['count']
-        
-        if price == '':
-            return {'response':'#editFormPrice', 'msg':'فیلد قیمت کالا نباید خالی باشد'}
-        if count == '':
-            return {'response':'#editFormCount', 'msg':'فیلد تعداد کالا نباید خالی باشد'}
-        try:
-            price = int(price)
-        except:
-            return {'response':'#editFormPrice', 'msg':'قیمت باید عددی صحیح باشد'}
-        if price < 0:
-            return {'response':'#editFormPrice', 'msg':'قیمت نباید عددی منفی باشد'}
-        
-        try:
-            count = int(count)
-        except:
-            return {'response':'#editFormCount', 'msg':'تعداد باید عددی صحیح باشد'}
-        if count < 0:
-            return {'response':'#editFormCount', 'msg':'تعداد نباید عددی منفی باشد'}
-        
-        if 'username' not in session:
-            return {'response':'FAILED', 'msg':'FAILED'}
-        else:
-            try:
-                update_result = db.product.update({
-                    'storehouse' : storehouse,
-                    'name' : name
-                }, 
-                {'$set' : {'count': count,
-                           'price': price
-                }})
-                if update_result['updatedExisting'] == False:
-                    return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
-                else:
-                    return {'response':'SUCCESS','msg':'SUCCESS'}
-            except:
-                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
-    else:
+    storehouse = request.form['storehouse']
+    name = request.form['name']
+    price = request.form['price']
+    count = request.form['count']
+    
+    if price == '':
+        return {'response':'#editFormPrice', 'msg':'فیلد قیمت کالا نباید خالی باشد'}
+    if count == '':
+        return {'response':'#editFormCount', 'msg':'فیلد تعداد کالا نباید خالی باشد'}
+    try:
+        price = int(price)
+    except:
+        return {'response':'#editFormPrice', 'msg':'قیمت باید عددی صحیح باشد'}
+    if price < 0:
+        return {'response':'#editFormPrice', 'msg':'قیمت نباید عددی منفی باشد'}
+    
+    try:
+        count = int(count)
+    except:
+        return {'response':'#editFormCount', 'msg':'تعداد باید عددی صحیح باشد'}
+    if count < 0:
+        return {'response':'#editFormCount', 'msg':'تعداد نباید عددی منفی باشد'}
+    
+    if 'username' not in session:
         return {'response':'FAILED', 'msg':'FAILED'}
+    else:
+        try:
+            update_result = db.product.update({
+                'storehouse' : storehouse,
+                'name' : name
+            }, 
+            {'$set' : {'count': count,
+                        'price': price
+            }})
+            if update_result['updatedExisting'] == False:
+                return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
+            else:
+                return {'response':'SUCCESS','msg':'SUCCESS'}
+        except:
+            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/existing/delete/", methods=['GET'])
 def existing_delete():
@@ -168,77 +165,76 @@ def existing_delete():
 
 @bp.route("/existing/add/", methods=['POST'])
 def existing_add():
-    if request.method == 'POST':
-        storehouse = request.form['storehouse']
-        name = request.form['name']
-        price = request.form['price']
-        count = request.form['count']
-        category = request.form['category']
-        subcategory = request.form['subcategory']
-        # image = request.form['image']
-        # print(type(image))
-        
-        if name == '':
-            return {'response':'#addFormName', 'msg':'فیلد نام کالا نباید خالی باشد'}
-        
-        if price == '':
-            return {'response':'#addFormPrice', 'msg':'فیلد قیمت کالا نباید خالی باشد'}
-        try:
-            price = int(price)
-        except:
-            return {'response':'#addFormPrice', 'msg':'قیمت باید عددی صحیح باشد'}
-        if price < 0:
-            return {'response':'#addFormPrice', 'msg':'قیمت نباید عددی منفی باشد'}
-        
-        if count == '':
-            return {'response':'#addFormCount', 'msg':'فیلد تعداد کالا نباید خالی باشد'}
-        try:
-            count = int(count)
-        except:
-            return {'response':'#addFormCount', 'msg':'تعداد باید عددی صحیح باشد'}
-        if count < 0:
-            return {'response':'#addFormCount', 'msg':'تعداد نباید عددی منفی باشد'}
-        
-        if category == '':
-            return {'response':'#addFormCategory', 'msg':'فیلد دسته بندی نباید خالی باشد'}
-        else:
-            category = category.strip()
-            category = category.strip('،')
-            for cat in category.replace(' ','').split('،'):
-                if not cat.isalpha():
-                    return {'response':'#addFormCategory', 'msg':'هیچ یک از دسته ها نباید کاراکتر غیر حرفی داشته باشد'}
+    storehouse = request.form['storehouse']
+    name = request.form['name']
+    price = request.form['price']
+    count = request.form['count']
+    category = request.form['category']
+    subcategory = request.form['subcategory']
+    # image = request.form['image']
+    # print(type(image))
+    
+    if name == '':
+        return {'response':'#addFormName', 'msg':'فیلد نام کالا نباید خالی باشد'}
+    
+    if price == '':
+        return {'response':'#addFormPrice', 'msg':'فیلد قیمت کالا نباید خالی باشد'}
+    try:
+        price = int(price)
+    except:
+        return {'response':'#addFormPrice', 'msg':'قیمت باید عددی صحیح باشد'}
+    if price < 0:
+        return {'response':'#addFormPrice', 'msg':'قیمت نباید عددی منفی باشد'}
+    
+    if count == '':
+        return {'response':'#addFormCount', 'msg':'فیلد تعداد کالا نباید خالی باشد'}
+    try:
+        count = int(count)
+    except:
+        return {'response':'#addFormCount', 'msg':'تعداد باید عددی صحیح باشد'}
+    if count < 0:
+        return {'response':'#addFormCount', 'msg':'تعداد نباید عددی منفی باشد'}
+    
+    if category == '':
+        return {'response':'#addFormCategory', 'msg':'فیلد دسته بندی نباید خالی باشد'}
+    else:
+        category = category.strip()
+        category = category.strip('،')
+        for cat in category.replace(' ','').split('،'):
+            if not cat.isalpha():
+                return {'response':'#addFormCategory', 'msg':'هیچ یک از دسته ها نباید کاراکتر غیر حرفی داشته باشد'}
 
-        if subcategory == '':
-            return {'response':'#addFormSubCategory', 'msg':'فیلد زیر گروه نباید خالی باشد'}
-        else:
-            subcategory = subcategory.strip()
-            subcategory = subcategory.strip('،')
+    if subcategory == '':
+        return {'response':'#addFormSubCategory', 'msg':'فیلد زیر گروه نباید خالی باشد'}
+    else:
+        subcategory = subcategory.strip()
+        subcategory = subcategory.strip('،')
+        for sub in subcategory.split('،'):
+            if not sub.replace(' ','').isalpha():
+                return {'response':'#addFormSubCategory', 'msg':'هیچ یک از زیر گروه ها نباید کاراکتر غیر حرفی داشته باشد'}
+    
+    if 'username' not in session:
+        return {'response':'FAILED', 'msg':'FAILED'}
+    else:
+        try:
+            edited_category = []
+            edited_subcategory = []
+            for cat in category.split('،'):
+                edited_category.append(cat.strip())
             for sub in subcategory.split('،'):
-                if not sub.replace(' ','').isalpha():
-                    return {'response':'#addFormSubCategory', 'msg':'هیچ یک از زیر گروه ها نباید کاراکتر غیر حرفی داشته باشد'}
-        
-        if 'username' not in session:
-            return {'response':'FAILED', 'msg':'FAILED'}
-        else:
-            try:
-                edited_category = []
-                edited_subcategory = []
-                for cat in category.split('،'):
-                    edited_category.append(cat.strip())
-                for sub in subcategory.split('،'):
-                    edited_subcategory.append(sub.strip())
+                edited_subcategory.append(sub.strip())
 
-                db.product.insert_one({
-                    'storehouse' : storehouse,
-                    'name' : name,
-                    'count' : count,
-                    'price' : price,
-                    'category' : edited_category,
-                    'subcategory' : edited_subcategory,
-                })
-                return {'response':'SUCCESS','msg':'SUCCESS'}
-            except:
-                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+            db.product.insert_one({
+                'storehouse' : storehouse,
+                'name' : name,
+                'count' : count,
+                'price' : price,
+                'category' : edited_category,
+                'subcategory' : edited_subcategory,
+            })
+            return {'response':'SUCCESS','msg':'SUCCESS'}
+        except:
+            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 
 @bp.route("/storehouse/list/")
@@ -311,22 +307,22 @@ def storehosue_delete():
 
 @bp.route("/storehouse/add/", methods=['POST'])
 def storehouse_add():
-    if request.method == 'POST':
-        name = request.form['name']
+    name = request.form['name']
 
-        if name == '':
-            return {'response':'#addFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
-        
-        if 'username' not in session:
-            return {'response':'FAILED', 'msg':'FAILED'}
-        else:
-            try:
-                db.storehouse.insert_one({
-                    'name' : name,
-                })
-                return {'response':'SUCCESS','msg':'SUCCESS'}
-            except:
-                return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+    if name == '':
+        return {'response':'#addFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
+    
+    if 'username' not in session:
+        return {'response':'FAILED', 'msg':'FAILED'}
+    else:
+        try:
+            db.storehouse.insert_one({
+                'name' : name,
+            })
+            return {'response':'SUCCESS','msg':'SUCCESS'}
+        except:
+            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+
 
 @bp.route("/order/list/",methods=['GET'])
 def order_list():

@@ -174,33 +174,39 @@ function deleteRow(){
 }
 
 function addRow(){
-    $div = $("#addModal .modal-body");
-    $($($div).find('#addFormStorehouse')).val(1);
-    $($($div).find('#addFormName')).val("");
-    $($($div).find('#addFormPrice')).val("");
-    $($($div).find('#addFormCategory')).val("");
-    $($($div).find('#addFormSubCategory')).val("");
-    $($($div).find('#addFormCount')).val("");
+    var $div;
+    $('#addExistingTopButton').click(function(){
+        $div = $("#addModal .modal-body");
+        $($($div).find('#addFormName')).val("");
+        $($($div).find('#addFormPrice')).val("");
+        $($($div).find('#addFormCategory')).val("");
+        $($($div).find('#addFormSubCategory')).val("");
+        $($($div).find('#addFormCount')).val("");
+    
+        $('#addFormName').removeClass('is-invalid')
+        $('#addFormName').next().html("")
+        $('#addFormPrice').removeClass('is-invalid')
+        $('#addFormPrice').next().html("")
+        $('#addFormCount').removeClass('is-invalid')
+        $('#addFormCount').next().html("")
+        $('#addFormCategory').removeClass('is-invalid')
+        $('#addFormCategory').next().html("")
+        $('#addFormSubCategory').removeClass('is-invalid')
+        $('#addFormSubCategory').next().html("")
+        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').html("")
 
-    $('#addFormName').removeClass('is-invalid')
-    $('#addFormName').html("")
-    $('#addFormPrice').removeClass('is-invalid')
-    $('#addFormPrice').html("")
-    $('#addFormCount').removeClass('is-invalid')
-    $('#addFormCount').html("")
-    $('#addFormCategory').removeClass('is-invalid')
-    $('#addFormCategory').html("")
-    $('#addFormSubCategory').removeClass('is-invalid')
-    $('#addFormSubCategory').html("")
-    $('#editFinalError').removeClass('form-control is-invalid')
-    $('#editFinalError').html("")
+        if($('#addFormStorehouse').find('option').length == 0){
+            global_all_storehouse.forEach(function(st){
+                var option = new Option(st, st);
+                $($($div).find('#addFormStorehouse')).append(option)
+                
+            })
+        }
+    })
+
     
 
-    global_all_storehouse.forEach(function(st){
-        var option = new Option(st, st);
-        $($($div).find('#addFormStorehouse')).append(option)
-        
-    })
     $('#addModal .addSaveButton').click(function(){
         $('#addFormName').removeClass('is-invalid')
         $('#addFormPrice').removeClass('is-invalid')
@@ -223,12 +229,12 @@ function addRow(){
         // var $image = $($($div).find('#addFormImage')).prop("files");
         // console.log($image)
         $.post(url_add, {
-            storehouse: $storehouse,
-            name: $name,
-            price: $price,
-            count: $count,
-            category: $category,
-            subcategory: $subcategory,
+            'storehouse' : $storehouse,
+            'name' : $name,
+            'price' : $price,
+            'count' : $count,
+            'category' : $category,
+            'subcategory': $subcategory,
             // image: $image
         }, function(response, status){
             console.log(response)

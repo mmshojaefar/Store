@@ -151,16 +151,17 @@ function deleteRow(){
 }
 
 function addRow(){
-    var $div = $("#addModal .modal-body");
-
-    $('#addFormName').removeClass('is-invalid')
-    $('#addFormName').html("")
+    var $div;
+    $('#addStorehouseTopButton').click(function(){
+        $div = $("#addModal .modal-body");
+        $('#addFormName').val("");
+        $('#addFormName').removeClass('is-invalid');
+        $('#addFormName').next().html("");
+    })
 
     $('#addModal .addSaveButton').click(function(){
         $('#addFormName').removeClass('is-invalid')
         $('#editFinalError').removeClass('form-control is-invalid')
-            
-        $div = $("#addModal .modal-body");
         var $name = $($($div).find('#addFormName')).prop("value");
 
         $.post(url_add, {
