@@ -1,4 +1,4 @@
-var url_list = '/api/mainProduct/list';
+var url_list = '/api/mainProduct/list/';
 
 $name = $('#name').text();
 $price = $('#price').text();

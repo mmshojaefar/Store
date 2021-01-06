@@ -48,8 +48,8 @@ def login():
             error = ""
             return render_template('admin/login.html', error=error)
 
+
 @bp.route('/logout/',methods=['GET'])
 def logout():
     session.pop('username')
     return redirect(url_for("admin.login"))
-

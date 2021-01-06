@@ -8,7 +8,6 @@ bp = Blueprint("main", __name__)
 @bp.route("/")
 def index():
     pri = get_categories()
-    # print(pri)
     return render_template("index.html", pr=pri)
 
 
@@ -44,7 +43,7 @@ def product():
     price = request.args.get('price')
     product = db.product.find(
                         {'name':name,
-                         'price':price},
+                         'price':int(price)},
                         {'name':1,
                          'storehouse':1,
                          'price':1, 

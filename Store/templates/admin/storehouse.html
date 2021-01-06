@@ -2,135 +2,122 @@
 
 {% block title %}مدیریت انبارها{% endblock %}
 {% block content %}
-    <h3>مدیریت موجودی و قیمت ها</h3>
-    <button type="button" class="addStorehouse" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن انبار</button>
+    <h3>مدیریت انبار ها</h3>
+    <button type="button" id="addStorehouseTopButton" class="addStorehouse" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن انبار</button>
     
-    <!-- Table -->
-    <br /><br />
-    <table border="1" class="table table-striped" style="display: none">
-      <thead>
-        <tr>
-          <th>نام انبار</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <!-- Loading -->
+  <div class="d-flex justify-content-center">
+    <div class="lds-default">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+  </div>
+  <br>
+  <!-- Table -->
+  <table border="1" class="table table-striped" style="display: none">
+    <thead>
+      <tr>
+        <th>نام انبار</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-    <!-- Edit Modal -->
-    <div
-      style="display: none"
-      class="modal fade"
-      id="editModal"
-      tabindex="-1"
-      aria-labelledby="editModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
-            <button
-              style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+  <!-- Edit Modal -->
+  <div style="display: none" class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
+          <button style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem" type="button"
+                  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <label class="form-label">نام فعلی انبار :</label> 
+            <label class="form-label" id="editFormPreName"></label><br>
+            <label class="form-label">نام جدید انبار :</label> 
+            <input class="form-control" id='editFormName'>
+            <div class="invalid-feedback"></div>
+          </form>
           </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              بستن
-            </button>
-            <button type="button" class="editSaveButton btn btn-primary">
-              ذخیره
-            </button>
-          </div>
+        <div class="modal-footer">
+          <div id="editFinalError"></div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+          <button type="button" class="editSaveButton btn btn-primary">ذخیره</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Delete Modal -->
-    <div
-      style="display: none"
-      class="modal fade"
-      id="deleteModal"
-      tabindex="-1"
-      aria-labelledby="deleteModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">حذف</h5>
-            <button
-              style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              بستن
-            </button>
-            <button type="button" class="deleteSaveButton btn btn-primary">
-              حذف
-            </button>
-          </div>
+  <!-- Delete Modal -->
+  <div
+    style="display: none"
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+    aria-labelledby="deleteModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">حذف</h5>
+          <button
+            style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <div id="deleteFinalError"></div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+          <button type="button" class="deleteSaveButton btn btn-primary">حذف</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Add Modal -->
-    <div
-      style="display: none"
-      class="modal fade"
-      id="addModal"
-      tabindex="-1"
-      aria-labelledby="addModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addModalLabel">افزودن موجودی</h5>
-            <button
-              style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              بستن
-            </button>
-            <button type="button" class="addSaveButton btn btn-primary">
-              افزودن
-            </button>
-          </div>
+  <!-- Add Modal -->
+  <div style="display: none" class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">افزودن انبار</h5>
+          <button style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem" type="button" 
+                class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div>
+              <label class='form-label' for='addFormName'>نام انبار :</label>
+              <input class='form-control' type='text' id='addFormName' name='addFormName'>
+              <div class="invalid-feedback"></div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+          <button type="button" class="addSaveButton btn btn-primary">افزودن</button>
         </div>
       </div>
     </div>
-    <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
-    <script src="../../static/lib/js/bootstrap.min.js"></script>
-    <script src="../../static/admin/storehouse.js"></script>
+  </div>
+  <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
+  <script src="../../static/lib/js/bootstrap.min.js"></script>
+  <script src="../../static/admin/storehouse.js"></script>
 {% endblock %}

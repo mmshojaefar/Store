@@ -1,14 +1,12 @@
 {% extends "admin/base.html" %}
 
-<!-- {% block header %}
-    <link rel="stylesheet" href="../../static/admin/base.css">
-{% endblock %} -->
+{% block header %}{% endblock %}
 {% block title %}موجودی و قیمت ها{% endblock %}
 {% block content %}
     <h3>مدیریت موجودی و قیمت ها</h3>
-    <button type="button" class="addExisting" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
+    <button type="button" id="addExistingTopButton" class="addExisting" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
 
-<!-- Table -->
+    <!-- Loading -->
     <div class="d-flex justify-content-center">
         <div class="lds-default">
             <div></div>
@@ -26,6 +24,7 @@
         </div>
     </div>
     <br>
+    <!-- Table -->
     <table border=1 class="table table-striped" style='display:none'>
         <thead>
             <tr>
@@ -49,26 +48,17 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <label>انبار :</label> 
-                    <label id='editFormStorehouse'></label><br><br>
-                    <label>کالا :</label> 
-                    <label id='editFormName'></label><br><br>
-                    <!-- <div class="row g-3 align-items-center">
-                        <div class="col-auto">
-                            <label class="form-label" for='editFormPrice'>قیمت :</label> 
-                        </div>
-                        <div class="col-auto">
-                            <input class="form-control" type='number' min=1 id='editFormPrice' name='price'>
-                        </div>
-                        <div class="invalid-feedback"></div>
-                    </div> -->                  
+                    <label class="form-label">انبار :</label> 
+                    <label class="form-label" id='editFormStorehouse'></label><br>
+                    <label class="form-label" >کالا :</label> 
+                    <label class="form-label" id='editFormName'></label>                 
                     <div>
                         <label class="form-label" for='editFormPrice'>قیمت :</label> 
                         <input class="form-control" type='number' min=1 id='editFormPrice' name='price'>
                         <div class="invalid-feedback"></div>
                     </div>
                     <div>
-                        <label for='editFormCount'>تعداد :</label> 
+                        <label class="form-label" for='editFormCount'>تعداد :</label> 
                         <input class="form-control" type='number' min=1 id='editFormCount' name='count'>
                         <div class="invalid-feedback"></div>
                     </div>
@@ -111,23 +101,46 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <label for='addFormStorehouse'>انبار :</label>
-                    <select name='addFormStorehouse' id='addFormStorehouse' class="form-select">
-                    </select><br><br>
-                    <label for='addFormName'>کالا :</label>
-                    <input type='text' id='addFormName' name='addFormName'><br><br>
-                    <label for='addFormPrice'>قیمت :</label>
-                    <input type='number' min=1 id='addFormPrice' name='addFormPrice'><br><br>
-                    <label for='addFormCount'>تعداد :</label>
-                    <input type='number' min=1 id='addFormCount' name='addFormCount'><br><br>
-                    <label for='addCategory'>دسته بندی :</label>
-                    <input type='text' id='addFormCategory' name='addFormCategory'><br><br>
-                    <label for='addFormImage'>تصویر :</label> 
-                    <input type='file' accept='image/*' id='addFormImage' name='addFormImage'><br><br>
+                    <label  class="form-label" for='addFormStorehouse'>انبار :</label>
+                    <select class="form-select" name='addFormStorehouse' id='addFormStorehouse'>
+                    </select>
+                    <div>
+                        <label class='form-label' for='addFormName'>کالا :</label>
+                        <input class='form-control' type='text' id='addFormName' name='addFormName'>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='addFormPrice'>قیمت :</label>
+                        <input class='form-control' type='number' min=1 id='addFormPrice' name='addFormPrice'>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='addFormCount'>تعداد :</label>
+                        <input class='form-control' type='number' min=1 id='addFormCount' name='addFormCount'>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='addFormCategory'>دسته بندی :</label>
+                        <input class='form-control' type='text' id='addFormCategory' name='addFormCategory'>
+                        <div class="invalid-feedback"></div>
+                        <div class="form-text text-muted">دسته بندی های مختلف را با کاما جدا کنید</div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='addFormSubCategory'>زیر گروه :</label>
+                        <input class='form-control' type='text' id='addFormSubCategory' name='addFormSubCategory'>
+                        <div class="invalid-feedback"></div>
+                        <div class="form-text text-muted">زیر گروه های مختلف را با کاما جدا کنید</div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='addFormImage'>تصویر :</label>
+                        <input class='form-control' type='file' accept='image/*' id='addFormImage' name='addFormImage'>
+                        <div class="invalid-feedback"></div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                <div id="addFinalError"></div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
             <button type="button" class="addSaveButton btn btn-primary">افزودن</button>
             </div>
         </div>
