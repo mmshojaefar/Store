@@ -182,7 +182,8 @@ function addRow(){
         $($($div).find('#addFormCategory')).val("");
         $($($div).find('#addFormSubCategory')).val("");
         $($($div).find('#addFormCount')).val("");
-    
+
+        
         $('#addFormName').removeClass('is-invalid')
         $('#addFormName').next().html("")
         $('#addFormPrice').removeClass('is-invalid')

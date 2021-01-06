@@ -330,17 +330,43 @@ def order_list():
     json_string = dumps(all_order)
     return json_string
 
-@bp.route("/mainProduct/list",methods=['POST'])
+@bp.route("/mainProduct/list/",methods=['POST'])
 def mainProduct_list():
     name = request.form['name']
-    price = request.form['price']
-    count = request.form['count']
-    print(name, price, count)
+    price = int(request.form['price'])
+    count = int(request.form['count'])
+
     if 'orders' not in session:
         session['orders'] = []
     
-    session['orders'].append({'name' : name,
-                              'price' : int(price),
-                              'count' : int(count)})
+    all_order = session['orders']
+    for ords in all_order:
+        if ords['name'] == name and ords['price'] == price:
+            if ords['count'] > 0: 
+                ords['count'] = count
+    else:
+        if count > 0:
+            all_order.append({'name' : name,
+                            'price' : price,
+                            'count' : count})
+    session['orders'] = all_order
     print(session)
+    return {}
+
+@bp.route("/mainProduct/delete/",methods=['POST'])
+def mainProduct_delete():
+    name = request.form['name']
+    price = int(request.form['price'])
+
+    if 'orders' not in session:
+        session['orders'] = []
+    
+    all_order = session['orders']
+    for ords in all_order:
+        if ords['name'] == name and ords['price'] == price:
+            all_order.remove(ords)
+            return {'response' : 'SUCCESS'}
+    else:
+        return {'response' : 'FAILED'}
+    session['orders'] = all_order
     return {}
