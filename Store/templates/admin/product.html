@@ -44,8 +44,29 @@
             <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
             <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body">
+                <form>
+                    <label class='form-label'>کالا :</label>
+                    <label class='form-label' id='editFormName'></label>
+                    <div>
+                        <label class='form-label' for='editFormCategory'>دسته بندی :</label>
+                        <input class='form-control' type='text' id='editFormCategory'>
+                        <div class='invalid-feedback'></div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='editFormSubcategory'>زیرگروه :</label>
+                        <input class='form-control' type='text' id='editFormSubcategory'>
+                        <div class='invalid-feedback'></div>
+                    </div>
+                    <div>
+                        <label class='form-label' for='editFormImage'>تصویر :</label>
+                        <input type='file' accept='image/*' id='editFormImage' name='editFormImage'>
+                        <div class='invalid-feedback'></div>
+                    </div>
+                </form>
+            </div>
             <div class="modal-footer">
+            <div id='editFinalError'></div>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
             <button type="button" class="editSaveButton btn btn-primary">ذخیره</button>
             </div>

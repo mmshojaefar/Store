@@ -48,50 +48,68 @@ $.get(url_list, function(response, status){
 function editRow(){
     $('tbody tr td:last-child button:first-child').click(function(){
         $div = $("#editModal .modal-body");
-        $div.empty();
         $row = $(this).closest('tr').find('td');
-        var $image = $($row[0]).text();
+        // var $image = $($row[0]).text();
         var $name = $($row[1]).text();
         var $category = $($row[2]).text().split(' >> ')[0];
         var $subcategory = $($row[2]).text().split(' >> ')[1];
-        var data = "" 
 
-        data += "<label>کالا :</label> "
-        data += "<label id='name'></label><br><br>"
-        data += "<label for='category'>دسته بندی :</label> "
-        data += "<input id='category' name='category'><br><br>"
-        data += "<label for='subcategory'>زیرگروه :</label> "
-        data += "<input id='subcategory' name='subcategory'><br><br>"
-        data += "<label>image :</label> "
-        data += "<input type='file' accept='image/*' id='image' name='image'><br><br>"
-        $div.append(data);
-        // $($($div).find('#image')).text($image);
-        $($($div).find('#name')).text($name)
-        $($($div).find('#category')).val($category)
-        $($($div).find('#subcategory')).val($subcategory)
-        var fi = new FormData();
-            var files = $('#image')[0].files;
-        if(files.length > 0 )
-            fi.append('file',files[0]);
+        $('#editFormName').removeClass('is-invalid')
+        $('#editFormName').html('')
+        $('#editFormCategory').removeClass('is-invalid')
+        $('#editFormCategory').html('')
+        $('#editFormSubcategory').removeClass('is-invalid')
+        $('#editFormSubcategory').html('')
+        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').html("")
 
-        $('#editModal .editSaveButton').click(function(){
-            $category = $($($div).find('#category')).prop("value");
-            $subcategory = $($($div).find('#subcategory')).prop("value");
-            $image = $($('div').find('#image')).prop("value");
-            console.log($category)
-            $.post(url_edit, {
-                image : $image,
-                name : $name,
-                category : $category,
-                subcategory: $subcategory,
-            },function(response, status){
-                if(status=='success' && response=='SUCCESS'){
-                    $($row[2]).text($category + ' >> ' + $subcategory)
-                    $($row[0]).text($image)
+        $($($div).find('#editFormName')).text($name)
+        $($($div).find('#editFormCategory')).val($category)
+        $($($div).find('#editFormSubcategory')).val($subcategory)
+        // var fi = new FormData();
+        //     var files = $('#image')[0].files;
+        // if(files.length > 0 )
+        //     fi.append('file',files[0]);
+    })
+
+    $('#editModal .editSaveButton').click(function(){
+        $('#editFormName').removeClass('is-invalid')
+        $('#editFormCategory').removeClass('is-invalid')
+        $('#editFormSubcategory').removeClass('is-invalid')
+        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#editFinalError').html('')
+
+        $name = $($($div).find('#editFormName')).text();
+        $category = $($($div).find('#editFormCategory')).prop("value");
+        $subcategory = $($($div).find('#editFormSubcategory')).prop("value");
+        // $image = $($('div').find('#image')).prop("value");
+        $.post(url_edit, {
+            'name' : $name,
+            'category' : $category,
+            'subcategory': $subcategory,
+            // image : $image,
+            
+        },function(response, status){
+            if(status=='success' && response['response']=='SUCCESS'){
+                $($row[2]).text($category + ' >> ' + $subcategory)
+                // $($row[0]).text($image)
+                $('#editModal').modal('hide');
+            }
+            else if(status='success' && response['response']!='SUCCESS'){
+                if(response['response'] != 'FAILED'){
+                    $(response['response']).addClass('form-control is-invalid')
+                    $(response['response']).next().html(response['msg'])
                 }
-            });
-            $('#editModal').modal('hide');
-        })
+                else{
+                    $('#editFinalError').html(response['msg'])
+                    $('#editFinalError').addClass('form-control in-invalid')
+                }
+            }
+            else{
+                $('editFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('editFinalError').addClass('form-control is-invalid')
+            }        
+        });
     })
 }
 
@@ -223,12 +241,10 @@ function addRow(){
             }
             else if(status=='success' && response['response'] != 'SUCCESS'){
                 if(response['response'] != 'FAILED'){
-                    console.log('iffffffffffffffffffffffffff 2')
                     $(response['response']).addClass('form-control is-invalid')
                     $(response['response']).next().html(response['msg'])
                 }
                 else{
-                    console.log('iffffffffffffffffffffffffff 3')
                     $('#addFinalError').html(response['msg'])
                     $('#addFinalError').addClass('form-control is-invalid')
                 }

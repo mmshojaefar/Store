@@ -16,21 +16,43 @@ def product_list():
 @bp.route("/product/edit/", methods=['POST'])
 def product_edit():
     if request.method == 'POST':
+        print(request.form['name'])
         name = request.form['name']
-        category = request.form['category'].split('،')
-        subcategory = request.form['subcategory'].split('،')
-        image = request.form['image']
-        if 'username' in session:
-            db.product.update({
-                'name' : name
-            }, 
-            {'$set' : {'category': category,
-                    'subcategory': subcategory,
-                    'image': image,
-            }})
-        return 'SUCCESS'
-    return 'FAILED'
-    # return 'SUCCESS'
+        category = request.form['category']
+        print(request.form['category'])
+        subcategory = request.form['subcategory']
+        # image = request.form['image']
+        if name == '':
+            return {'response': '#editFormName', 'msg': 'فیلد نام کالا نباید خالی باشد'}
+        
+        if category == '':
+            return {'response': '#editFormCategory', 'msg': 'فیلد دسته بندی نباید خالی باشد'}
+        
+        if subcategory == '':
+            return {'response': '#editFormSubcategory', 'msg': 'فیلد زیرگروه نباید خالی باشد'}
+
+        if 'username' not in session:
+            return {'response':'FAILED', 'msg':'FAILED'}
+        else:
+            try:
+                cat = []
+                subcat = []
+                for c in category.split('،'):
+                    cat.append(c.strip())
+                for s in subcategory.split('،'):
+                    subcat.append(s.strip())
+
+                db.product.update({
+                    'name' : name
+                }, 
+                {'$set' : {'category': cat,
+                        'subcategory': subcat,
+                        # 'image': image,
+                }})
+                return {'response': 'SUCCESS', 'msg': 'SUCCESS'}
+            except:
+                return {'response': 'FAILED', 'msg': 'لطفا کمی بعد مجددا تلاش کنید'}
+
 
 @bp.route("/product/delete/", methods=['GET'])
 def product_delete():
