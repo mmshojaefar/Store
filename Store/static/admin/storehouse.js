@@ -67,7 +67,8 @@ function editRow(){
                     counter--;
                     if (counter<=0){
                         clearInterval(myInterval)
-                        $('#editModal').modal('hide');    
+                        $('#editModal').modal('hide');
+                        $('#editModal .editSaveButton').prop('disabled', false)    
                     }
                 },1000)
             }
@@ -135,6 +136,7 @@ function deleteRow(){
                             clearInterval(myInterval)
                             $('#deleteModal').modal('hide');
                             $row.remove();
+                            $('#deleteModal .deleteSaveButton').prop('disabled', false)
                         }
                     },1000)
                 }
