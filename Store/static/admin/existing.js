@@ -182,6 +182,7 @@ function addRow(){
         $($($div).find('#addFormCategory')).val("");
         $($($div).find('#addFormSubCategory')).val("");
         $($($div).find('#addFormCount')).val("");
+        $($($div).find('#addFormStorehouse')).prop("selectedIndex",0);
 
         
         $('#addFormName').removeClass('is-invalid')
@@ -206,8 +207,6 @@ function addRow(){
         }
     })
 
-    
-
     $('#addModal .addSaveButton').click(function(){
         $('#addFormName').removeClass('is-invalid')
         $('#addFormPrice').removeClass('is-invalid')
@@ -215,11 +214,7 @@ function addRow(){
         $('#addFormCategory').removeClass('is-invalid')
         $('#addFormSubCategory').removeClass('is-invalid')
         $('#editFinalError').removeClass('form-control is-invalid')
-        // var fd = new FormData();
-        // var files = $('#addImage').files;
-        // if(files.length > 0 )
-        //     fd.append('file',files[0]);
-        
+
         $div = $("#addModal .modal-body");
         var $storehouse = $($($div).find('#addFormStorehouse')).prop("value");
         var $name = $($($div).find('#addFormName')).prop("value");
@@ -228,7 +223,7 @@ function addRow(){
         var $category = $($($div).find('#addFormCategory')).prop("value");
         var $subcategory = $($($div).find('#addFormSubCategory')).prop("value");
         // var $image = $($($div).find('#addFormImage')).prop("files");
-        // console.log($image)
+        console.log($price)
         $.post(url_add, {
             'storehouse' : $storehouse,
             'name' : $name,

@@ -254,7 +254,8 @@ def existing_add():
     subcategory = request.form['subcategory']
     # image = request.form['image']
     # print(type(image))
-    
+    print(11111111111111)
+    print(price)
     if name == '':
         return {'response':'#addFormName', 'msg':'فیلد نام کالا نباید خالی باشد'}
     
@@ -425,6 +426,7 @@ def mainProduct_list():
         if ords['name'] == name and ords['price'] == price:
             if ords['count'] > 0: 
                 ords['count'] = count
+                break;
     else:
         if count > 0:
             all_order.append({'name' : name,
@@ -446,8 +448,8 @@ def mainProduct_delete():
     for ords in all_order:
         if ords['name'] == name and ords['price'] == price:
             all_order.remove(ords)
+            session['orders'] = all_order
             return {'response' : 'SUCCESS'}
-    else:
-        return {'response' : 'FAILED'}
     session['orders'] = all_order
-    return {}
+    return {'response' : 'FAILED'}
+

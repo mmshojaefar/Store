@@ -30,6 +30,7 @@ function editRow(){
     $('tbody tr td:last-child button:first-child').click(function(){
         $div = $("#editModal .modal-body");
         $row = $(this).closest('tr').find('td');
+        // console.log($row)
         var $previous_name = $($row[0]).text();
         $('#editFormName').val("")
         $('#editFormPreName').text($previous_name)

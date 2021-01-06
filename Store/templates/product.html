@@ -19,7 +19,9 @@
         <p>{{ products[0]['price'] }}</p>
         <p>{{ products[0][discription] }}</p>
     {% endfor %}
-    <script src="../static/product.js"></script>
+{% endblock %}
+{% block script %}
+    <script src="../static/product.js"></script>    
 {% endblock %}
 
 
