@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/lib/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/navbar.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='lib/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='navbar.css')}}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -14,8 +14,8 @@
         <button type="button" onclick="location.href='/basket/';" >سبد خرید</button>
         <hr>
         {% block content %}{% endblock %}
-        <script src="../static/lib/js/jquery-3.4.1.min.js"></script>
-        <script src="../static/lib/js/bootstrap.min.js"></script>
+        <script src="{{url_for('static', filename='lib/js/jquery-3.4.1.min.js')}}"></script>
+        <script src="{{url_for('static', filename='lib/js/bootstrap.min.js')}}"></script>
         {% block script %}{% endblock %}
     </div>
 </body>

@@ -9,34 +9,56 @@
     <div class="mb-2 d-flex flex-row justify-content-between">
         <div class="r1 col-5">
             <label for="InputName" class="form-label">نام: </label>
-            <input type="text" class="form-control" id="InputName">
+            <input id="formFirstName" type="text" class="form-control" id="InputName">
+            <div class="invalid-feedback"></div>
         </div>
         <div class="r2 col-5">
             <label for="InputFamily" class="form-label">نام خانوادگی: </label>
-            <input type="text" class="form-control" id="InputFamily">
+            <input id="formLastName" type="text" class="form-control" id="InputFamily">
+            <div class="invalid-feedback"></div>
         </div>
     </div>
     <div class="mb-3 d-flex flex-row justify-content-between">
         <div class="r1 col-5">
             <label for="InputData" class="form-label">تاریخ تحویل: </label>
-            <input type="date" class="form-control" id="InputData">
+            <input id="formDate" type="date" class="form-control" id="InputData">
+            <div class="invalid-feedback"></div>
         </div>
         <div class="r2 col-5 position-relative">
             <label for="InputPhone" class="form-label">تلفن همراه: </label>
-            <input type="tel" pattern="[09]{2}[0-9]{9}" class="form-control" id="InputPhone" required>
-            <div class="invalid-tooltip">
-                لطفا یک شماره معتبر وارد کنید
-            </div>
+            <input id="formTelphone" type="tel" pattern="[09]{2}[0-9]{9}" class="form-control" id="InputPhone" required>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
     <div class="mb-2">
         <div class="col-5">
             <label for="InputAddres" class="form-label">ادرس: </label>
-            <textarea class="form-control" id="InputAddres"></textarea>
+            <textarea id="formAddress" class="form-control" id="InputAddres"></textarea>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">ثبت</button>
+    <button id='submitOrderFinal' class="btn btn-primary">ثبت سفارش</button>
   </form>
 </div>
-<!-- <script src="../../static/approve.js"></script> -->
+
+<!-- Final Resualt Modal -->
+<div style="display: none" class="modal fade" id="FinalModal" tabindex="-1" aria-labelledby="FinalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="FinalModalLabel"></h5>
+          <button style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem" type="button" 
+                class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="FinalResualtModal">سلام</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
+{% block script %}
+    <script src="{{url_for('static', filename='approve.js')}}"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, session, url_for, flash, g
+from flask import Blueprint, request, render_template, session, url_for, g
 from werkzeug.utils import redirect
 from Store.db import db, get_categories
 

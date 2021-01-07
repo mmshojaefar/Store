@@ -1,5 +1,5 @@
 import functools
-from flask import Blueprint, request, render_template, session, url_for, flash, g
+from flask import Blueprint, request, render_template, session, url_for, g
 from werkzeug.utils import redirect
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
