@@ -4,6 +4,7 @@ from Store.db import db
 from bson.json_util import dumps
 from json import dumps as json_dumps
 from Store.admin import login_required
+from datetime import datetime
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -462,7 +463,9 @@ def approve_order():
     date = request.form['date']
     tel = request.form['tel']
     address = request.form['address']
-
+    # print(date,type(datetime.strptime(date,"%Y-%m-%d")),datetime.strptime(date,"%Y-%m-%d"))
+    # print(datetime.now())
+    
     if firstname == '':
         return {'response':'#formFirstName', 'msg':'لطفا نام خود را وارد کنید'}
     
@@ -502,12 +505,25 @@ def approve_order():
     if len(check_list) > 0:
         return {'response' : 'FAILED', 'msg': json_dumps(check_list)}
     else:
+        all_product={}
+        total=0
         for ords in session['orders']:
             selected_product = db.product.find_one({
             'name' : ords['name'],
             'price' : ords['price']
             })
             current_count = selected_product['count']
+            current_price = selected_product['price']
+            current_name = selected_product['name']
+            current_storehouse = selected_product['storehouse']
+            current_id = selected_product['_id']
+            total=int(current_price)*int(ords['count'])
+            all_product[str(current_id)]={
+                "price":current_price,
+                'name':current_name,
+                'storehouse':current_storehouse,
+                'count':ords['count'],
+            }
             db.product.update({
             'name' : ords['name'],
             'price' : ords['price']
@@ -515,5 +531,15 @@ def approve_order():
             {'$set' : {
                 'count': int(current_count) - int(ords['count'])
             }})
+        db.order.insert({
+            'name':firstname+" "+lastname,
+            'address':address,
+            'mobile':tel,
+            'date_delivery':date,
+            # datetime.strptime(date,"%Y-%m-%d")
+            'date_submit':datetime.now().strftime("%Y-%m-%d"),
+            "product":all_product,
+            'total':total,
+        })
         session.pop('orders')
         return {'response' : 'SUCCESS'}
