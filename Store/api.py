@@ -69,8 +69,8 @@ def product_delete():
                 # 'image' : image,
                 'name' : name,
                 # 'category': category,
-                })['nRemoved']
-            if res==0:
+                })
+            if res['n'] == 0:
                 return {'response': 'FAILED', 'msg': 'کالایی با این مشخصات یافت نشد'}
             else:
                 return {'response': 'SUCCESS', 'msg': 'SUCCESS'} 
