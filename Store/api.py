@@ -1,12 +1,16 @@
-from flask import Blueprint, request, render_template, session, url_for, flash, g
+from flask import Blueprint, request, render_template, session, url_for, g
 from werkzeug.utils import redirect
 from Store.db import db
 from bson.json_util import dumps
+from json import dumps as json_dumps
+from Store.admin import login_required
+from datetime import datetime
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
 
 @bp.route("/product/list/")
+@login_required
 def product_list():
     all_products = db.product.find({}, 
                     {'image':1, 'name':1, 'category':1, 'subcategory':1, '_id':0})
@@ -14,6 +18,7 @@ def product_list():
     return json_string
 
 @bp.route("/product/edit/", methods=['POST'])
+@login_required
 def product_edit():
     if request.method == 'POST':
         name = request.form['name']
@@ -53,6 +58,7 @@ def product_edit():
 
 
 @bp.route("/product/delete/", methods=['GET'])
+@login_required
 def product_delete():
     # image = request.form['image']
     name = request.args.get('name')
@@ -76,6 +82,7 @@ def product_delete():
 
 
 @bp.route("/product/add/", methods=['POST'])
+@login_required
 def product_add():
     if request.method == 'POST':
         name = request.form['name']
@@ -162,6 +169,7 @@ def product_add():
 
 
 @bp.route("/existing/list/")
+@login_required
 def existing_list():
     all_products = db.product.find({}, 
                     {'storehouse':1 ,'name':1 ,'count':1, 'price':1, '_id':0})
@@ -169,6 +177,7 @@ def existing_list():
     return json_string
 
 @bp.route("/existing/edit/", methods=['POST'])
+@login_required
 def existing_edit():
     storehouse = request.form['storehouse']
     name = request.form['name']
@@ -193,31 +202,28 @@ def existing_edit():
     if count < 0:
         return {'response':'#editFormCount', 'msg':'تعداد نباید عددی منفی باشد'}
     
-    if 'username' not in session:
-        return {'response':'FAILED', 'msg':'FAILED'}
-    else:
-        try:
-            update_result = db.product.update({
-                'storehouse' : storehouse,
-                'name' : name
-            }, 
-            {'$set' : {'count': count,
-                        'price': price
-            }})
-            if update_result['updatedExisting'] == False:
-                return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
-            else:
-                return {'response':'SUCCESS','msg':'SUCCESS'}
-        except:
-            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+    try:
+        update_result = db.product.update({
+            'storehouse' : storehouse,
+            'name' : name
+        }, 
+        {'$set' : {'count': count,
+                    'price': price
+        }})
+        if update_result['updatedExisting'] == False:
+            return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
+        else:
+            return {'response':'SUCCESS','msg':'SUCCESS'}
+    except:
+        return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/existing/delete/", methods=['GET'])
+@login_required
 def existing_delete():
     name = request.args.get('name')
     storehouse = request.args.get('storehouse')
     price = request.args.get('price')
     count = request.args.get('count')
-    
     try:
         price = int(price)
     except:
@@ -232,26 +238,23 @@ def existing_delete():
     if count < 0:
         return {'response':'FAILED', 'msg':'تعداد باید عددی صحیح و نامنفی باشد'}
     
-    if 'username' in session:
-        try:
-            remove_result = db.product.update({
-                'storehouse' : storehouse,
-                'name' : name,
-                'price' : price,
-                'count' : count
-            }, 
-            {'$set' : {'count': 0 } })
-            print(remove_result)
-            if remove_result['updatedExisting'] == False:
-                return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
-            else:
-                return {'response':'SUCCESS','msg':'SUCCESS'}
-        except:
-            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
-    else:
-        return {'response':'FAILED', 'msg':'FAILED'}
+    try:
+        remove_result = db.product.update({
+            'storehouse' : storehouse,
+            'name' : name,
+            'price' : price,
+            'count' : count
+        }, 
+        {'$set' : {'count': 0 } })
+        if remove_result['updatedExisting'] == False:
+            return {'response':'FAILED', 'msg':'کالایی با این مشخصات یافت نشد'}
+        else:
+            return {'response':'SUCCESS','msg':'SUCCESS'}
+    except:
+        return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/existing/add/", methods=['POST'])
+@login_required
 def existing_add():
     storehouse = request.form['storehouse']
     name = request.form['name']
@@ -261,8 +264,6 @@ def existing_add():
     subcategory = request.form['subcategory']
     # image = request.form['image']
     # print(type(image))
-    print(11111111111111)
-    print(price)
     if name == '':
         return {'response':'#addFormName', 'msg':'فیلد نام کالا نباید خالی باشد'}
     
@@ -302,122 +303,116 @@ def existing_add():
             if not sub.replace(' ','').isalpha():
                 return {'response':'#addFormSubCategory', 'msg':'هیچ یک از زیر گروه ها نباید کاراکتر غیر حرفی داشته باشد'}
     
-    if 'username' not in session:
-        return {'response':'FAILED', 'msg':'FAILED'}
-    else:
-        try:
-            edited_category = []
-            edited_subcategory = []
-            for cat in category.split('،'):
-                edited_category.append(cat.strip())
-            for sub in subcategory.split('،'):
-                edited_subcategory.append(sub.strip())
+    try:
+        edited_category = []
+        edited_subcategory = []
+        for cat in category.split('،'):
+            edited_category.append(cat.strip())
+        for sub in subcategory.split('،'):
+            edited_subcategory.append(sub.strip())
 
-            db.product.insert_one({
-                'storehouse' : storehouse,
-                'name' : name,
-                'count' : count,
-                'price' : price,
-                'category' : edited_category,
-                'subcategory' : edited_subcategory,
-            })
-            return {'response':'SUCCESS','msg':'SUCCESS'}
-        except:
-            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+        db.product.insert_one({
+            'storehouse' : storehouse,
+            'name' : name,
+            'count' : count,
+            'price' : price,
+            'category' : edited_category,
+            'subcategory' : edited_subcategory,
+        })
+        return {'response':'SUCCESS','msg':'SUCCESS'}
+    except:
+        return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 
 @bp.route("/storehouse/list/")
+@login_required
 def storehouse_list():
     all_products = db.storehouse.find({}, {'name':1, '_id':0})
     json_string = dumps(all_products)
     return json_string
 
 @bp.route("/storehouse/edit/", methods=['POST'])
+@login_required
 def storehosue_edit():
     name = request.form['name']
     previous_name = request.form['previous_name']
-    print(previous_name, name)
     if name == '':
         return {'response':'#editFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
 
     if name == previous_name:
         return {'response':'FAILED', 'msg':'نام جدیدی برای انبار انتخاب کنید' }
-    if 'username' not in session:
-            return {'response':'FAILED', 'msg':'FAILED'}
-    else:
-        try:
-            update_storehouses = db.storehouse.update({
-                'name' : previous_name
-            }, 
-            {'$set' : { 'name': name }
-            })
 
-            try:
-                update_products = db.product.update_many({
-                    'storehouse' : previous_name
-                },
-                {'$set' : { 'storehouse' : name }
-                })
-            except:
-                return {'response':'FAILED', 'msg':'تغییر نام انبار انجام نشد. لطفا کمی بعد مجددا تلاش کنید'}
-            
-            if update_storehouses['updatedExisting'] == False:
-                return {'response':'FAILED', 'msg':'انباری با این نام یافت نشد'}
-            else:
-                return {'response':'SUCCESS','msg':f'نام {previous_name} با {update_products.modified_count} عدد کالا به {name} تغییر پیدا کرد'}
+    try:
+        update_storehouses = db.storehouse.update({
+            'name' : previous_name
+        }, 
+        {'$set' : { 'name': name }
+        })
+
+        try:
+            update_products = db.product.update_many({
+                'storehouse' : previous_name
+            },
+            {'$set' : { 'storehouse' : name }
+            })
         except:
-            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+            return {'response':'FAILED', 'msg':'تغییر نام انبار انجام نشد. لطفا کمی بعد مجددا تلاش کنید'}
+        
+        if update_storehouses['updatedExisting'] == False:
+            return {'response':'FAILED', 'msg':'انباری با این نام یافت نشد'}
+        else:
+            return {'response':'SUCCESS','msg':f'نام {previous_name} با {update_products.modified_count} عدد کالا به {name} تغییر پیدا کرد'}
+    except:
+        return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/storehouse/delete/", methods=['GET'])
+@login_required
 def storehosue_delete():
     name = request.args.get('name')
-    if 'username' not in session:
-        return {'response':'FAILED', 'msg':'FAILED'}
-    else:
+    try:
+        remove_storehouse = db.storehouse.delete_one({
+            'name' : name
+        })
         try:
-            remove_storehouse = db.storehouse.delete_one({
-                'name' : name
+            remove_product = db.product.update_many({
+                'storehouse' : name
+            },
+            { '$set' : { 'count' : 0 }
             })
-            try:
-                remove_product = db.product.update_many({
-                    'storehouse' : name
-                },
-                { '$set' : { 'count' : 0 }
-                })
-            except:
-                return {'response':'FAILED', 'msg':'حذف موجودی کالا های انبار انجام نشد. لطفا کمی بعد مجددا تلاش کنید'}
-
-            if remove_storehouse.deleted_count == 0:
-                return {'response':'FAILED', 'msg':'انباری با این نام یافت نشد'}
-            else:
-                return {'response':'SUCCESS','msg':f'موجودی {remove_product.modified_count} تا از کالا های انبار {name} به صفر تغییر پیدا کرد'}
         except:
-            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+            return {'response':'FAILED', 'msg':'حذف موجودی کالا های انبار انجام نشد. لطفا کمی بعد مجددا تلاش کنید'}
+
+        if remove_storehouse.deleted_count == 0:
+            return {'response':'FAILED', 'msg':'انباری با این نام یافت نشد'}
+        else:
+            return {'response':'SUCCESS','msg':f'موجودی {remove_product.modified_count} تا از کالا های انبار {name} به صفر تغییر پیدا کرد'}
+    except:
+        return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 @bp.route("/storehouse/add/", methods=['POST'])
+@login_required
 def storehouse_add():
     name = request.form['name']
 
     if name == '':
         return {'response':'#addFormName', 'msg':'فیلد نام انبار نباید خالی باشد'}
     
-    if 'username' not in session:
-        return {'response':'FAILED', 'msg':'FAILED'}
-    else:
-        try:
-            db.storehouse.insert_one({
-                'name' : name,
-            })
-            return {'response':'SUCCESS','msg':'SUCCESS'}
-        except:
-            return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
+    try:
+        db.storehouse.insert_one({
+            'name' : name,
+        })
+        return {'response':'SUCCESS','msg':'SUCCESS'}
+    except:
+        return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
 
 
 @bp.route("/order/list/",methods=['GET'])
+@login_required
 def order_list():
     all_order = db.order.find({})
     json_string = dumps(all_order)
     return json_string
+
 
 @bp.route("/mainProduct/list/",methods=['POST'])
 def mainProduct_list():
@@ -440,7 +435,6 @@ def mainProduct_list():
                             'price' : price,
                             'count' : count})
     session['orders'] = all_order
-    print(session)
     return {}
 
 @bp.route("/mainProduct/delete/",methods=['POST'])
@@ -460,3 +454,99 @@ def mainProduct_delete():
     session['orders'] = all_order
     return {'response' : 'FAILED'}
 
+
+@bp.route("/detail/")
+@login_required
+def detail():
+    all_products = db.product.find({}, 
+                    {'name':1, 'price':1, 'storehouse':1,'count':1})
+    json_string = dumps(all_products)
+    return json_string
+
+@bp.route("/mainProduct/approve/", methods=['POST'])
+def approve_order():
+    firstname = request.form['firstname']
+    lastname = request.form['lastname']
+    date = request.form['date']
+    tel = request.form['tel']
+    address = request.form['address']
+    # print(date,type(datetime.strptime(date,"%Y-%m-%d")),datetime.strptime(date,"%Y-%m-%d"))
+    # print(datetime.now())
+    
+    if firstname == '':
+        return {'response':'#formFirstName', 'msg':'لطفا نام خود را وارد کنید'}
+    
+    if lastname == '':
+        return {'response':'#formLastName', 'msg':'لطفا نام خانوادگی خود را وارد کنید'}
+
+    if date == '':
+        return {'response':'#formDate', 'msg':'لطفا تاریخ مناسب برای تحویل کالا را وارد کنید'}
+    # add if for check data #
+
+    if tel == '':
+        return {'response':'#formTelphone', 'msg':'لطفا شماره تلفن همراه خود را وارد کنید'}
+    try:
+        int(tel)
+    except:
+        return {'response':'#formTelphone', 'msg':'فرمت وارد شده برای تلفن همراه نادرست است'}
+    if len(tel) != 11:
+        return {'response':'#formTelphone', 'msg':'فرمت وارد شده برای تلفن همراه نادرست است'}
+    if tel[0] != '0' or tel[1] != '9':
+        return {'response':'#formTelphone', 'msg':'فرمت وارد شده برای تلفن همراه نادرست است'}
+
+    if address == '':
+        return {'response':'#formAddress', 'msg':'لطفا آدرس خود را وارد کنید'}
+
+    if 'orders' not in session or len(session['orders']) == 0:
+        return {'response':'FAILEDNULL', 'msg':'هیچ کالایی انتخاب نشده است'}
+
+    check_list = []
+    for ords in session['orders']:
+        selected_product = db.product.find_one({
+            'name' : ords['name'],
+            'price' : ords['price']
+        })
+        if selected_product['count'] < ords['count']:
+            check_list.append(ords)
+    print(dumps(check_list))
+    if len(check_list) > 0:
+        return {'response' : 'FAILED', 'msg': json_dumps(check_list)}
+    else:
+        all_product={}
+        total=0
+        for ords in session['orders']:
+            selected_product = db.product.find_one({
+            'name' : ords['name'],
+            'price' : ords['price']
+            })
+            current_count = selected_product['count']
+            current_price = selected_product['price']
+            current_name = selected_product['name']
+            current_storehouse = selected_product['storehouse']
+            current_id = selected_product['_id']
+            total=int(current_price)*int(ords['count'])
+            all_product[str(current_id)]={
+                "price":current_price,
+                'name':current_name,
+                'storehouse':current_storehouse,
+                'count':ords['count'],
+            }
+            db.product.update({
+            'name' : ords['name'],
+            'price' : ords['price']
+            }, 
+            {'$set' : {
+                'count': int(current_count) - int(ords['count'])
+            }})
+        db.order.insert({
+            'name':firstname+" "+lastname,
+            'address':address,
+            'mobile':tel,
+            'date_delivery':date,
+            # datetime.strptime(date,"%Y-%m-%d")
+            'date_submit':datetime.now().strftime("%Y-%m-%d"),
+            "product":all_product,
+            'total':total,
+        })
+        session.pop('orders')
+        return {'response' : 'SUCCESS'}

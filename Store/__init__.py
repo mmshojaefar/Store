@@ -17,5 +17,11 @@ def create_app(test_config=None):
     app.register_blueprint(api.bp)
     app.register_blueprint(main.bp)
     app.register_blueprint(admin.bp)
+    app.register_error_handler(404, page_not_found)
 
     return app
+
+
+def page_not_found(e):
+  return '400000004', 404
+
