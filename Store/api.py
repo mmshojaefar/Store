@@ -6,6 +6,7 @@ from json import dumps as json_dumps
 from Store.admin import login_required
 from os import SEEK_END, path
 from datetime import datetime
+import PIL
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -306,10 +307,8 @@ def existing_add():
     
     image.seek(0, SEEK_END)
     file_length = image.tell()
-    print(file_length)
     if file_length > 1024*1024:
         return {'response':'#addFormImage', 'msg':'سایز عکس نباید بیشتر از یک مگا بایت باشد'}
-
 
     try:
         edited_category = []
@@ -333,9 +332,12 @@ def existing_add():
             image_name = 'images/defaultIMG.png'
         else:
             try:
-                image_name = f'images/{str(pr.inserted_id)}.gif'
+                ext = image.filename.split('.')[-1]
+                image_name = f'images/{str(pr.inserted_id)}.{ext}'
                 folder_path = url_for('static', filename=image_name)
-                full_path = current_app.root_path + folder_path
+                folder_path = folder_path[1:]
+                full_path = path.join(current_app.root_path, folder_path)
+                image.seek(0)
                 image.save(full_path)
             except:
                 return {'response':'FAILEDIMG', 'msg':'کالا اضافه شد اما خطایی در ذخیره سازی عکس رخ داد. لطفا بعدا عکس را اضافه کنید'}

@@ -195,8 +195,8 @@ function addRow(){
         $('#addFormCategory').next().html("")
         $('#addFormSubCategory').removeClass('is-invalid')
         $('#addFormSubCategory').next().html("")
-        $('#editFinalError').removeClass('form-control is-invalid')
-        $('#editFinalError').html("")
+        $('#addFinalError').removeClass('form-control is-invalid')
+        $('#addFinalError').html("")
 
         if($('#addFormStorehouse').find('option').length == 0){
             global_all_storehouse.forEach(function(st){
@@ -263,6 +263,7 @@ function addRow(){
         $('#addFormCategory').removeClass('is-invalid')
         $('#addFormSubCategory').removeClass('is-invalid')
         $('#addFinalError').removeClass('form-control is-invalid')
+        $('#addFinalError').empty()
         
         e1.stopPropagation()
         $('#addForm').submit(function(e){
@@ -322,8 +323,8 @@ function addRow(){
                             counter--;
                             if (counter<=0){
                                 clearInterval(myInterval)
-                                $('#editModal').modal('hide');
-                                $('#editModal .editSaveButton').prop('disabled', false)    
+                                $('#addModal').modal('hide');
+                                $('#addModal .addSaveButton').prop('disabled', false)    
                             }
                         },1000)
                     }
