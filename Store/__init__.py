@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask import render_template
 
 
 def create_app(test_config=None):
@@ -23,5 +24,5 @@ def create_app(test_config=None):
 
 
 def page_not_found(e):
-  return '400000004', 404
+  return(render_template('404.html'))
 
