@@ -1,9 +1,10 @@
-from flask import Blueprint, request, render_template, session, url_for, g
-from werkzeug.utils import redirect
+from flask import Blueprint, request, render_template, session, url_for, g, current_app
+from werkzeug.utils import redirect, secure_filename
 from Store.db import db
 from bson.json_util import dumps
 from json import dumps as json_dumps
 from Store.admin import login_required
+from os import SEEK_END, path
 from datetime import datetime
 
 bp = Blueprint("api", __name__, url_prefix="/api")
@@ -256,14 +257,14 @@ def existing_delete():
 @bp.route("/existing/add/", methods=['POST'])
 @login_required
 def existing_add():
-    storehouse = request.form['storehouse']
-    name = request.form['name']
-    price = request.form['price']
-    count = request.form['count']
-    category = request.form['category']
-    subcategory = request.form['subcategory']
-    # image = request.form['image']
-    # print(type(image))
+    storehouse = request.form['addFormStorehouse']
+    name = request.form['addFormName']
+    price = request.form['addFormPrice']
+    count = request.form['addFormCount']
+    category = request.form['addFormCategory']
+    subcategory = request.form['addFormSubCategory']
+    image = request.files['addFormImage']
+
     if name == '':
         return {'response':'#addFormName', 'msg':'فیلد نام کالا نباید خالی باشد'}
     
@@ -303,6 +304,13 @@ def existing_add():
             if not sub.replace(' ','').isalpha():
                 return {'response':'#addFormSubCategory', 'msg':'هیچ یک از زیر گروه ها نباید کاراکتر غیر حرفی داشته باشد'}
     
+    image.seek(0, SEEK_END)
+    file_length = image.tell()
+    print(file_length)
+    if file_length > 1024*1024:
+        return {'response':'#addFormImage', 'msg':'سایز عکس نباید بیشتر از یک مگا بایت باشد'}
+
+
     try:
         edited_category = []
         edited_subcategory = []
@@ -310,15 +318,40 @@ def existing_add():
             edited_category.append(cat.strip())
         for sub in subcategory.split('،'):
             edited_subcategory.append(sub.strip())
-
-        db.product.insert_one({
+        
+        pr = db.product.insert_one({
             'storehouse' : storehouse,
             'name' : name,
             'count' : count,
             'price' : price,
             'category' : edited_category,
             'subcategory' : edited_subcategory,
+            'image' : 'images/defaultIMG.png'
         })
+
+        if not image:
+            image_name = 'images/defaultIMG.png'
+        else:
+            try:
+                image_name = f'images/{str(pr.inserted_id)}.gif'
+                folder_path = url_for('static', filename=image_name)
+                full_path = current_app.root_path + folder_path
+                image.save(full_path)
+            except:
+                return {'response':'FAILEDIMG', 'msg':'کالا اضافه شد اما خطایی در ذخیره سازی عکس رخ داد. لطفا بعدا عکس را اضافه کنید'}
+        
+        db.product.update({
+            'storehouse' : storehouse,
+            'name' : name,
+            'count' : count,
+            'price' : price,
+            'category' : edited_category,
+            'subcategory' : edited_subcategory,
+        }, 
+        {'$set' : {
+            'image' : image_name
+        }})
+
         return {'response':'SUCCESS','msg':'SUCCESS'}
     except:
         return {'response':'FAILED', 'msg':'لطفا کمی بعد مجددا تلاش کنید'}
