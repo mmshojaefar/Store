@@ -54,19 +54,26 @@ def product_edit():
 
 @bp.route("/product/delete/", methods=['GET'])
 def product_delete():
-    if request.method == 'GET':
-        # image = request.form['image']
-        name = request.args.get('name')
-        # category = request.form['category']
-        if 'username' in session:
-            db.product.remove({
+    # image = request.form['image']
+    name = request.args.get('name')
+    
+    if 'username' in session:
+        try:
+            res = db.product.remove({
                 # 'image' : image,
                 'name' : name,
                 # 'category': category,
-            })
+                })['nRemoved']
+            if res==0:
+                return {'response': 'FAILED', 'msg': 'کالایی با این مشخصات یافت نشد'}
+            else:
+                return {'response': 'SUCCESS', 'msg': 'SUCCESS'} 
+                
+        except:
+            return {'response': 'FAILED', 'msg': 'مجددا تلاش کنید'}
+    else:
+        return {'response': 'FAILED', 'msg':'FAILED'}
 
-        return 'SUCCESS'
-    return 'FAILED'
 
 @bp.route("/product/add/", methods=['POST'])
 def product_add():

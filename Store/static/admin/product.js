@@ -113,15 +113,22 @@ function editRow(){
     })
 }
 
-function deleteRow(){
+function deleteRow(){ 
+    var $name
+    var $category
+    // var $subcategory
+    // var image
     $('tbody tr td:last-child button:last-child').click(function(){
-        $selectrow = $(this).closest('tr')
-        $row = $selectrow.find('td');
-        var $image = $($row[0]).text();
-        var $name = $($row[1]).text();
-        var $category = $($row[2]).text().split(" >> ")[0];
-        console.log($category)
-        console.log($name) 
+
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').removeClass('form-control is-valid')
+        $('#deleteFinalError').html("")
+
+        $row_data = $(this).closest('tr');
+        $row = $(this).closest('tr').find('td');
+        $image = $($row[0]).text();
+        $name = $($row[1]).text();
+        $category = $($row[2]).text().split(" >> ")[0];
         $div = $("#deleteModal .modal-body");
         $div.empty()
         var data = "";
@@ -131,26 +138,37 @@ function deleteRow(){
         data += "<label>" + $category + "</label> ";
         data += "<label> اطمینان دارید؟</label> ";
         $div.append(data);
-        
-        $('#deleteModal .deleteSaveButton').click(function(){
-            $.ajax({
-                url : url_delete,
-                data : {
-                    'name' : $name
-                },
-                type : "GET",
-                success : function(){
-                    $selectrow.remove();
-                },
-                error : function(){
-                    console.log('eeee');
-                }
-            });
-            $('#deleteModal').modal('hide');
-        })
-        
     })
 
+    $('#deleteModal .deleteSaveButton').click(function(){
+        
+        $('#deleteFinalError').removeClass('form-control is-invalid')
+        $('#deleteFinalError').removeClass('form-control is-valid')
+        $('#deleteFinalError').html("")
+
+        $.ajax({
+            url : url_delete,
+            data : {
+                'name' : $name
+            },
+            type : "GET",
+            success : function(response){
+                if(response['response'] == 'SUCCESS'){
+                    console.log('aaaaaaaaaaaaaaaaa')
+                    $row_data.remove();
+                    $('#deleteModal').modal('hide');
+                }
+                else{
+                    $('#deleteFinalError').html(response['msg'])
+                    $('#deleteFinalError').addClass('form-control is-invalid')
+                }
+            },
+            error : function(){
+                $('#deleteFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
+                $('#deleteFinalError').addClass('form-control is-invalid')
+            }
+        });
+    })
 }
 
 function addRow(){
