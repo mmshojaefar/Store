@@ -16,18 +16,15 @@ $.get(url_list, function(response, status){
     
     var $tbody = $("tbody")
     JSON.parse(response).forEach(function(product){
-        // var image = product.image;
-        var image = new Image();
-        image.src = product.image;
+        var image = product.image;
         var name = product.name;
         var category = product.category;
         var subcategory = product.subcategory;
         var row = ""
         row += "<tr>";
-        // check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        // row += "<td>" + "<img></img>" + "</td>";
-        // $('img').attr("src", image.scr)
-        row += "<td>" + image + "</td>";
+        var src = '/static/' + image
+        row += "<td>" + "<img style ='height:50px; width: 50px; border-radius: 10px' src=" +  src +  "></td>";
+        console.log(image)
         row += "<td>" + name + "</td>";
         row += "<td>" + category + ' >> ' + subcategory + "</td>";
         row += "<td>" ;
