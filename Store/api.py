@@ -6,7 +6,6 @@ from json import dumps as json_dumps
 from Store.admin import login_required
 from os import SEEK_END, path
 from datetime import datetime
-import PIL
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
