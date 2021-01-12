@@ -99,8 +99,8 @@
             <h5 class="modal-title" id="addModalLabel">افزودن موجودی</h5>
             <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form action="" id='addForm' novalidate>
+                <div class="modal-body">
                     <label  class="form-label" for='addFormStorehouse'>انبار :</label>
                     <select class="form-select" name='addFormStorehouse' id='addFormStorehouse'>
                     </select>
@@ -136,13 +136,13 @@
                         <input class='form-control' type='file' accept='image/*' id='addFormImage' name='addFormImage'>
                         <div class="invalid-feedback"></div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div id="addFinalError"></div>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="addSaveButton btn btn-primary">افزودن</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="addFinalError"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                    <button type="submit" class="addSaveButton btn btn-primary">افزودن</button>
+                </div>
+            </form>
         </div>
         </div>
     </div>

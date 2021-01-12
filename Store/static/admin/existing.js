@@ -207,67 +207,135 @@ function addRow(){
         }
     })
 
-    $('#addModal .addSaveButton').click(function(){
+    // $('#tesssst').click(function(event){
+    //     console.log(111111)
+    //     event.preventDefault()
+    //     // $image = $('#tesssst1').prop('files')[0]
+    //     var formData = new FormData()
+    //     formData.append('image',fileInputElement.files[0])
+    //     // console.log($image)
+    //     $.post('../../api/existing/add_image/',{
+    //         'image' : formData
+    //     }, function(response){
+    //         console.log(response)
+    //     })
+    // })
+    
+
+    // $('#addForm').submit(function(e){
+    //     console.log(555)
+    //     e.preventDefault();
+    //     var formData = new FormData(this);
+    //     formData.append('name', 'abs')
+    //     console.log(formData)
+    //     fetch('/api/existing/add_image/', {
+    //         method: "POST", 
+    //         body: formData
+    //     })
+    // })
+
+
+    // $('#addForm').submit(function(e){
+    //     e.preventDefault();
+    //     var formData = new FormData(this);
+    //     for (var p of formData) {
+    //         console.log(p);
+    //     }
+    //     $('#addModal .addSaveButton').click(function(){
+    //         fetch('/api/existing/add_image/', {
+    //             method: "POST", 
+    //             body: formData
+    //         })
+    //         .then(function(res){
+    //             console.log(res)
+    //             console.log(4444)
+    //         })
+    //         console.log(5555)
+    //     })
+    // })
+
+
+
+    $('#addModal .addSaveButton').click(function(e1){
         $('#addFormName').removeClass('is-invalid')
         $('#addFormPrice').removeClass('is-invalid')
         $('#addFormCount').removeClass('is-invalid')
         $('#addFormCategory').removeClass('is-invalid')
         $('#addFormSubCategory').removeClass('is-invalid')
-        $('#editFinalError').removeClass('form-control is-invalid')
+        $('#addFinalError').removeClass('form-control is-invalid')
+        
+        e1.stopPropagation()
+        $('#addForm').submit(function(e){
+            e.stopImmediatePropagation()
+            var formData = new FormData(this); 
+            e.preventDefault();
+            fetch(url_add, {
+                method: "POST", 
+                body: formData
+            })
+            .then(function (res) {
+                return res.json()
+            })
+            .then( (response) => {
+                console.log(response['response']);
+                console.log(response['msg']);
+                if(response['response'] == 'SUCCESS'){
+                    $div = $("#addModal .modal-body");
+                    var $storehouse = $($($div).find('#addFormStorehouse')).prop("value");
+                    var $name = $($($div).find('#addFormName')).prop("value");
+                    var $price = $($($div).find('#addFormPrice')).prop("value");
+                    var $count = $($($div).find('#addFormCount')).prop("value");
+                    
+                    var row = "";
+                    row += "<tr>";
+                    row += "<td>" + $storehouse + "</td>";
+                    row += "<td>" + $name + "</td>";
+                    row += "<td>" + $price + "</td>";
+                    row += "<td>" + $count + "</td>";
+                    row += "<td>" ;
+                    row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+                    row += "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+                    row += "</td>";
+                    row += "</tr>";
+                    $('tbody').append(row);
+                    editRow();
+                    deleteRow();
+                    $('#addModal .modal-body input').val('');
+                    $('#addModal').modal('hide');
+                }
+                else if(response['response'] != 'SUCCESS'){
+                    if(response['response'] != 'FAILED' && response['response'] != 'FAILEDIMG'){
+                        $(response['response']).addClass('form-control is-invalid')
+                        $(response['response']).next().html(response['msg'])
+                    }
+                    else if(response['response'] == 'FAILED'){
+                        $('#addFinalError').html(response['msg'])
+                        $('#addFinalError').addClass('form-control is-invalid')
+                    }
+                    else{
+                        $('#addFinalError').html(response['msg'])
+                        $('#addFinalError').addClass('form-control is-invalid')
+                        $('#addModal .addSaveButton').prop('disabled', 'disabled')
 
-        $div = $("#addModal .modal-body");
-        var $storehouse = $($($div).find('#addFormStorehouse')).prop("value");
-        var $name = $($($div).find('#addFormName')).prop("value");
-        var $price = $($($div).find('#addFormPrice')).prop("value");
-        var $count = $($($div).find('#addFormCount')).prop("value");
-        var $category = $($($div).find('#addFormCategory')).prop("value");
-        var $subcategory = $($($div).find('#addFormSubCategory')).prop("value");
-        // var $image = $($($div).find('#addFormImage')).prop("files");
-        console.log($price)
-        $.post(url_add, {
-            'storehouse' : $storehouse,
-            'name' : $name,
-            'price' : $price,
-            'count' : $count,
-            'category' : $category,
-            'subcategory': $subcategory,
-            // image: $image
-        }, function(response, status){
-            console.log(response)
-            if(status == 'success' && response['response'] == 'SUCCESS'){
-                var row = "";
-                row += "<tr>";
-                row += "<td>" + $storehouse + "</td>";
-                row += "<td>" + $name + "</td>";
-                row += "<td>" + $price + "</td>";
-                row += "<td>" + $count + "</td>";
-                row += "<td>" ;
-                row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
-                row += "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
-                row += "</td>";
-                row += "</tr>";
-                $('tbody').append(row);
-                editRow();
-                deleteRow();
-                $('#addModal .modal-body input').val('');
-                $('#addModal').modal('hide');
-            }
-            else if(status == 'success' && response['response'] != 'SUCCESS'){
-                if(response['response'] != 'FAILED'){
-                    $(response['response']).addClass('form-control is-invalid')
-                    $(response['response']).next().html(response['msg'])
+                        var counter = 3;
+                        var myInterval = setInterval(()=>{
+                            counter--;
+                            if (counter<=0){
+                                clearInterval(myInterval)
+                                $('#editModal').modal('hide');
+                                $('#editModal .editSaveButton').prop('disabled', false)    
+                            }
+                        },1000)
+                    }
                 }
-                else{
-                    $('#addFinalError').html(response['msg'])
-                    $('#addFinalError').addClass('form-control is-invalid')
-                }
-            }
-            else{
+            }).catch(function(){
                 $('#addFinalError').html('ارتباط با سرور قطع شده است. لطفا مجددا تلاش کنید')
                 $('#addFinalError').addClass('form-control is-invalid')
-            }
-        })            
+            })
+
+        })
     })
+
 }
 
 
