@@ -48,7 +48,7 @@
                             </td>
                             <td>
                                 <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                                    <img src="{{ product.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
+                                    <img src={{ url_for('static', filename=product.image )}} alt={{ product.get('name') }} width="50" height="60">
                                 </a>
                             </td>
                         </tr>

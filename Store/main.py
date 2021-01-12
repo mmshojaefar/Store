@@ -31,8 +31,7 @@ def category(ct):
                         {'name':1,
                          '_id':0, 
                         'price':1, 
-                        'img':1})
-    
+                        'image':1})
     categories = db.product.find({}, {"category": 1,"subcategory":1, "_id": 0})
     list_categories = [i['category'] for i in categories]
     cat_dup = []

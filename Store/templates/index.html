@@ -22,7 +22,7 @@
                 </td>
                 <td>
                     <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
-                        <img src="{{ st.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
+                        <img src={{ url_for('static', filename=st.image )}} alt={{ st.get('name') }} width="50" height="60">
                     </a>
                 </td>
             </tr>
