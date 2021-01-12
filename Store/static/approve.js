@@ -46,7 +46,7 @@ $('#submitOrderFinal').click(function(event){
                     $('#FinalModal').modal('show');    
                 }
                 else{
-                    var data = '<label>موجودی کالاهای زیر به اتمام رسیده است</label>'
+                    var data = '<label>موجودی کالا انتخابی از تعداد مورد نظر کمتر است</label>'
                     data += '<ul class="list-group">'
                     JSON.parse(response['msg']).forEach( pr => {
                         console.log(pr['name'])
