@@ -1,19 +1,19 @@
 {% extends "/base.html" %}
-
-{% block title %}
-مکتب کالا - دسته بندی
-{% endblock %}
+{% block title %} مکتب کالا - دسته بندی {% endblock %} 
 
 
-{% block content %}
+<!-- block menu -->
+{% block header %}
+    <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu" />
+        <label for="openSidebarMenu" class="sidebarIconToggle">
+            <div class="spinner diagonal part-1"></div>
+            <div class="spinner horizontal"></div>
+            <div class="spinner diagonal part-2"></div>
+        </label>
 
-<main class="main">
-    <aside class="sidebar">
-      <nav class="nav">
-        <ul>
-          <li ><a style="text-decoration: none; color:black;" href="/">مکتب کالا</a></li>
-
-          {% for category in cat_subcat %}
+    <div id="sidebarMenu">
+        <ul class="sidebarMenuInner">
+            {% for category in cat_subcat %}
             <li ><a class="lii sbar" href="/category/{{ category }}">{{ category }}</a>
                 <ul>
                     {% for subcat in cat_subcat.get(category) %}
@@ -23,58 +23,39 @@
             </li>
           {% endfor %}
         </ul>
-      </nav>
-    </aside>
-  
-    <section class="category">
-      <div class="container">
-        <h1>کالا های گروه {{ name }}</h1>
-    <table>
-
-    <!-- {% block table %} -->
-
-    {% for product in category %}
-
-        <tr>
-            <td>
-                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                    نام محصول: {{ product.get('name') }}
-                </a>
-            </td>
-            <td>
-                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                    قیمت کالا: {{ product.get('price') }}
-                </a>
-            </td>
-            <td>
-                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                    <img src="{{ product.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
-                </a>
-            </td>
-        </tr>
-    {% endfor %}
-
-    <!-- {% endblock %} -->
-    </table>
-            <hr> 
-      </div>
-    </section>
-  </main>
-    
+    </div>
 {% endblock %}
+<!-- End block menu -->
 
-{% block script %}
-<script>
-    $('.sbar').click(function(){
-        $(this).addClass('active')
-    })
-    $('.active').removeClass('active')
-    for(var i=0; i<$('.sbar').length; i++){
-        // console.log($($('.sbar')[i]).attr('href'),decodeURI(window.location.pathname))
-        if( $($('.sbar')[i]).attr('href') == decodeURI(window.location.pathname)){
-            console.log(decodeURI(window.location.pathname))
-            $($('.sbar')[i]).addClass('active')
-    }
-    }
-</script>   
+
+<!-- content -->
+{% block content %}
+    <section class="category" >
+        <div >
+            <h1>کالا های گروه {{ name }}</h1>
+                <table>
+                    {% for product in category %}
+                        <tr>
+                            <td>
+                                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
+                                    نام محصول: {{ product.get('name') }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
+                                    قیمت کالا: {{ product.get('price') }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
+                                    <img src="{{ product.get('image') }}" alt="بعدا عکس میذاریم" width="50" height="60">
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            <hr> 
+        </div>
+    </section>
+<!-- End content -->
 {% endblock %}
