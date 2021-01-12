@@ -5,30 +5,40 @@
 {% endblock %}
 
 {% block content %}
+<div class="row">
     {% for cat in pr.keys() %}
-    <h1><a href='category/{{ cat }}' style="text-decoration: none; color: black">کالا های گروه {{ cat }}</a></h1>
-        <table>
-        {% for st in pr.get(cat) %}
-            <tr>
-                <td>
-                    <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
-                        نام محصول: {{ st.get('name') }}
-                    </a>
-                </td>
-                <td>
-                    <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
-                        قیمت کالا: {{ st.get('price') }}
-                    </a>
-                </td>
-                <td>
-                    <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
-                        <img src={{ url_for('static', filename=st.image )}} alt={{ st.get('name') }} width="50" height="60">
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
-        <hr>
+        <div class="col-12">
+            <h2><a href='category/{{ cat }}' style="text-decoration: none; color: black">کالا های گروه {{ cat }}</a></h2>
+        </div>
+        <div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+                {% for st in pr.get(cat) %}
+                    <div class="mb-3 pf-1 pe-1" style="max-width: 540px">
+                        <div class="row g-0 card-body">
+                            <div class="col-lg-5 card">
+                                <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
+                                    <img src={{ url_for('static', filename=st.image )}} alt={{ st.get('name') }} width="100%" height="200">
+                                </a>
+                            </div>
+                            <div class="col-lg-7 card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
+                                            {{ st.get('name') }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text">
+                                        <a href="/product/?name={{ st.get('name') }}&price={{ st.get('price') }}" style="text-decoration: none; color: black">
+                                            قیمت کالا: {{ st.get('price') }} تومان
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     {% endfor %}
+</div>
 {% endblock %}
-

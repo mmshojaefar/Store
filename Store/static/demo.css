@@ -187,9 +187,11 @@ h2 span {
 
 
 @media (min-width: 768px) {
-  .rt-container {
+  /* IT COMMENTED */
+  /* .rt-container {
     width: 750px;
-  }
+  } */
+  /* IT COMMENTED */
   [class^="col-rt-"] {
     float: left;
     width: 49.9999999999%;

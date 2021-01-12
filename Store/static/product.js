@@ -4,6 +4,7 @@ $name = $('#name').text();
 $price = $('#price').text();
 $('#addToBasket').click(function(){
     $count = $('#count').val();
+    console.log($count)
     $.ajax({
         url : url_list,
         data : {

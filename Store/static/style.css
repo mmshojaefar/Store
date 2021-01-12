@@ -9,6 +9,13 @@ body {
     margin: 0;
     font-family: 'Varela Round', sans-serif;
 }
+
+/* IT ADDED */
+body h2{
+    font-size: 30px;
+}
+/* IT ADDED */
+
 .header {
     display: block;
     margin: 0 auto;
@@ -16,7 +23,7 @@ body {
     max-width: 100%;
     box-shadow: none;
     background-color: #FC466B;
-    position: fixed;
+    position: sticky;
     height: 60px!important;
     overflow: hidden;
     z-index: 10;
@@ -45,8 +52,10 @@ body {
     height: 100%;
     position: fixed;
     user-select: none;
-    right: 0;
+    /* HERE CHANGED to 16 284*/
+    right: 0px;
     width: 300px;
+    /* HERE CHANGED*/
     margin-top: 60px;
     transform: translateX(+300px);
     transition: transform 250ms ease-in-out;
@@ -153,5 +162,3 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     transform: rotate(-135deg);
     margin-top: -9px;
 }
-
-

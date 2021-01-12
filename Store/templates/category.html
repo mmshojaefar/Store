@@ -31,30 +31,37 @@
 <!-- content -->
 {% block content %}
     <section class="category" >
-        <div >
-            <h1>کالا های گروه {{ name }}</h1>
-                <table>
-                    {% for product in category %}
-                        <tr>
-                            <td>
+        <div class="col-12">
+            <h2><a href='category/{{ name }}' style="text-decoration: none; color: black">کالا های گروه {{ name }}</a></h2>
+        </div>
+        <div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+                {% for product in category %}
+                    <div class="mb-3 pf-1 pe-1" style="max-width: 540px">
+                        <div class="row g-0 card-body">
+                            <div class="col-lg-5 card">
                                 <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                                    نام محصول: {{ product.get('name') }}
+                                    <img src={{ url_for('static', filename=product.image )}} alt={{ product.get('name') }} width="100%" height="200">
                                 </a>
-                            </td>
-                            <td>
-                                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                                    قیمت کالا: {{ product.get('price') }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
-                                    <img src={{ url_for('static', filename=product.image )}} alt={{ product.get('name') }} width="50" height="60">
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            <hr> 
+                            </div>
+                            <div class="col-lg-7 card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
+                                            {{ product.get('name') }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text">
+                                        <a href="/product/?name={{ product.get('name') }}&price={{ product.get('price') }}" style="text-decoration: none; color: black">
+                                            قیمت کالا: {{ product.get('price') }} تومان
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </section>
 <!-- End content -->
