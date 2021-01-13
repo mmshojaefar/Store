@@ -106,10 +106,11 @@ h2 span {
     float: left;
     width: 100%;
     padding: 2em 0;
+    /* position: sticky; */
 }
 .rt-heading {
-    margin: 0 auto;
-	text-align:center;
+    margin: 0;
+	  text-align:center;
 }
 
 .ScriptHeader h1{
@@ -117,7 +118,7 @@ h2 span {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
     color: #6a4aed;
-    font-size: 26px;
+    /* font-size: 26px; */
     font-weight: 700;
     margin: 0;
     line-height: normal;
@@ -163,7 +164,7 @@ h2 span {
 *********************************************************/
 
 .rt-container {
-  margin: 0 auto;
+  margin: 0;
 }
 .rt-row:before, .rt-row:after {
   display: table;
@@ -251,7 +252,3 @@ h2 span {
 	}
 	
 }
-
-
-
-
