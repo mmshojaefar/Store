@@ -24,17 +24,17 @@ $.get(url_list, function(response, status){
         row += "<tr>";
         var src = '/static/' + image
         row += "<td>" + "<img style ='height:50px; width: 50px; border-radius: 10px' src=" +  src +  "></td>";
-        console.log(image)
         row += "<td>" + name + "</td>";
         row += "<td>" + category + ' >> ' + subcategory + "</td>";
-        row += "<td>" ;
-        row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
-        row += "<button class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+        row += "<td>";
+        row += "<button class='edit btn btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#editModal' style='margin-left: 5px;'> ویرایش</button>";
+        row += "<button class='delete btn btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
         row += "</td>";
         row += "</tr>";
         $tbody.append(row);
     })
     $('table').show()
+    $('td').attr('valign','middle')
     $('.lds-default').hide()
     editRow();
     deleteRow();

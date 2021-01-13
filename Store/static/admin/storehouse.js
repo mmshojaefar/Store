@@ -10,14 +10,15 @@ $.get(url_list, function(response, status){
         var row = ""
         row += "<tr>";
         row += "<td>" + name + "</td>";
-        row += "<td>" ;
-        row += "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
-        row += "<button class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+        row += "<td>";
+        row += "<button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' style='margin-left: 5px;'> ویرایش</button>";
+        row += "<button type='button' class='delete btn btn-primary' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
         row += "</td>";
         row += "</tr>";
         $tbody.append(row);
     })
     $('.lds-default').hide()
+    $('td').attr('valign','middle')
     $('table').show()
     editRow();
     deleteRow();

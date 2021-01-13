@@ -27,12 +27,13 @@ $.get(url_list, function(response, status){
 
             
             row += "<td>" ;
-            row += "<button type='button' class='check' data-bs-toggle='modal' data-bs-target='#checkmodal'>بررسی سفارش</button>";
+            row += "<button type='button' class='check btn btn-primary' data-bs-toggle='modal' data-bs-target='#checkmodal'>بررسی سفارش</button>";
             row += "</td>";
             row += "</tr>";
             $tbody.append(row);
     })
     checkRow()
+    $('td').attr('valign','middle')
 })
 
 function checkRow(){

@@ -2,11 +2,13 @@
 
 {% block title %}مدیریت کالا{% endblock %}
 {% block content %}
-    <h3>مدیریت کالاها</h3>
-    <button type="button" class="addImport" data-bs-toggle='modal' data-bs-target='#importModal'>import</button>
-    <button type="button" class="addProduct" data-bs-toggle='modal' data-bs-target='#addModal' id='addProductBtn'>افزودن کالا</button>
-
-    <!-- Table -->
+    <h3 style="margin-top: 8px;margin-bottom: 0px;">مدیریت کالاها</h3>
+    <div class="d-flex flex-row-reverse">
+        <button type="button" class="btn btn-primary addImport" data-bs-toggle='modal' data-bs-target='#importModal' style="margin-right: 5px;">import</button>
+        <button type="button" class="btn btn-primary addProduct" data-bs-toggle='modal' data-bs-target='#addModal' id='addProductBtn'>افزودن کالا</button>
+    </div>
+        
+    <!-- loading -->
     <div class="d-flex justify-content-center">
         <div class="lds-default">
             <div></div>
@@ -24,18 +26,20 @@
         </div>
     </div>
     <br>
-    <table border="1" class="table table-striped" style='display:none'>
-        <thead>
-            <tr>
-              <th>تصویر</th>
-              <th>نام کالا</th>
-              <th>دسته بندی</th>
-              <th></th>
-            </tr>
-          </thead>
-        <tbody></tbody>
-    </table>
-
+    <!-- Table -->
+    <div class="table-responsive">
+        <table border="1" class="table table-striped text-nowrap" style='display:none'>
+            <thead>
+                <tr>
+                <th>تصویر</th>
+                <th>نام کالا</th>
+                <th>دسته بندی</th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
     <!-- Edit Modal -->
     <div style='display:none' class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">

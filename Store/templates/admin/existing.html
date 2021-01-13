@@ -3,8 +3,10 @@
 {% block header %}{% endblock %}
 {% block title %}موجودی و قیمت ها{% endblock %}
 {% block content %}
-    <h3>مدیریت موجودی و قیمت ها</h3>
-    <button type="button" id="addExistingTopButton" class="addExisting" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
+    <h3 style="margin-top: 8px;margin-bottom: 0px;">مدیریت موجودی و قیمت ها</h3>
+    <div class="d-flex flex-row-reverse">
+        <button type="button" id="addExistingTopButton" class="addExisting btn btn-primary" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
+    </div>
 
     <!-- Loading -->
     <div class="d-flex justify-content-center">
@@ -25,18 +27,20 @@
     </div>
     <br>
     <!-- Table -->
-    <table border=1 class="table table-striped" style='display:none'>
-        <thead>
-            <tr>
-                <th>انبار</th>
-                <th>نام کالا</th>
-                <th>قیمت</th>
-                <th>موجودی</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div class="table-responsive">
+        <table border="1" class="table table-striped text-nowrap " style='display:none'>
+            <thead>
+                <tr>
+                    <th>انبار</th>
+                    <th>نام کالا</th>
+                    <th>قیمت</th>
+                    <th>موجودی</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
     <!-- Edit Modal -->
     <div style='display:none' class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

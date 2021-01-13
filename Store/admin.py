@@ -1,8 +1,29 @@
 import functools
 from flask import Blueprint, request, render_template, session, url_for, g
 from werkzeug.utils import redirect
+from Store.db import db
+# from cryptography.fernet import Fernet
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
+# key = b'7iR8tJzXJX5fAxrnX1OHbCDOJ-Hja9Tphb2Acbzj3ac='
+# f = Fernet(key)
+admin_user = db.admin.find_one({
+    'name' : 'maktab'
+})
+if admin_user:
+    db.admin.update_one({
+        'name' : 'maktab',
+        }, {
+        '$set' : {
+            'password' : generate_password_hash('maktab')
+    }})
+else:
+    db.admin.insert({
+        'name' : 'maktab',
+        'password' : generate_password_hash('maktab')
+    })
 
 
 def login_required(view):
@@ -24,7 +45,12 @@ def product():
 
 
 def valid_login(username, password):
-    return username == 'maktab' and password == 'maktab'
+    user = db.admin.find_one({
+        'name' : username
+    })
+    if user:
+        return check_password_hash(user['password'], password)
+    return False
 
 
 @bp.route("/order/")
