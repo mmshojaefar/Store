@@ -15,15 +15,11 @@ def index():
         for j in range(len(res[g])):
             response.append(res[g][j])
     category_list = list(set(response))
-    print(category_list)
     
     for i in category_list:
         cat_list = list(db.product.find({"category": i}, {"name": 1, "price": 1, "image": 1, "_id": 0}))
-        print(cat_list)
         for j in cat_list[-6:]:
             pr.update({i: cat_list})
-        # print(pr)
-    # pri = get_categories()
     return render_template("index.html", pr=pr)
 
 
@@ -33,9 +29,7 @@ def basket():
         orders = list(session['orders'])
     except:
         orders = []
-    print(orders)
     sumAll = sum(list(map(lambda order: order['price']*order['count'], orders)))
-    print(sumAll)
  
     return render_template("basket.html", orders=orders, sumAll=sumAll)
 
@@ -54,17 +48,14 @@ def category(ct):
     for index_cat in range(len(list_categories)):
         cat_dup.extend(list_categories[index_cat])
     category_list = list(set(cat_dup))
-    # print(category_list)
     
     cat_subcat = {}
     for i in category_list:
         cat_subcat_list = list(db.product.find({"category": i}, {"subcategory": 1, "_id": 0}))
-        # print(cat_subcat_list)
         subcat=[]
         for j in cat_subcat_list:
             subcat.extend(j["subcategory"])
         cat_subcat.update({i: subcat})
-    # print(cat_subcat)
     return render_template("category.html", 
                             category = list(categore_product),
                             name = ct,
@@ -80,24 +71,20 @@ def subcategory(sct):
                          '_id':0, 
                         'price':1, 
                         'image':1});
-    # print(list(categore_product))
     categories = db.product.find({}, {"category": 1,"subcategory":1, "_id": 0})
     list_categories = [i['category'] for i in categories]
     cat_dup = []
     for index_cat in range(len(list_categories)):
         cat_dup.extend(list_categories[index_cat])
     category_list = list(set(cat_dup))
-    # print(category_list)
     
     cat_subcat = {}
     for i in category_list:
         cat_subcat_list = list(db.product.find({"category": i}, {"subcategory": 1, "_id": 0}))
-        # print(cat_subcat_list)
         subcat=[]
         for j in cat_subcat_list:
             subcat.extend(j["subcategory"])
         cat_subcat.update({i: subcat})
-    # print(cat_subcat)
     return render_template("category.html", 
                             category = list(categore_product),
                             name = sct,

@@ -1,194 +1,189 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round');
-html, body {
-    overflow-x: hidden;
-    height: 100%;
-    
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
+html,
+body {
+  overflow-x: hidden;
+  height: 100%;
 }
 
 @font-face {
-    font-family: Vazir;
-    font-style: normal;
-    font-weight: normal;
-    src: url('../fonts/Vazir.eot');
-    src: url('../fonts/Vazir.eot?#iefix') format('embedded-opentype'), 
-    url('../fonts/Vazir.woff2') format('woff2'), 
-    url('../fonts/Vazir.woff') format('woff'), 
-    url('../fonts/Vazir.ttf') format('truetype');
-   }
-   @font-face {
-    font-family: Vazir;
-    font-style: normal;
-    font-weight: bold;
-    src: url('../fonts/Vazir-Bold.eot');
-    src: url('../fonts/Vazir-Bold.eot?#iefix') format('embedded-opentype'), 
-    url('../fonts/Vazir-Bold.woff2') format('woff2'), 
-    url('../fonts/Vazir-Bold.woff') format('woff'), 
-    url('../fonts/Vazir-Bold.ttf') format('truetype');
-   }
-    
-html{
-    font-family: Vazir, Arial, sans-serif !important;
-    font-weight:normal;
+  font-family: Vazir;
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Vazir.eot");
+  src: url("../fonts/Vazir.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Vazir.woff2") format("woff2"),
+    url("../fonts/Vazir.woff") format("woff"),
+    url("../fonts/Vazir.ttf") format("truetype");
+}
+@font-face {
+  font-family: Vazir;
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/Vazir-Bold.eot");
+  src: url("../fonts/Vazir-Bold.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Vazir-Bold.woff2") format("woff2"),
+    url("../fonts/Vazir-Bold.woff") format("woff"),
+    url("../fonts/Vazir-Bold.ttf") format("truetype");
+}
+
+html {
+  font-family: Vazir, Arial, sans-serif !important;
+  font-weight: normal;
 }
 
 body {
-    background: #fff;
-    padding: 0;
-    margin: 0;
+  background: #fff;
+  padding: 0;
+  margin: 0;
 }
 
 /* IT ADDED */
-body h2{
-    font-size: 30px;
+body h2 {
+  font-size: 30px;
 }
 /* IT ADDED */
 
 .header {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: none;
-    background-color: #FC466B;
-    /* position: fixed; */
-    height: 60px!important;
-    overflow: hidden;
-    z-index: 10;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: none;
+  background-color: #fc466b;
+  /* position: fixed; */
+  height: 60px !important;
+  overflow: hidden;
+  z-index: 10;
 }
 .main {
-    margin: 0 auto;
-    display: block;
-    height: 100%;
-    margin-top: 60px;
+  margin: 0 auto;
+  display: block;
+  height: 100%;
+  margin-top: 60px;
 }
-.mainInner{
-    display: table;
-    height: 100%;
-    width: 100%;
-    text-align: center;
+.mainInner {
+  display: table;
+  height: 100%;
+  width: 100%;
+  text-align: center;
 }
-.mainInner div{
-    display:table-cell;
-    vertical-align: middle;
-    font-size: 3em;
-    font-weight: bold;
-    letter-spacing: 1.25px;
+.mainInner div {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 1.25px;
 }
 #sidebarMenu {
-    overflow-y: scroll;
-    height: 100%;
-    position: fixed;
-    user-select: none;
-    /* HERE CHANGED to 16 284*/
-    right: 0px;
-    width: 300px;
-    /* HERE CHANGED*/
-    margin-top: 60px;
-    transform: translateX(+300px);
-    transition: transform 250ms ease-in-out;
-    background: linear-gradient(180deg, #FC466B 0%, #3F5EFB 100%);
-    z-index:100;
+  overflow-y: scroll;
+  height: 100%;
+  position: fixed;
+  user-select: none;
+  right: 0px;
+  width: 300px;
+  margin-top: 60px;
+  transform: translateX(+300px);
+  transition: transform 250ms ease-in-out;
+  background: linear-gradient(180deg, #fc466b 0%, #3f5efb 100%);
+  z-index: 100;
 }
 
-.content_1{
-    margin-top: 20px;
+.content_1 {
+  margin-top: 20px;
 }
-.sidebarMenuInner{
-    margin:0;
-    padding:0;
-    border-top: 1px solid rgba(255, 255, 255, 0.10);
-
+.sidebarMenuInner {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-.sidebarMenuInner li{
-    list-style: none;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: bold;
-    padding: 20px;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+.sidebarMenuInner li {
+  list-style: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-.sidebarMenuInner li span{
-    display: block;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.50);
+.sidebarMenuInner li span {
+  display: block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
 }
-.sidebarMenuInner li a{
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
+.sidebarMenuInner li a {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
 }
-.sidebarMenuInner li:hover{
-    background: rgba(0, 0, 0, 0.10);
+.sidebarMenuInner li:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 input[type="checkbox"]:checked ~ #sidebarMenu {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
-input[type=checkbox] {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    display: none;
+input[type="checkbox"] {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  display: none;
 }
 .sidebarIconToggle {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    cursor: pointer;
-    position: absolute;
-    z-index: 99;
-    height: 100%;
-    width: 100%;
-    top: 22px;
-    right: 15px;
-    height: 22px;
-    width: 22px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: absolute;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  top: 22px;
+  right: 15px;
+  height: 22px;
+  width: 22px;
 }
 .spinner {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    position: absolute;
-    height: 3px;
-    width: 100%;
-    background-color: #fff;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background-color: #fff;
 }
 .horizontal {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    position: relative;
-    float: right;
-    margin-top: 3px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: relative;
+  float: right;
+  margin-top: 3px;
 }
 .diagonal.part-1 {
-    position: relative;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    float: right;
+  position: relative;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  float: right;
 }
 .diagonal.part-2 {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    position: relative;
-    float: right;
-    margin-top: 3px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: relative;
+  float: right;
+  margin-top: 3px;
 }
-input[type=checkbox]:checked ~ .sidebarIconToggle > .horizontal {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    opacity: 0;
+input[type="checkbox"]:checked ~ .sidebarIconToggle > .horizontal {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  opacity: 0;
 }
-input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    transform: rotate(135deg);
-    margin-top: 8px;
+input[type="checkbox"]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  transform: rotate(135deg);
+  margin-top: 8px;
 }
-input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
-    transition: all 0.3s;
-    box-sizing: border-box;
-    transform: rotate(-135deg);
-    margin-top: -9px;
+input[type="checkbox"]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  transform: rotate(-135deg);
+  margin-top: -9px;
 }
-
-
