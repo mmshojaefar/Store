@@ -24,7 +24,7 @@ def basket():
     return render_template("basket.html", orders=orders, sumAll=sumAll)
 
 
-@bp.route("/category/<ct>")
+@bp.route("/category/<ct>/")
 def category(ct):
     categore_product = db.product.find(
                         {'category':ct},
