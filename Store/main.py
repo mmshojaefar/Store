@@ -1,14 +1,30 @@
 from flask import Blueprint, request, render_template, session, url_for, g
 from werkzeug.utils import redirect
-from Store.db import db, get_categories
+from Store.db import db
 
 bp = Blueprint("main", __name__)
 
 
 @bp.route("/")
 def index():
-    pri = get_categories()
-    return render_template("index.html", pr=pri)
+    categories = db.product.find({}, {"category": 1, "_id": 0})
+    res = [i['category'] for i in categories] 
+    pr = {}
+    response = []
+    for g in range(len(res)):
+        for j in range(len(res[g])):
+            response.append(res[g][j])
+    category_list = list(set(response))
+    print(category_list)
+    
+    for i in category_list:
+        cat_list = list(db.product.find({"category": i}, {"name": 1, "price": 1, "image": 1, "_id": 0}))
+        print(cat_list)
+        for j in cat_list[-6:]:
+            pr.update({i: cat_list})
+        # print(pr)
+    # pri = get_categories()
+    return render_template("index.html", pr=pr)
 
 
 @bp.route("/basket/")
