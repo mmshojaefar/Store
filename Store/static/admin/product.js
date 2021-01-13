@@ -279,7 +279,7 @@ function addImport(){
     var data = "" 
 
     data += "<label for='addName'>انتخاب فایل :</label><br><br>"
-    data += "<input type='file' accept='.txt' id='addFile' name='addFile'>"
+    data += "<input class='form-control' type='file' accept='.txt' id='addFile' name='addFile'>"
     $div.append(data);
 
     var fd = new FormData();
