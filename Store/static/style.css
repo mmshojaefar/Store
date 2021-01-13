@@ -60,6 +60,7 @@ body h2{
     transform: translateX(+300px);
     transition: transform 250ms ease-in-out;
     background: linear-gradient(180deg, #FC466B 0%, #3F5EFB 100%);
+    z-index:100;
 }
 
 .content_1{
