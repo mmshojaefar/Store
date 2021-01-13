@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="mx-4">
+<div class="mx-3">
     <div class="mb-3" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
@@ -20,10 +20,14 @@
                             > 
                             {{ ','.join(products[0]['subcategory']) }}
                         </small></p>
-                    <p class="card-text" id="price">{{ products[0]['price'] }}</p>
-                    <div>
-                        <input type="number" min = 1 id="count">
-                        <button id="addToBasket" >افزودن به سبد خرید</button>
+                    <div class="d-flex">
+                        <p class="card-text" id="price"> {{ products[0]['price'] }} </p>
+                        <label class="card-text" id="price"> تومان </label>
+                    </div>
+                    <div class="d-flex flex-row.reverse row">
+                        <input class="col-4" type="number" min = 1 id="count">
+                        <button id="addToBasket" class="col-6 btn btn-success text-nowrap" >افزودن به سبد خرید</button>
+                        <p class="col-4">
                     </div>
                 </div>
             </div>
