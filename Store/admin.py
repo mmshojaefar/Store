@@ -9,12 +9,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 bp = Blueprint("admin", __name__, url_prefix="/admin")
 # key = b'7iR8tJzXJX5fAxrnX1OHbCDOJ-Hja9Tphb2Acbzj3ac='
 # f = Fernet(key)
-db.admin.update_one({
-    'name' : 'maktab',
-    }, {
-    '$set' : {
+admin_user = db.admin.find_one({
+    'name' : 'maktab'
+})
+if admin_user:
+    db.admin.update_one({
+        'name' : 'maktab',
+        }, {
+        '$set' : {
+            'password' : generate_password_hash('maktab')
+    }})
+else:
+    db.admin.insert({
+        'name' : 'maktab',
         'password' : generate_password_hash('maktab')
-}})
+    })
+
 
 def login_required(view):
     @functools.wraps(view)
