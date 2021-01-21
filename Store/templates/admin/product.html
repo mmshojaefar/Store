@@ -1,172 +1,326 @@
-{% extends "admin/base.html" %}
+{% extends "admin/base.html" %} {% block title %}مدیریت کالا{% endblock %} {%
+block content %}
+<h3>مدیریت کالاها</h3>
+<button
+  type="button"
+  class="addImport"
+  data-bs-toggle="modal"
+  data-bs-target="#importModal"
+>
+  import
+</button>
+<button
+  type="button"
+  class="addProduct"
+  data-bs-toggle="modal"
+  data-bs-target="#addModal"
+  id="addProductTopButton"
+>
+  افزودن کالا
+</button>
 
-{% block title %}مدیریت کالا{% endblock %}
-{% block content %}
-    <h3>مدیریت کالاها</h3>
-    <button type="button" class="addImport" data-bs-toggle='modal' data-bs-target='#importModal'>import</button>
-    <button type="button" class="addProduct" data-bs-toggle='modal' data-bs-target='#addModal' id='addProductBtn'>افزودن کالا</button>
+<!-- Table -->
+<div class="d-flex justify-content-center">
+  <div class="lds-default">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<br />
+<table border="1" class="table table-striped" style="display: none">
+  <thead>
+    <tr>
+      <th>تصویر</th>
+      <th>نام کالا</th>
+      <th>دسته بندی</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
-    <!-- Table -->
-    <div class="d-flex justify-content-center">
-        <div class="lds-default">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+<!-- Edit Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="editModal"
+  tabindex="-1"
+  aria-labelledby="editModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="" id="editForm" novalidate>
+        <div class="modal-body">
+          <label class="form-label">کالا :</label>
+          <label class="form-label" id="editFormName" name="editFormName"></label>
+          <div>
+            <label class="form-label" for="editFormCategory">دسته بندی :</label>
+            <input class="form-control" type="text" id="editFormCategory" name="editFormCategory"/>
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+              دسته بندی های مختلف را با کاما جدا کنید
+            </div>
+          </div>
+          <div>
+            <label class="form-label" for="editFormSubcategory"
+              >زیرگروه :</label
+            >
+            <input class="form-control" type="text" id="editFormSubcategory" name="editFormSubcategory" />
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+              زیرگروه های مختلف را با کاما جدا کنید
+            </div>
+          </div>
+          <div>
+            <label class="form-label" for="editFormImage">تصویر :</label>
+            <input
+              type="file"
+              accept="image/*"
+              id="editFormImage"
+              name="editFormImage"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
         </div>
+        <div class="modal-footer">
+          <div id="editFinalError"></div>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            بستن
+          </button>
+          <button type="submit" class="editSaveButton btn btn-primary">
+            ذخیره
+          </button>
+        </div>
+      </form>
     </div>
-    <br>
-    <table border="1" class="table table-striped" style='display:none'>
-        <thead>
-            <tr>
-              <th>تصویر</th>
-              <th>نام کالا</th>
-              <th>دسته بندی</th>
-              <th></th>
-            </tr>
-          </thead>
-        <tbody></tbody>
-    </table>
+  </div>
+</div>
 
-    <!-- Edit Modal -->
-    <div style='display:none' class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <label class='form-label'>کالا :</label>
-                    <label class='form-label' id='editFormName'></label>
-                    <div>
-                        <label class='form-label' for='editFormCategory'>دسته بندی :</label>
-                        <input class='form-control' type='text' id='editFormCategory'>
-                        <div class='invalid-feedback'></div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='editFormSubcategory'>زیرگروه :</label>
-                        <input class='form-control' type='text' id='editFormSubcategory'>
-                        <div class='invalid-feedback'></div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='editFormImage'>تصویر :</label>
-                        <input type='file' accept='image/*' id='editFormImage' name='editFormImage'>
-                        <div class='invalid-feedback'></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            <div id='editFinalError'></div>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="editSaveButton btn btn-primary">ذخیره</button>
-            </div>
-        </div>
-        </div>
+<!-- Delete Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">حذف</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <div id="deleteFinalError"></div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          بستن
+        </button>
+        <button type="button" class="deleteSaveButton btn btn-primary">
+          حذف
+        </button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Delete Modal -->
-    <div style='display:none' class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">حذف</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Add Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">افزودن کالا</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="" id="addForm" novalidate>
+        <div class="modal-body">
+          <div>
+            <label for="addFormName" class="form-label">کالا :</label>
+            <input
+              type="text"
+              name="addFormName"
+              id="addFormName"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label for="addFormCategory" class="form-label">دسته بندی :</label>
+            <input
+              type="text"
+              name="addFormCategory"
+              id="addFormCategory"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+              دسته بندی های مختلف را با کاما جدا کنید
             </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <div id="deleteFinalError"></div>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <button type="button" class="deleteSaveButton btn btn-primary">حذف</button>
+          </div>
+          <div>
+            <label for="addFormSubcategory" class="form-label">زیرگروه :</label>
+            <input
+              type="text"
+              name="addFormSubcategory"
+              id="addFormSubcategory"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+              زیرگروه های مختلف را با کاما جدا کنید
             </div>
+          </div>
+          <div>
+            <label for="addFormPrice" class="form-label">قیمت :</label>
+            <input
+              type="number"
+              name="addFormPrice"
+              id="addFormPrice"
+              min="0"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label for="addFormCount" class="form-label">تعداد :</label>
+            <input
+              type="number"
+              name="addFormCount"
+              id="addFormCount"
+              min="0"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <label for="addFormStorehouse" class="form-label">انبار :</label>
+          <select
+            name="addFormStorehouse"
+            id="addFormStorehouse"
+            class="form-select"
+          ></select>
+          <div>
+            <label for="addFormDescription" class="form-label"
+              >شرح کالا :</label
+            >
+            <textarea
+              name="addFormDescription"
+              id="addFormDescription"
+              rows="3"
+              class="form-control"
+            ></textarea>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label for="addFormImage" class="form-label">تصویر :</label>
+            <input
+              type="file"
+              accept="image/*"
+              name="addFormImage"
+              id="addFormImage"
+              class="form-control"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
         </div>
+        <div class="modal-footer">
+          <div id="addFinalError"></div>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            بستن
+          </button>
+          <button type="submit" class="addSaveButton btn btn-primary">
+            افزودن
+          </button>
         </div>
+      </form>
     </div>
+  </div>
+</div>
 
-    <!-- Add Modal -->
-    <div style='display:none' class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="addModalLabel">افزودن کالا</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <form>
-                    <div>
-                        <label for="addFormName" class='form-label'>کالا :</label>
-                        <input type="text" name="addFormName" id="addFormName" class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label for="addFormCategory" class='form-label'>دسته بندی :</label>
-                        <input type="text" name="addFormCategory" id="addFormCategory" class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label for="addFormSubcategory" class='form-label'>زیرگروه :</label>
-                        <input type="text" name="addFormSubcategory" id="addFormSubcategory" class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label for="addFormPrice" class='form-label'>قیمت :</label>
-                        <input type="number" name="addFormPrice" id="addFormPrice" min=0 class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label for="addFormCount" class='form-label'>تعداد :</label>
-                        <input type="number" name="addFormCount" id="addFormCount" min=0 class="form-control">
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <label for='addFormStorehouse' class='form-label'>انبار :</label>
-                    <select name='addFormStorehouse' id='addFormStorehouse' class="form-select"></select>
-                    <div>
-                        <label for="addFormDescription" class='form-label'>شرح کالا :</label>
-                        <textarea name="addFormDescription" id="addFormDescription" rows='3' class="form-control"></textarea>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <label for="addFormImage" class='form-label'>تصویر :</label>
-                    <input type="file" accept="image/*" name="addFormImage" id="addFormImage" class="form-control">
-                </form>
-            </div>
-
-            <div class="modal-footer">
-            <div id="addFinalError"></div>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="addSaveButton btn btn-primary">افزودن</button>
-            </div>
-        </div>
-        </div>
+<!-- Import Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="importModal"
+  tabindex="-1"
+  aria-labelledby="importModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importModalLabel">آپلود فایل جدول کالا</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          بستن
+        </button>
+        <button type="button" class="addSaveButton btn btn-primary">
+          آپلود و به روزرسانی جدول
+        </button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Import Modal -->
-    <div style='display:none' class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="importModalLabel">آپلود فایل جدول کالا</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="addSaveButton btn btn-primary">آپلود و به روزرسانی جدول</button>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
-    <script src="../../static/lib/js/bootstrap.min.js"></script>
-    <script src="../../static/admin/product.js"></script>
-    {% endblock %}
+<script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
+<script src="../../static/lib/js/bootstrap.min.js"></script>
+<script src="../../static/admin/product.js"></script>
+{% endblock %}

@@ -1,152 +1,266 @@
-{% extends "admin/base.html" %}
+{% extends "admin/base.html" %} {% block header %}{% endblock %} {% block title
+%}موجودی و قیمت ها{% endblock %} {% block content %}
+<h3>مدیریت موجودی و قیمت ها</h3>
+<button
+  type="button"
+  id="addExistingTopButton"
+  class="addExisting"
+  data-bs-toggle="modal"
+  data-bs-target="#addModal"
+>
+  افزودن موجودی
+</button>
 
-{% block header %}{% endblock %}
-{% block title %}موجودی و قیمت ها{% endblock %}
-{% block content %}
-    <h3>مدیریت موجودی و قیمت ها</h3>
-    <button type="button" id="addExistingTopButton" class="addExisting" data-bs-toggle='modal' data-bs-target='#addModal'>افزودن موجودی</button>
-
-    <!-- Loading -->
-    <div class="d-flex justify-content-center">
-        <div class="lds-default">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <br>
-    <!-- Table -->
-    <table border=1 class="table table-striped" style='display:none'>
-        <thead>
-            <tr>
-                <th>انبار</th>
-                <th>نام کالا</th>
-                <th>قیمت</th>
-                <th>موجودی</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <!-- Edit Modal -->
-    <div style='display:none' class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <label class="form-label">انبار :</label> 
-                    <label class="form-label" id='editFormStorehouse'></label><br>
-                    <label class="form-label" >کالا :</label> 
-                    <label class="form-label" id='editFormName'></label>                 
-                    <div>
-                        <label class="form-label" for='editFormPrice'>قیمت :</label> 
-                        <input class="form-control" type='number' min=1 id='editFormPrice' name='price'>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label class="form-label" for='editFormCount'>تعداد :</label> 
-                        <input class="form-control" type='number' min=1 id='editFormCount' name='count'>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            <div id="editFinalError"></div>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="editSaveButton btn btn-primary">ذخیره</button>
-            </div>
-        </div>
-    </div>
-    </div>
-    
-    <!-- Delete Modal -->
-    <div style='display:none' class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">حذف</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <div id="deleteFinalError"></div>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="deleteSaveButton btn btn-primary">حذف</button>
-        </div>
-    </div>
+<!-- Loading -->
+<div class="d-flex justify-content-center">
+  <div class="lds-default">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
+<br />
+<!-- Table -->
+<table border="1" class="table table-striped" style="display: none">
+  <thead>
+    <tr>
+      <th>انبار</th>
+      <th>نام کالا</th>
+      <th>قیمت</th>
+      <th>موجودی</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Edit Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="editModal"
+  tabindex="-1"
+  aria-labelledby="editModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">ویرایش</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <label class="form-label">انبار :</label>
+          <label class="form-label" id="editFormStorehouse"></label><br />
+          <label class="form-label">کالا :</label>
+          <label class="form-label" id="editFormName"></label>
+          <div>
+            <label class="form-label" for="editFormPrice">قیمت :</label>
+            <input
+              class="form-control"
+              type="number"
+              min="1"
+              id="editFormPrice"
+              name="price"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label class="form-label" for="editFormCount">تعداد :</label>
+            <input
+              class="form-control"
+              type="number"
+              min="1"
+              id="editFormCount"
+              name="count"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div id="editFinalError"></div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          بستن
+        </button>
+        <button type="button" class="editSaveButton btn btn-primary">
+          ذخیره
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-    <!-- Add Modal -->
-    <div style='display:none' class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="addModalLabel">افزودن موجودی</h5>
-            <button style='padding: 1rem 1rem;margin: -1rem auto -1rem -1rem;' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" id='addForm' novalidate>
-                <div class="modal-body">
-                    <label  class="form-label" for='addFormStorehouse'>انبار :</label>
-                    <select class="form-select" name='addFormStorehouse' id='addFormStorehouse'>
-                    </select>
-                    <div>
-                        <label class='form-label' for='addFormName'>کالا :</label>
-                        <input class='form-control' type='text' id='addFormName' name='addFormName'>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='addFormPrice'>قیمت :</label>
-                        <input class='form-control' type='number' min=1 id='addFormPrice' name='addFormPrice'>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='addFormCount'>تعداد :</label>
-                        <input class='form-control' type='number' min=1 id='addFormCount' name='addFormCount'>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='addFormCategory'>دسته بندی :</label>
-                        <input class='form-control' type='text' id='addFormCategory' name='addFormCategory'>
-                        <div class="invalid-feedback"></div>
-                        <div class="form-text text-muted">دسته بندی های مختلف را با کاما جدا کنید</div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='addFormSubCategory'>زیر گروه :</label>
-                        <input class='form-control' type='text' id='addFormSubCategory' name='addFormSubCategory'>
-                        <div class="invalid-feedback"></div>
-                        <div class="form-text text-muted">زیر گروه های مختلف را با کاما جدا کنید</div>
-                    </div>
-                    <div>
-                        <label class='form-label' for='addFormImage'>تصویر :</label>
-                        <input class='form-control' type='file' accept='image/*' id='addFormImage' name='addFormImage'>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div id="addFinalError"></div>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                    <button type="submit" class="addSaveButton btn btn-primary">افزودن</button>
-                </div>
-            </form>
-        </div>
-        </div>
+<!-- Delete Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">حذف</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <div id="deleteFinalError"></div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          بستن
+        </button>
+        <button type="button" class="deleteSaveButton btn btn-primary">
+          حذف
+        </button>
+      </div>
     </div>
-    <script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
-    <script src="../../static/lib/js/bootstrap.min.js"></script>
-    <script src="../../static/admin/existing.js"></script>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div
+  style="display: none"
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">افزودن موجودی</h5>
+        <button
+          style="padding: 1rem 1rem; margin: -1rem auto -1rem -1rem"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="" id="addForm" novalidate>
+        <div class="modal-body">
+          <label class="form-label" for="addFormStorehouse">انبار :</label>
+          <select
+            class="form-select"
+            name="addFormStorehouse"
+            id="addFormStorehouse"
+          ></select>
+          <div>
+            <label class="form-label" for="addFormName">کالا :</label>
+            <input
+              class="form-control"
+              type="text"
+              id="addFormName"
+              name="addFormName"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label class="form-label" for="addFormPrice">قیمت :</label>
+            <input
+              class="form-control"
+              type="number"
+              min="1"
+              id="addFormPrice"
+              name="addFormPrice"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label class="form-label" for="addFormCount">تعداد :</label>
+            <input
+              class="form-control"
+              type="number"
+              min="1"
+              id="addFormCount"
+              name="addFormCount"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+          <div>
+            <label class="form-label" for="addFormCategory">دسته بندی :</label>
+            <input
+              class="form-control"
+              type="text"
+              id="addFormCategory"
+              name="addFormCategory"
+            />
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+              دسته بندی های مختلف را با کاما جدا کنید
+            </div>
+          </div>
+          <div>
+            <label class="form-label" for="addFormSubCategory"
+              >زیر گروه :</label
+            >
+            <input
+              class="form-control"
+              type="text"
+              id="addFormSubCategory"
+              name="addFormSubCategory"
+            />
+            <div class="invalid-feedback"></div>
+            <div class="form-text text-muted">
+              زیرگروه های مختلف را با کاما جدا کنید
+            </div>
+          </div>
+          <div>
+            <label class="form-label" for="addFormImage">تصویر :</label>
+            <input
+              class="form-control"
+              type="file"
+              accept="image/*"
+              id="addFormImage"
+              name="addFormImage"
+            />
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div id="addFinalError"></div>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            بستن
+          </button>
+          <button type="submit" class="addSaveButton btn btn-primary">
+            افزودن
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="../../static/lib/js/jquery-3.4.1.min.js"></script>
+<script src="../../static/lib/js/bootstrap.min.js"></script>
+<script src="../../static/admin/existing.js"></script>
 {% endblock %}
