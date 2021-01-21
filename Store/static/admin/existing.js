@@ -18,7 +18,7 @@ $.get(url_list, function (response, status) {
     var name = product.name;
     var price = product.price;
     var count = product.count;
-    if (!(count < 0)) {
+    if (!(count < 1)) {
       var row = "";
       row += "<tr>";
       row += "<td>" + storehouse + "</td>";
@@ -44,8 +44,6 @@ $.get(url_list, function (response, status) {
 });
 
 function editRow() {
-  // var $div
-  // var $row
   $("tbody tr td:last-child button:first-child").click(function () {
     $div = $("#editModal .modal-body");
     $row = $(this).closest("tr").find("td");
@@ -238,15 +236,15 @@ function addRow() {
 
             var row = "";
             row += "<tr>";
-            row += "<td>" + $storehouse + "</td>";
-            row += "<td>" + $name + "</td>";
-            row += "<td>" + $price + "</td>";
-            row += "<td>" + $count + "</td>";
-            row += "<td>";
+            row += "<td valign='middle'>" + $storehouse + "</td>";
+            row += "<td valign='middle'>" + $name + "</td>";
+            row += "<td valign='middle'>" + $price + "</td>";
+            row += "<td valign='middle'>" + $count + "</td>";
+            row += "<td valign='middle'>";
             row +=
-              "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+              "<button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' style='margin-left: 5px;'> ویرایش</button>";
             row +=
-              "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+              "<button type='button' class='delete btn btn-primary' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
             row += "</td>";
             row += "</tr>";
             $("tbody").append(row);

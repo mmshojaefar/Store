@@ -51,6 +51,8 @@ function editRow() {
 
     var $name = $($($div).find("#editFormName")).prop("value");
     var $previous_name = $($row[0]).text();
+    console.log($name)
+    console.log($previous_name)
     $.post(
       url_edit,
       {
@@ -163,7 +165,7 @@ function addRow() {
 
   $("#addModal .addSaveButton").click(function () {
     $("#addFormName").removeClass("is-invalid");
-    $("#editFinalError").removeClass("form-control is-invalid");
+    $("#addFinalError").removeClass("form-control is-invalid");
     var $name = $($($div).find("#addFormName")).prop("value");
 
     $.post(
@@ -175,12 +177,12 @@ function addRow() {
         if (status == "success" && response["response"] == "SUCCESS") {
           var row = "";
           row += "<tr>";
-          row += "<td>" + $name + "</td>";
-          row += "<td>";
+          row += "<td valign='middle'>" + $name + "</td>";
+          row += "<td valign='middle'>";
           row +=
-            "<button type='button' class='edit' data-bs-toggle='modal' data-bs-target='#editModal'> ویرایش</button>";
+            "<button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' style='margin-left: 5px;'> ویرایش</button>";
           row +=
-            "<button type='button' class='delete' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
+            "<button type='button' class='delete btn btn-primary' data-bs-toggle='modal' data-bs-target='#deleteModal'> حذف</button>";
           row += "</td>";
           row += "</tr>";
           $("tbody").append(row);

@@ -21,55 +21,75 @@ def product_list():
 @bp.route("/product/edit/", methods=['POST'])
 @login_required
 def product_edit():
-    if request.method == 'POST':
-        name = request.form['name']
-        category = request.form['category']
-        subcategory = request.form['subcategory']
-        # image = request.form['image']
-        if name == '':
-            return {'response': '#editFormName', 'msg': 'فیلد نام کالا نباید خالی باشد'}
-        
-        if category == '':
-            return {'response': '#editFormCategory', 'msg': 'فیلد دسته بندی نباید خالی باشد'}
-        
-        if subcategory == '':
-            return {'response': '#editFormSubcategory', 'msg': 'فیلد زیرگروه نباید خالی باشد'}
-
-        if 'username' not in session:
-            return {'response':'FAILED', 'msg':'FAILED'}
+    name = request.form['editFormName']
+    category = request.form['editFormCategory']
+    subcategory = request.form['editFormSubcategory']
+    print('name', name)
+    print('cat', category)
+    print('sub', subcategory)
+    image = request.files['editFormImage']
+    
+    if category == '':
+        return {'response': '#editFormCategory', 'msg': 'فیلد دسته بندی نباید خالی باشد'}
+    
+    if subcategory == '':
+        return {'response': '#editFormSubcategory', 'msg': 'فیلد زیرگروه نباید خالی باشد'}
+    image.seek(0, SEEK_END)
+    file_length = image.tell()
+    if file_length > 1024*1024:
+        return{'response': '#editFormImage', 'msg': 'سایز عکس نباید بیشتر از یک مگابایت باشد'}
+    
+    try:
+        cat = []
+        subcat = []
+        for c in category.split('،'):
+            cat.append(c.strip())
+        for s in subcategory.split('،'):
+            subcat.append(s.strip())
+        up = db.product.find_and_modify({
+            'name' : name
+            }, 
+            {'$set' : {'category': cat,
+                'subcategory': subcat,
+            }})
+        image_name = db.product.find_one({
+            'name' : name
+            }).get('image')
+        print(image_name)
+        if not image:
+            pass
         else:
             try:
-                cat = []
-                subcat = []
-                for c in category.split('،'):
-                    cat.append(c.strip())
-                for s in subcategory.split('،'):
-                    subcat.append(s.strip())
-
-                db.product.update({
-                    'name' : name
-                }, 
-                {'$set' : {'category': cat,
-                        'subcategory': subcat,
-                        # 'image': image,
-                }})
-                return {'response': 'SUCCESS', 'msg': 'SUCCESS'}
+                ext = image.filename.split('.')[-1]
+                image_name = f'images/{str(up.get("_id"))}.{ext}'
+                folder_path = url_for('static', filename=image_name)
+                folder_path = folder_path[1:]
+                full_path = path.join(current_app.root_path, folder_path)
+                image.seek(0)
+                image.save(full_path)
             except:
-                return {'response': 'FAILED', 'msg': 'لطفا کمی بعد مجددا تلاش کنید'}
+                return {'response':'FAILEDIMG', 'msg':'کالا اضافه شد اما خطایی در ذخیره سازی عکس رخ داد. لطفا بعدا عکس را اضافه کنید'}
+            db.product.update({
+            'name' : name
+            }, 
+            {'$set' : {'category': cat,
+                'subcategory': subcat,
+                'image': image_name,
+            }})  
+        return {'response': 'SUCCESS', 'msg': image_name}
+    except:
+        return {'response': 'FAILED', 'msg': 'لطفا کمی بعد مجددا تلاش کنید'}
 
 
 @bp.route("/product/delete/", methods=['GET'])
 @login_required
 def product_delete():
-    # image = request.form['image']
     name = request.args.get('name')
     
     if 'username' in session:
         try:
             res = db.product.remove({
-                # 'image' : image,
                 'name' : name,
-                # 'category': category,
                 })
             if res['n'] == 0:
                 return {'response': 'FAILED', 'msg': 'کالایی با این مشخصات یافت نشد'}
@@ -85,88 +105,97 @@ def product_delete():
 @bp.route("/product/add/", methods=['POST'])
 @login_required
 def product_add():
-    if request.method == 'POST':
-        name = request.form['name']
-        price = request.form['price']
-        count = request.form['count']
-        # image = request.form['image']
-        description = request.form['description']
-        storehouse = request.form['storehouse']
-        category = request.form['category']
-        subcategory = request.form['subcategory']
+    name = request.form['addFormName']
+    price = request.form['addFormPrice']
+    count = request.form['addFormCount']
+    image = request.files['addFormImage']
+    description = request.form['addFormDescription']
+    storehouse = request.form['addFormStorehouse']
+    category = request.form['addFormCategory']
+    subcategory = request.form['addFormSubcategory']
 
-        if name == '':
-            return {'response': '#addFormName', 'msg': 'فیلد نام کالا نباید خالی باشد'}
-        
-        if category == '':
-            return {'response': '#addFormCategory', 'msg': 'فیلد دسته بندی نباید خالی باشد'}
-        
-        if subcategory == '':
-            return {'response': '#addFormSubcategory', 'msg': 'فیلد زیرگروه نباید خالی باشد'}
+    if name == '':
+        return {'response': '#addFormName', 'msg': 'فیلد نام کالا نباید خالی باشد'}
+    
+    if category == '':
+        return {'response': '#addFormCategory', 'msg': 'فیلد دسته بندی نباید خالی باشد'}
+    
+    if subcategory == '':
+        return {'response': '#addFormSubcategory', 'msg': 'فیلد زیرگروه نباید خالی باشد'}
 
-        if price == '':
-            return {'response': '#addFormPrice', 'msg': 'فیلد قیمت کالا نباید خالی باشد'}
-        try:
-            price = int(price)
-        except:
-            return {'response': '#addFormPrice', 'msg': 'قیمت باید عددی صحیح باشد'}
-        if price < 0:
-            return {'response': '#addFormPrice', 'msg': 'قیمت نباید عددی منفی باشد'}    
+    if price == '':
+        return {'response': '#addFormPrice', 'msg': 'فیلد قیمت کالا نباید خالی باشد'}
+    try:
+        price = int(price)
+    except:
+        return {'response': '#addFormPrice', 'msg': 'قیمت باید عددی صحیح باشد'}
+    if price < 0:
+        return {'response': '#addFormPrice', 'msg': 'قیمت نباید عددی منفی باشد'}    
 
-        if count == '':
-            return {'response': '#addFormCount', 'msg': 'فیلد تعداد کالا نباید خالی باشد'}
-        try:
-            count = int(count)
-        except:
-            return {'response': '#addFormCount', 'msg': 'تعداد باید عددی صحیح باشد'}
-        if count < 0:
-            return {'response': '#addFormCount', 'msg': 'تعداد نباید عددی منفی باشد'}
+    if count == '':
+        return {'response': '#addFormCount', 'msg': 'فیلد تعداد کالا نباید خالی باشد'}
+    try:
+        count = int(count)
+    except:
+        return {'response': '#addFormCount', 'msg': 'تعداد باید عددی صحیح باشد'}
+    if count < 0:
+        return {'response': '#addFormCount', 'msg': 'تعداد نباید عددی منفی باشد'}
 
-        if description == '':
-            return {'response': '#addFormDescription', 'msg': 'فیلد نام کالا نباید خالی باشد'}
-        
-        if 'username' not in session:
-            return {'response': 'FAILED', 'msg': 'FAILED'}
+    if description == '':
+        return {'response': '#addFormDescription', 'msg': 'فیلد نام کالا نباید خالی باشد'}
+    image.seek(0, SEEK_END)
+    file_length = image.tell()
+    if file_length > 1024*1024:
+        return{'response': '#addFormImage', 'msg':'سایز عکس نباید بیشتر از یک مگابایت باشد'}
+
+    try:
+        cat = []
+        subcat = []
+        for c in category.split('،'):
+            cat.append(c.strip())
+        for s in subcategory.split('،'):
+            subcat.append(s.strip())
+        te = db.product.insert_one({
+            'name': name,
+            'price': price,
+            'count': count,
+            'image': 'images/defaultIMG.png',
+            'descripton': description,
+            'storehouse': storehouse,
+            'category': cat,
+            'subcategory': subcat
+        })
+        if not image:
+            image_name = 'images/defaultIMG.png'
         else:
             try:
-                cat = []
-                subcat = []
-                for c in category.split('،'):
-                    cat.append(c.strip())
-                for s in subcategory.split('،'):
-                    subcat.append(s.strip())
-                
-                db.product.insert({
-                    'name': name,
-                    'price': price,
-                    'count': count,
-                    # 'image': image,
-                    'descripton': description,
-                    'storehouse': storehouse,
-                    'category': cat,
-                    'subcategory': subcat
-                })
-                return {'response': 'SUCCESS', 'msg': 'SUCCESS'}
+                ext = image.filename.split('.')[-1]
+                image_name = f'images/{str(te.inserted_id)}.{ext}'
+                folder_path = url_for('static', filename=image_name)
+                folder_path = folder_path[1:]
+                full_path = path.join(current_app.root_path, folder_path)
+                image.seek(0)
+                image.save(full_path)
             except:
-                return {'response': 'FAILED', 'msg': 'لطفا کمی بعد مجددا تلاش کنید'}
-        
+                return {'response':'FAILEDIMG', 'msg':'کالا اضافه شد اما خطایی در ذخیره سازی عکس رخ داد. لطفا بعدا عکس را اضافه کنید'}
 
-                
+        db.product.update({
+            'name': name,
+            'price': price,
+            'count': count,
+            'descripton': description,
+            'storehouse': storehouse,
+            'category': cat,
+            'subcategory': subcat
+        },
+        {'$set' : {
+            'image' : image_name
+        }})
 
 
-    #     if 'username' in session:
-    #         db.product.insert({
-    #             'name' : name,
-    #             'price': price,
-    #             'count': count,
-    #             'image' : image,
-    #             'description': description,
-    #             'storehouse': storehouse,
-    #             'category': category,
-    #             'subcategory': subcategory,
-    #         })
-    #     return 'SUCCESS'
-    # return 'FAILED'
+        return {'response': 'SUCCESS', 'msg': image_name}
+    except:
+        return {'response': 'FAILED', 'msg': 'لطفا کمی بعد مجددا تلاش کنید'}
 
 
 @bp.route("/existing/list/")
